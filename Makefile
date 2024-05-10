@@ -6,14 +6,17 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/04/20 10:53:38 by nileempo         ###   ########.fr        #
+#    Updated: 2024/05/10 22:23:54 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS = main.c \
+		./inits/init_struc.c \
 		./redirections/check_redirections.c \
 		./redirections/manage_redirection.c \
 		./protected_functions/protected_open.c \
+		./builtin/cd.c \
+		./builtin/built_in.c \
 
 NAME = minishell
 CC = gcc

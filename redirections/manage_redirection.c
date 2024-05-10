@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/05/06 21:26:40 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/05/10 22:03:08 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 //check the operator sign
 //< redirige l'entrée vers le fichier
 //<< va démarer here_doc ? 
-static int	input_redirection(char *str)
+/*
+ * @param a string
+ * @returns 0 if < is found
+ * @returns 1 if << is found
+ * @returns -1 if none of them is found
+*/
+static int	check_redirection(char *str)
 {
     int	i;
 
@@ -32,6 +38,16 @@ static int	input_redirection(char *str)
 			printf("input_redirection : << found.\n");
 			return (1);
 		}
+		if (str[i] == '>')
+		{
+			printf("output_redirection : > found.\n");
+			return (2);
+		}
+		else if (str[i] == '>' && str[i + 1] == '>')
+		{
+			printf("output_redirection : >> found.\n");
+			return (3);
+		}
 		i++;
 	}
 	return (-1);
@@ -41,7 +57,13 @@ static int	input_redirection(char *str)
 //redirige la sortie
 //> delete file
 //>> add to file
-static int	output_redirection(char *str)
+/*
+ * @param a string
+ * @returns 0 if > is found
+ * @returns 1 if >> is found
+ * @returns -1 if none of them is found
+*/
+/*static int	output_redirection(char *str)
 {
 	int	i;
 
@@ -61,15 +83,17 @@ static int	output_redirection(char *str)
 		i++;
 	}
 	return (-1);
-}
+}*/
 
 //open the file and use the right flag depending of the operator
 //will handle the file opener depending of the operator ?
-void    manage_redirection(char *str)
+void    make_redirection(char *str)
 {
 	int	fd;
+	//int	check;
 
-    if (input_redirection(str) == 0)
+	
+    if (check_redirection(str) == 0)
 	{
 		fd = protected_open(str, O_RDONLY);
 		dup2(fd, STDIN_FILENO);
@@ -79,7 +103,7 @@ void    manage_redirection(char *str)
 	{
 		//voir pour le here_doc
 	}*/
-	else if (output_redirection(str) == 0)
+	/*else if (output_redirection(str) == 0)
 	{
 		fd = protected_open(str, O_WRONLY);
 		//écrit direct, ne lit pas et donc écrase.
@@ -88,7 +112,7 @@ void    manage_redirection(char *str)
 	{
 		fd = protected_open(str, O_RDWR | O_APPEND);
 		//lit puis écrit après
-	}
+	}*/
 }
 
 //TO DO LIST : vérifier les différences entre tous les opérateurs

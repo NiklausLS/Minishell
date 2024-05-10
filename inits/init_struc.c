@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   protected_open.c                                   :+:      :+:    :+:   */
+/*   init_struc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/20 10:26:24 by nileempo          #+#    #+#             */
-/*   Updated: 2024/05/07 19:13:04 by nileempo         ###   ########.fr       */
+/*   Created: 2024/05/07 19:27:09 by nileempo          #+#    #+#             */
+/*   Updated: 2024/05/10 23:07:38 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec_redirect.h"
 
-int	protected_open(char *file, int flags)
+void    init_struc(t_data *data)
 {
-	int	fd;
-
-	fd = open(file, flags);
-	if (fd == -1)
-	{
-		write (2, "Error: open failed\n", 20);
-		exit(EXIT_FAILURE);
-	}
-	return (fd);
+    data->split_args = NULL; 
+    data->fd = -1;
+    data->path = NULL;
+    data->cmd = NULL;
 }
