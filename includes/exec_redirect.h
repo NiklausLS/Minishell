@@ -22,7 +22,7 @@ typedef struct s_data
 void    init_struc(t_data *data);
 
 //BUILDIN
-void    get_builtin(char *cmd);
+void    get_builtin(t_data *data);
 void    cd(char *path);
 
 //OPERATOR checkers and managers

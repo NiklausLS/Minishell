@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/05/10 23:51:26 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/05/10 23:57:38 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,13 @@ int main(int argc, char **argv)
     {
         while (i < argc)
         {
-            //data->split_args = ft_split(argv[1], ' ');
             printf("argv[%d] = %s\n", i, argv[i]);
             i++;
         }
         //data->cmd = data->split_args[1];
         data->cmd = argv[1];
         data->path = argv[2];
-        get_builtin(data->cmd);
+        get_builtin(data);
 
         //make_redirection(argv[1]);
         //printf("--- split ---\n");
