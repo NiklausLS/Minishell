@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/05/10 23:57:38 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/05/11 07:48:50 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ int main(int argc, char **argv)
             i++;
         }
         //data->cmd = data->split_args[1];
+        //split_path(envp, data);
         data->cmd = argv[1];
         data->path = argv[2];
-        get_builtin(data);
+        get_builtin(argv, data);
 
         //make_redirection(argv[1]);
         //printf("--- split ---\n");

@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/05/10 22:23:54 by nileempo         ###   ########.fr        #
+#    Updated: 2024/05/11 07:24:41 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ SRCS = main.c \
 		./protected_functions/protected_open.c \
 		./builtin/cd.c \
 		./builtin/built_in.c \
+		./parsing/commands.c \
+		./debug/print.c \
 
 NAME = minishell
 CC = gcc

@@ -19,17 +19,23 @@ typedef struct s_data
 } t_data;
 
 //Initialise my structures
-void    init_struc(t_data *data);
+void	init_struc(t_data *data);
 
 //BUILDIN
-void    get_builtin(t_data *data);
-void    cd(char *path);
+void	get_builtin(char **argv, t_data *data);
+int		cd(char **argv);
 
 //OPERATOR checkers and managers
 void    split_redirection(char *str, t_data *data);
 void    make_redirection(char *str);
 
 //PROTECTED functions so make other functionsmy code shorter
-int	protected_open(char *file, int flags);
+int		protected_open(char *file, int flags);
+
+//parsing commands, path, envp
+void	split_path(char **envp, t_data *data);
+
+//functions to help debug and improve my projet
+void	print_array(char **array);
 
 #endif
