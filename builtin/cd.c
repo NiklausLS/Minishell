@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:31:04 by nileempo          #+#    #+#             */
-/*   Updated: 2024/05/11 07:51:34 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/05/11 07:55:35 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int cd(char **argv)
         dir = getenv("HOME");
         if (dir == NULL)
         {
-            perror("path");
+            perror("HOME");
             return (-1);
         }
     }
