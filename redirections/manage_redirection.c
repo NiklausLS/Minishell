@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/05/13 13:45:50 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:17:37 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	check_redirection(char *str)
 }*/
 
 //check if a pipe is present
-static int	check_pipes(char *str)
+/*static int	check_pipes(char *str)
 {
 	int	i;
 
@@ -100,7 +100,7 @@ static int	check_pipes(char *str)
 		i++;
 	}
 	return (-1);
-}
+}*/
 
 //open the file and use the right flag depending of the operator
 //will handle the file opener depending of the operator ?

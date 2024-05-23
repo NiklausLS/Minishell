@@ -15,6 +15,7 @@ typedef struct s_data
     char	**split_args;
     int		fd;
     char    *path;
+    char    **env;
     char    *cmd;
 } t_data;
 
@@ -24,6 +25,9 @@ void	init_struc(t_data *data);
 //BUILDIN
 void	get_builtin(char **argv, t_data *data);
 int		cd(char **argv);
+
+//EXECUTION functions
+char	*check_path(char *cmd, t_data *data);
 
 //OPERATOR checkers and managers
 void    split_redirection(char *str, t_data *data);
