@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/05/23 15:12:22 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:56:04 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	split_path(char **envp, t_data *data)
 	print_array(data->env);
 }
 
+/*
 static void	check_cmd(char *cmd)
 {
 	int	i;
@@ -73,7 +74,7 @@ static void	check_cmd(char *cmd)
 		}
 		i++;
 	}
-}
+}*/
 
 /*
  * check if the path is ok and stores it
@@ -88,11 +89,12 @@ char	*check_path(char *cmd, t_data *data)
 	if (access(cmd, F_OK | X_OK) == 0)
 	{
 		data->path = ft_strdup(cmd);
+		printf("check path : path ok");
 		return (data->path);
 	}
-	check_cmd(cmd);
+	//check_cmd(cmd);
 	if (data->env == NULL || data->env[0] == NULL)
-		ft_errorexit("No such file or directory\n");
+		ft_errorexit("check path : No such file or directory\n");
 	while (data->env[i])
 	{
 		data->path = ft_strjoin(data->env[i], cmd);

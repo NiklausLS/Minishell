@@ -33,12 +33,13 @@ char	*check_path(char *cmd, t_data *data);
 
 //OPERATOR checkers and managers
 void    split_redirection(char *str, t_data *data);
+int     check_redirection(char *str);
 void    make_redirection(char *str);
 
 //PROTECTED functions so make other functionsmy code shorter
 int		protected_open(char *file, int flags);
 
-//parsing commands, path, envp
+//PARSING commands, path, envp
 void	split_path(char **envp, t_data *data);
 
 //functions to help debug and improve my projet

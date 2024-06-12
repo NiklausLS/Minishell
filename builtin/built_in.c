@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/12 11:36:43 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:42:40 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 //to do list
 //CD
-//ENV
-//EXIT
 
 void    get_builtin(char **argv, t_data *data, char **envp)
 {
