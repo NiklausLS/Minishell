@@ -23,8 +23,10 @@ typedef struct s_data
 void	init_struc(t_data *data);
 
 //BUILDIN
-void	get_builtin(char **argv, t_data *data);
-int		cd(char **argv);
+void	get_builtin(char **argv, t_data *data, char **envp);
+int		make_cd(char **argv);
+int     make_env(char **envp);
+int     make_exit(void);
 
 //EXECUTION functions
 char	*check_path(char *cmd, t_data *data);

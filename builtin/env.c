@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/10 21:31:04 by nileempo          #+#    #+#             */
-/*   Updated: 2024/05/31 11:26:39 by nileempo         ###   ########.fr       */
+/*   Created: 2024/05/31 11:25:12 by nileempo          #+#    #+#             */
+/*   Updated: 2024/05/31 11:36:14 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec_redirect.h"
 
-//to do list 
-//cd with only a relative or absolute path
-
-int make_cd(char **argv)
+int make_env(char **envp)
 {
-    char    *dir;
-    if (argv[1] == NULL || ft_strncmp(argv[1], "~", 1) == 0)
-    {
-        dir = getenv("HOME");
-        if (dir == NULL)
-        {
-            perror("HOME");
-            return (-1);
-        }
-    }
-    if (chdir(dir) == 0)
-        printf("chdir OK\n");
-    else
-        perror("cd");
+    int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strchr(envp[i], '='))
+			printf("%s\n", envp[i]);
+		i++;
+	}
     return (0);
 }
