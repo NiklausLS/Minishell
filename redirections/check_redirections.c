@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/12 12:25:51 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/14 00:15:44 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ static int	check_before_after(char *str)
 	{
 		if (check_redirection != -1)
 		{
-			//chercher à str[i - 1]
-			//chercher à str[i + 1] 
+			chercher à str[i - 1]
+			chercher à str[i + 1] 
 		}
 	}
 	return (1);
