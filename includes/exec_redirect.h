@@ -29,7 +29,8 @@ int     make_env(char **envp);
 int     make_exit(void);
 
 //EXECUTION functions
-char	*check_path(char *cmd, t_data *data);
+//char	*check_path(char *cmd, t_data *data);
+void	make_path(char **envp, t_data *data, char *cmd);
 
 //OPERATOR checkers and managers
 void    split_redirection(char *str, t_data *data);
@@ -40,7 +41,7 @@ void    make_redirection(char *str);
 int		protected_open(char *file, int flags);
 
 //PARSING commands, path, envp
-void	split_path(char **envp, t_data *data);
+//void	split_path(char **envp, t_data *data);
 
 //functions to help debug and improve my projet
 void	print_array(char **array);

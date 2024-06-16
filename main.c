@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/12 12:05:51 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:21:46 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,12 @@ int main(int argc, char **argv, char **envp)
         data->cmd = argv[1];
         data->path = argv[2];
         get_builtin(argv, data, envp);
-        split_path(envp, data);
-        check_path(data->cmd, data);
-        make_env(envp);
-        split_redirection(argv[1], data);
-        make_redirection(argv[1]);
+        //split_path(envp, data);
+        //check_path(data->cmd, data);
+        make_path(envp, data, data->cmd);
+        //make_env(envp);
+        //split_redirection(argv[1], data);
+        //make_redirection(argv[1]);
     }
     //printf("OUT = ");
     //manage_redirection(out);

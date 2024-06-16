@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/14 00:15:44 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:18:01 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ static int	check_if_operators(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '<' || str[i] == '>' || str[i] == '<<'
-			|| str[i] == '>>')
+		if (str[i] == '<' || str[i] == '>')
 		{
 			printf("An operator have been found.\n");
 			return (0);
@@ -101,7 +100,7 @@ int	check_redirection(char *str)
 	}
 	return (-1);
 }
-
+/*
 static int	check_before_after(char *str)
 {
 	int	i;
@@ -116,6 +115,6 @@ static int	check_before_after(char *str)
 		}
 	}
 	return (1);
-}
+}*/
 // TO DO LIST
 // Check les droits d'ouverture en fonction de l'opérateur

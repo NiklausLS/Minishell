@@ -6,11 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/12 11:56:04 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:25:41 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec_redirect.h"
+
+static char	*check_path(char *cmd, t_data *data);
 
 /*
  * Get path from the envp
@@ -33,20 +35,20 @@ static void	get_path(char **envp, t_data *data)
 /*
  * Split the path i got and add / at the end
  */
-void	split_path(char **envp, t_data *data)
+static void	split_path(t_data *data)
 {
 	char	*tmp;
 	int		i;
 	
-	get_path(envp, data);
-	if (data->env == NULL)
+	//get_path(envp, data);
+	if (data->path == NULL)
 		return ;
-	printf("data->path = %s\n", data->path);
+	//printf("data->path = %s\n", data->path);
 	data->env = ft_split(data->path, ':');
 	if (data->env == NULL)
 		return ;
-	printf("BEFORE\n");
-	print_array(data->env);
+	//printf("BEFORE\n");
+	//print_array(data->env);
 	i = 0;
 	while (data->env[i])
 	{
@@ -55,7 +57,7 @@ void	split_path(char **envp, t_data *data)
 		free(tmp);
 		i++;
 	}
-	printf("AFTER\n");
+	//printf("AFTER\n");
 	print_array(data->env);
 }
 
@@ -76,10 +78,17 @@ static void	check_cmd(char *cmd)
 	}
 }*/
 
+void	make_path(char **envp, t_data *data, char *cmd)
+{
+	get_path(envp, data);
+	split_path(data);
+	check_path(cmd, data);
+}
+
 /*
  * check if the path is ok and stores it
  */
-char	*check_path(char *cmd, t_data *data)
+static char	*check_path(char *cmd, t_data *data)
 {
 	int		i;
 
