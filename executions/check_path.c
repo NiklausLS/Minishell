@@ -6,13 +6,11 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:12:42 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/16 20:37:34 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:51:46 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec_redirect.h"
-
-static char	*check_path(char *cmd, t_data *data);
 
 /*
  * Get path from the envp
@@ -78,13 +76,6 @@ static void	check_cmd(char *cmd)
 	}
 }*/
 
-void	make_path(char **envp, t_data *data, char *cmd)
-{
-	get_path(envp, data);
-	split_path(data);
-	check_path(cmd, data);
-}
-
 /*
  * check if the path is ok and stores it
  */
@@ -113,4 +104,11 @@ static char	*check_path(char *cmd, t_data *data)
 	}
 	data->path = NULL;
 	return (data->path);
+}
+
+void	make_path(char **envp, t_data *data, char *cmd)
+{
+	get_path(envp, data);
+	split_path(data);
+	check_path(cmd, data);
 }
