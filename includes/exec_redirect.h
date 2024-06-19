@@ -36,6 +36,7 @@ void	make_path(char **envp, t_data *data, char *cmd);
 void    split_redirection(char *str, t_data *data);
 int     check_redirection(char *str);
 void    make_redirection(char *str);
+int     check_before_after(char *str, t_data *data);
 
 //PROTECTED functions so make other functionsmy code shorter
 int		protected_open(char *file, int flags);

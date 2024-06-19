@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/16 20:18:01 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:07:01 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,23 +98,25 @@ int	check_redirection(char *str)
 		}
 		i++;
 	}
+	printf("no redirection sign found\n");
 	return (-1);
 }
-/*
-static int	check_before_after(char *str)
+
+int	check_before_after(char *str, t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (check_redirection != -1)
+		if (check_redirection(&str[i]) != -1)
 		{
-			chercher à str[i - 1]
-			chercher à str[i + 1] 
+			if (data->path != NULL)
+				make_redirection(&str[i + 1]);
+			return (0);
 		}
 	}
 	return (1);
-}*/
+}
 // TO DO LIST
 // Check les droits d'ouverture en fonction de l'opérateur

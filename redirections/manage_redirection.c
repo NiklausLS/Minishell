@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/12 12:22:31 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:05:42 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void    make_redirection(char *str)
 {
 	int	fd;
 
+	printf("in make_redirections\n");
     if (check_redirection(str) == 0)
 	{
 		fd = protected_open(str, O_RDONLY);
@@ -85,14 +86,12 @@ void    make_redirection(char *str)
 		fd = protected_open(str, O_WRONLY);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
-		//écrit direct, ne lit pas et donc écrase.
 	}
 	else if (check_redirection(str) == 3)
 	{
 		fd = protected_open(str, O_RDWR | O_APPEND);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
-		//lit puis écrit après
 	}
 }
 

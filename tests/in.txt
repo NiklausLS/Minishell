@@ -1,1 +1,2 @@
-test
+argv[0] = ./minishell
+argv[1] = cat

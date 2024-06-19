@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/06/12 11:42:56 by nileempo         ###   ########.fr        #
+#    Updated: 2024/06/18 16:19:33 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS = main.c \
 		./builtin/env.c \
 		./builtin/exit.c \
 		./executions/commands.c \
+		./executions/check_path.c \
 		./debug/print.c \
 
 NAME = minishell
