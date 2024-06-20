@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/20 18:45:05 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:05:14 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	check_redirection(char *str)
 	int	i;
 
 	i = 0;
+	printf("check_redirection\n");
 	while (str[i])
 	{
 		if (str[i] == '<')
@@ -91,6 +92,7 @@ int	check_redirection(char *str)
 		}
 		else if (str[i] == '>')
 		{
+			printf("test\n");
 			if (str[i] == '>' && str[i + 1] == '>')
 			{
 				printf("output_redirection : >> found.\n");
@@ -106,7 +108,7 @@ int	check_redirection(char *str)
 	return (-1);
 }
 
-int	check_before_after(char *str, t_data *data)
+/*int	check_before_after(char *str, t_data *data)
 {
 	int	i;
 
@@ -121,6 +123,6 @@ int	check_before_after(char *str, t_data *data)
 		}
 	}
 	return (1);
-}
+}*/
 // TO DO LIST
 // Check les droits d'ouverture en fonction de l'opérateur

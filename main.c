@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/20 18:42:20 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 21:08:15 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int main(int argc, char **argv, char **envp)
 {
     t_data *data;
 
-    char *in = "cat > tests/in.txt";
+    char *in = "cat tests/file_ok.c | grep BLABLA";
     data = malloc(sizeof(t_data));
     if (!data)
         ft_errorexit("Memory allocation failed for data structure\n");
@@ -42,6 +42,7 @@ int main(int argc, char **argv, char **envp)
         print_array(data->args);
         data->cmd = data->args[0];
         printf("cmd = %s\n", data->cmd);
+        
         make_path(envp, data, data->cmd);
         make_redirection(in);
         get_builtin(argv, data, envp);
