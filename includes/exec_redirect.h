@@ -7,16 +7,22 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 # include "../LIBFT/includes/libft.h"
 
 typedef struct s_data
 {
     char	**split_args;
+    char    **args;
     int		fd;
     char    *path;
     char    **env;
     char    *cmd;
+    char    *input;
+    char    *output;
+    //char    *append;
 } t_data;
 
 //Initialise my structures
@@ -29,8 +35,9 @@ int     make_env(char **envp);
 int     make_exit(void);
 
 //EXECUTION functions
-//char	*check_path(char *cmd, t_data *data);
 void	make_path(char **envp, t_data *data, char *cmd);
+void    make_child(t_data *data, char **env);
+void	exec_command(t_data *data, char **argv, char **envp);
 
 //OPERATOR checkers and managers
 void    split_redirection(char *str, t_data *data);
@@ -43,6 +50,7 @@ int		protected_open(char *file, int flags);
 
 //PARSING commands, path, envp
 //void	split_path(char **envp, t_data *data);
+void    get_args(char **argv, t_data *data);
 
 //functions to help debug and improve my projet
 void	print_array(char **array);

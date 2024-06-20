@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/20 03:42:36 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:45:05 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,23 +78,27 @@ int	check_redirection(char *str)
 	{
 		if (str[i] == '<')
 		{
-			printf("input_redirection : < found.\n");
-			return (0);
+			if (str[i] == '<' && str[i + 1] == '<')
+			{
+				printf("input_redirection : << found.\n");
+				return (1);
+			}
+			else
+			{
+				printf("input_redirection : < found.\n");
+				return (0);
+			}
 		}
-		else if (str[i] == '<' && str[i + 1] == '<')
+		else if (str[i] == '>')
 		{
-			printf("input_redirection : << found.\n");
-			return (1);
-		}
-		if (str[i] == '>')
-		{
-			printf("output_redirection : > found.\n");
-			return (2);
-		}
-		else if (str[i] == '>' && str[i + 1] == '>')
-		{
-			printf("output_redirection : >> found.\n");
-			return (3);
+			if (str[i] == '>' && str[i + 1] == '>')
+			{
+				printf("output_redirection : >> found.\n");
+				return (3);
+			}
+			else
+				printf("output_redirection : > found.\n");
+				return (2);
 		}
 		i++;
 	}
