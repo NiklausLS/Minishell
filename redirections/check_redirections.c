@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/20 19:05:14 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 22:04:19 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	check_redirection(char *str)
 	int	i;
 
 	i = 0;
-	printf("check_redirection\n");
+	//printf("check_redirection\n");
 	while (str[i])
 	{
 		if (str[i] == '<')
@@ -104,7 +104,7 @@ int	check_redirection(char *str)
 		}
 		i++;
 	}
-	printf("no redirection sign found\n");
+	//printf("no redirection sign found\n");
 	return (-1);
 }
 

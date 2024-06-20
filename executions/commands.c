@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/20 18:15:50 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 21:59:10 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	exec_command(t_data *data, char **argv, char **envp)
         }
     }
 }
+
+
 
 void   make_child(t_data *data, char **env)
 {

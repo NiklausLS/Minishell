@@ -20,9 +20,6 @@ typedef struct s_data
     char    *path;
     char    **env;
     char    *cmd;
-    char    *input;
-    char    *output;
-    //char    *append;
 } t_data;
 
 //Initialise my structures

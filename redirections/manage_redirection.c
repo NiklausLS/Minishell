@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/20 18:51:51 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 22:04:34 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	make_redirection(char *str)
 {
 	int	fd;
 
-	printf("in make_redirections\n");
+	//printf("in make_redirections\n");
 	if (check_redirection(str) == 0)
 	{
 		fd = protected_open(str, O_RDONLY);

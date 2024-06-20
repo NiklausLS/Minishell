@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:12:42 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/20 03:34:49 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 22:03:47 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static char	*check_path(char *cmd, t_data *data)
 	if (access(cmd, F_OK | X_OK) == 0)
 	{
 		data->path = ft_strdup(cmd);
-		printf("check path : path ok");
+		printf("check path : path ok\n");
 		return (data->path);
 	}
 	//check_cmd(cmd);
