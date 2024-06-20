@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:31:04 by nileempo          #+#    #+#             */
-/*   Updated: 2024/05/31 11:26:39 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 03:40:11 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,22 @@
 //to do list 
 //cd with only a relative or absolute path
 
-int make_cd(char **argv)
+int	make_cd(char **argv)
 {
-    char    *dir;
-    if (argv[1] == NULL || ft_strncmp(argv[1], "~", 1) == 0)
-    {
-        dir = getenv("HOME");
-        if (dir == NULL)
-        {
-            perror("HOME");
-            return (-1);
-        }
-    }
-    if (chdir(dir) == 0)
-        printf("chdir OK\n");
-    else
-        perror("cd");
-    return (0);
+	char	*dir;
+
+	if (argv[1] == NULL || ft_strncmp(argv[1], "~", 1) == 0)
+	{
+		dir = getenv("HOME");
+		if (dir == NULL)
+		{
+			perror("HOME");
+			return (-1);
+		}
+	}
+	if (chdir(dir) == 0)
+		printf("chdir OK\n");
+	else
+		perror("cd");
+	return (0);
 }

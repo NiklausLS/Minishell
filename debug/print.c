@@ -6,20 +6,20 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 07:21:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/05/11 07:23:20 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 03:33:36 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec_redirect.h"
 
-void    print_array(char **array)
+void	print_array(char **array)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (array[i])
-    {
-        printf("array[%d] = %s\n", i, array[i]);
-        i++;
-    }
+	i = 0;
+	while (array[i])
+	{
+		printf("array[%d] = %s\n", i, array[i]);
+		i++;
+	}
 }

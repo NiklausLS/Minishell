@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/19 18:05:42 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 03:43:40 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ static int	output_redirection(char *str)
 //open the file and use the right flag depending of the operator
 //will handle the file opener depending of the operator ?
 //PAS COMPLETE : IL FAUT GERER LES RISQUES D ERREUR
-void    make_redirection(char *str)
+void	make_redirection(char *str)
 {
 	int	fd;
 
 	printf("in make_redirections\n");
-    if (check_redirection(str) == 0)
+	if (check_redirection(str) == 0)
 	{
 		fd = protected_open(str, O_RDONLY);
 		dup2(fd, STDIN_FILENO);

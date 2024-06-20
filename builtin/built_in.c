@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/12 11:42:40 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 03:38:32 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 //to do list
 //CD
 
-void    get_builtin(char **argv, t_data *data, char **envp)
+void	get_builtin(char **argv, t_data *data, char **envp)
 {
-    if (ft_strcmp(data->cmd, "cd") == 0)
-    {
-        printf("CD USED\n");
-        make_cd(&argv[1]);
-    }
-    /*
-    else if (ft_strcmp(data->cmd, "echo") == 0)
+	if (ft_strcmp(data->cmd, "cd") == 0)
+	{
+		printf("CD USED\n");
+		make_cd(&argv[1]);
+	}
+/*	else if (ft_strcmp(data->cmd, "echo") == 0)
     {
         printf("ECHO USED\n");
     }
@@ -39,14 +38,14 @@ void    get_builtin(char **argv, t_data *data, char **envp)
     {
         printf("UNSET USED\n");
     }*/
-    else if (ft_strcmp(data->cmd, "env") == 0)
-    {
-        printf("ENV USED\n");
-        make_env(envp);
-    }
-    else if (ft_strcmp(data->cmd, "exit") == 0)
-    {
-        printf("EXIT USED\n");
-        make_exit();
-    }
+	else if (ft_strcmp(data->cmd, "env") == 0)
+	{
+		printf("ENV USED\n");
+		make_env(envp);
+	}
+	else if (ft_strcmp(data->cmd, "exit") == 0)
+	{
+		printf("EXIT USED\n");
+		make_exit();
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:12:42 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/19 17:01:41 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 03:34:49 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	split_path(t_data *data)
 {
 	char	*tmp;
 	int		i;
-	
+
 	//get_path(envp, data);
 	if (data->path == NULL)
 		return ;

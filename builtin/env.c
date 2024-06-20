@@ -6,15 +6,15 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 11:25:12 by nileempo          #+#    #+#             */
-/*   Updated: 2024/05/31 11:36:14 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 03:40:55 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec_redirect.h"
 
-int make_env(char **envp)
+int	make_env(char **envp)
 {
-    int	i;
+	int	i;
 
 	i = 0;
 	while (envp[i])
@@ -23,5 +23,5 @@ int make_env(char **envp)
 			printf("%s\n", envp[i]);
 		i++;
 	}
-    return (0);
+	return (0);
 }

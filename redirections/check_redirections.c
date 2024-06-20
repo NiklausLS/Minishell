@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/19 18:07:01 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/20 03:42:36 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 //check if there is an operator
 static int	check_if_operators(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -38,9 +38,9 @@ static int	check_if_operators(char *str)
 //split the str so i can get the name of the file
 void	split_redirection(char *str, t_data *data)
 {
-	int	i;
-	int file_index;
-	char *file;
+	int		i;
+	int		file_index;
+	char	*file;
 
 	i = 0;
 	file_index = 0;
@@ -71,7 +71,7 @@ void	split_redirection(char *str, t_data *data)
 */
 int	check_redirection(char *str)
 {
-    int	i;
+	int	i;
 
 	i = 0;
 	while (str[i])
