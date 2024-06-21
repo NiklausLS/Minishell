@@ -17,6 +17,7 @@ typedef struct s_data
     char	**split_args;
     char    **args;
     int		fd;
+    int     pipefd[2];
     char    *path;
     char    **env;
     char    *cmd;
@@ -35,7 +36,7 @@ int     make_exit(void);
 //EXECUTION functions
 void	make_path(char **envp, t_data *data, char *cmd);
 void    make_child(t_data *data, char **env);
-void	exec_command(t_data *data, char **argv, char **envp);
+void	exec_command(t_data *head);
 
 //OPERATOR checkers and managers
 void    split_redirection(char *str, t_data *data);

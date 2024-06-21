@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/21 09:17:54 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:29:25 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ t_data	*ft_lstnew(char **args)
 
     new = (t_data*)malloc(sizeof(t_data));
     new->args = args;
+	new->fd = 0;
+	new->path = NULL;
+	new->env = NULL;
     new->next = NULL;
     return (new);
 }

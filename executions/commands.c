@@ -6,46 +6,60 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/20 21:59:10 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:39:34 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec_redirect.h"
 
-/*
- * check if the command is a built-in first
- * if not check if it's a regular command
-*/
-void	exec_command(t_data *data, char **argv, char **envp)
+void	exec_command(t_data *head)
 {
-    pid_t   pid;
-    int     status;
+    t_data *current;
+    int     input_fd;
 
-    pid = fork();
-    if (pid < 0)
+    current = head;
+    while (current)
     {
-        ft_putstr_fd("fork error\n", 2);
-        exit(EXIT_FAILURE);
-    }
-    else if (pid == 0)
-    {
-        if (execve(data->path, argv, envp) == -1)
+        if (current->next != NULL)
+            if (pipe(current->pipefd) == -1)
+            {
+                ft_putstr_fd("error : pipe failed\n", 2);
+                exit(EXIT_FAILURE);
+            }
+    
+        if (fork() == 0)
         {
-            ft_putstr_fd("execve error\n", 2);
-            exit(EXIT_FAILURE);
+            if (input_fd != 0)
+            {
+                dup2(input_fd, 0);
+                close (input_fd);
+            }
+            if (current->next != NULL)
+            {
+                dup2(current->pipefd[1], 1);
+                close(current->pipefd[1]);
+            }
+            if (current->next != NULL)
+                close(current->pipefd[0]);
         }
-    }
-    else
-    {
-        while (waitpid(pid, & status, WUNTRACED > 0))
+        if (current->path == NULL)
         {
-            if (WIFEXITED(status) || WIFSIGNALED(status))
-                break;
+            make_path(current->env, current, current->cmd);
+            if (current->path == NULL)
+            {
+                printf("%s", current->cmd);
+                ft_putstr_fd("Command not foud\n", 2);
+                exit(EXIT_FAILURE);
+            }
         }
+        if (input_fd != 0)
+            close(input_fd);
+        if (current->next != NULL)
+            close(current->pipefd[1]);
+        input_fd = current->pipefd[0];
+        current = current->next;
     }
 }
-
-
 
 void   make_child(t_data *data, char **env)
 {
