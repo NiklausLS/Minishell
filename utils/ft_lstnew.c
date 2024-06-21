@@ -1,45 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/11 07:21:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/21 09:19:56 by nileempo         ###   ########.fr       */
+/*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
+/*   Updated: 2024/06/21 09:17:54 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec_redirect.h"
 
-void	print_array(char **array)
+t_data	*ft_lstnew(char **args)
 {
-	int	i;
+    t_data  *new;
 
-	i = 0;
-	while (array[i])
-	{
-		printf("array[%d] = %s\n", i, array[i]);
-		i++;
-	}
+    new = (t_data*)malloc(sizeof(t_data));
+    new->args = args;
+    new->next = NULL;
+    return (new);
 }
 
-void	print_linked_list(t_data *head)
+void	ft_addlst(char **args, t_data **head)
 {
+	t_data	*new;
 	t_data	*current;
-	int		i;
 
-	current = head;
-	while (current)
+	new = ft_lstnew(args);
+	current = NULL;
+	if (*head == NULL)
 	{
-		i = 0;
-		printf ("cmd = ");
-		while (current->args[i])
-		{
-			printf("%s ", current->args[i]);
-			i++;
-		}
-		printf("\n");
-		current = current->next;
+		printf("head = NULL\n");
+		*head = ft_lstnew(args);
+	}
+	else
+	{
+		printf("head != NULL\n");
+		current = *head;
+		while (current->next != NULL)
+			current = current->next;
+		current->next = new;
 	}
 }
