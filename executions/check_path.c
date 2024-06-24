@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:12:42 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/24 10:44:30 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:06:32 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	get_path(char **envp, t_data *data)
 	//if (envp == NULL || *envp == NULL)
 	//	return ;
 	//printf("--- IN GET PATH\n");
+	//print_array(data->env);
 	while (*envp != NULL)
 	{
 		if (ft_strncmp(*envp, "PATH=", 5) == 0)
@@ -58,7 +59,7 @@ static void	split_path(t_data *data)
 	if (data->env == NULL)
 		return ;
 	//printf("BEFORE\n");
-	print_array(data->env);
+	//print_array(data->env);
 	i = 0;
 	while (data->env[i])
 	{
@@ -112,10 +113,14 @@ static char	*check_path(char *cmd, t_data *data)
 	{
 		data->path = ft_strjoin(data->env[i], cmd);
 		if (access(data->path, F_OK | X_OK) == 0)
+		{
+			printf("path for cmd %s is OK\n", data->cmd);
 			return (data->path);
+		}
 		i++;
 	}
 	data->path = NULL;
+	print_array(&data->path);
 	return (data->path);
 }
 

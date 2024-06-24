@@ -6,29 +6,31 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/24 10:26:07 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:06:52 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/exec_redirect.h"
 
-int main()
+int main(int argc, char **argv, char **envp)
 {
     //t_data *data;
     t_data *head = NULL;
-
+    if (argc == 0)
+        printf("argc = %d\n", argc);
+    printf("argv[0] = %s\n", argv[0]);
     //char *in = "ls > tests/in.txt";
     char    *cmd1[] = {"ls", NULL};
     char    *cmd2[] = {"ls", NULL};
     char    *cmd3[] = {"wc", "-l", NULL};
 
-    ft_addlst(cmd1, &head);
-    ft_addlst(cmd2, &head);
-    ft_addlst(cmd3, &head);
-    
+    ft_addlst(cmd1, &head, envp);
+    ft_addlst(cmd2, &head, envp);
+    ft_addlst(cmd3, &head, envp);
+
     print_linked_list(head);
     exec_command(head);
-    //exec_command(head);
+    
     //data = malloc(sizeof(t_data));
     //if (!data)
     //    ft_errorexit("Memory allocation failed for data structure\n");

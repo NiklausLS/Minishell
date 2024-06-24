@@ -53,8 +53,8 @@ int		protected_open(char *file, int flags);
 void    get_args(char **argv, t_data *data);
 
 //modified functions for chained list
-t_data	*ft_lstnew(char **args);
-void	ft_addlst(char **args, t_data **head);
+t_data	*ft_lstnew(char **args, char **envp);
+void	ft_addlst(char **args, t_data **head, char **envp);
 
 //functions to help debug and improve my projet
 void	print_array(char **array);
