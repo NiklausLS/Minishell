@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:12:42 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/24 12:06:32 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:11:09 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static char	*check_path(char *cmd, t_data *data)
 	i = 0;
 	printf("--- IN CHECK PATH = %s\n", data->cmd);
 	if (cmd == NULL || cmd[0] == '\0')
-		ft_errorexit("test check path Command not found\n");
+		ft_errorexit("check path : Command not found\n");
 	if (access(cmd, F_OK | X_OK) == 0)
 	{
 		data->path = ft_strdup(cmd);
@@ -114,7 +114,7 @@ static char	*check_path(char *cmd, t_data *data)
 		data->path = ft_strjoin(data->env[i], cmd);
 		if (access(data->path, F_OK | X_OK) == 0)
 		{
-			printf("path for cmd %s is OK\n", data->cmd);
+			printf("check path : cmd %s is OK\n", data->cmd);
 			return (data->path);
 		}
 		i++;
