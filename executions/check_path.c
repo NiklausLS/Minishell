@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:12:42 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/24 10:29:25 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/24 10:44:30 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,24 @@
  */
 static void	get_path(char **envp, t_data *data)
 {
-	if (envp == NULL || *envp == NULL)
-		return ;
+	t_data *current;
+
+	current = data;
+	printf("--- IN GET PATH\n");
+
+	//if (envp == NULL || *envp == NULL)
+	//	return ;
+	//printf("--- IN GET PATH\n");
 	while (*envp != NULL)
 	{
 		if (ft_strncmp(*envp, "PATH=", 5) == 0)
 		{
-			data->path = *envp + 5;
+			while (current)
+			{
+				current->path = *envp + 5;
+				//printf("current path = %s\n", current->path);
+				current = current->next;
+			}
 			return ;
 		}
 		envp++;
@@ -39,6 +50,7 @@ static void	split_path(t_data *data)
 	int		i;
 
 	//get_path(envp, data);
+	printf("--- IN SPLIT PATH\n");
 	if (data->path == NULL)
 		return ;
 	//printf("data->path = %s\n", data->path);
@@ -46,7 +58,7 @@ static void	split_path(t_data *data)
 	if (data->env == NULL)
 		return ;
 	//printf("BEFORE\n");
-	//print_array(data->env);
+	print_array(data->env);
 	i = 0;
 	while (data->env[i])
 	{
@@ -84,7 +96,7 @@ static char	*check_path(char *cmd, t_data *data)
 	int		i;
 
 	i = 0;
-	printf("check path = %s\n", data->cmd);
+	printf("--- IN CHECK PATH = %s\n", data->cmd);
 	if (cmd == NULL || cmd[0] == '\0')
 		ft_errorexit("test check path Command not found\n");
 	if (access(cmd, F_OK | X_OK) == 0)

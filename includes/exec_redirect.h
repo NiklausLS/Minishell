@@ -22,6 +22,7 @@ typedef struct s_data
     char    **env;
     char    *cmd;
     struct  s_data *next;
+    struct  s_data *redirect;
 } t_data;
 
 //Initialise my structures
