@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/24 12:13:09 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:23:31 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,12 @@ static void	make_exec_path(t_data *data)
 	if (data->path == NULL)
 	{
 		make_path(data->env, data, data->cmd);
+		//printf("data->cmd = %s\n", data->cmd);
 		if (data->path == NULL)
 		{
-			ft_putstr_fd(" make_exec_path : ", 2);
-			printf("%s", data->cmd);
-			ft_putstr_fd("Command not found\n", 2);
+			ft_putstr_fd("Minishell: ", 2);
+			ft_putstr_fd(data->cmd, 2);
+			ft_putstr_fd(": Command not found\n", 2);
 			exit(EXIT_FAILURE);
 		}
 	}
