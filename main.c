@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/21 15:43:50 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/24 10:26:07 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int main()
     t_data *head = NULL;
 
     //char *in = "ls > tests/in.txt";
-    char    *cmd1[] = {"ls", "-l", NULL};
-    char    *cmd2[] = {"grep", ".c", NULL};
+    char    *cmd1[] = {"ls", NULL};
+    char    *cmd2[] = {"ls", NULL};
     char    *cmd3[] = {"wc", "-l", NULL};
 
     ft_addlst(cmd1, &head);
@@ -27,6 +27,7 @@ int main()
     ft_addlst(cmd3, &head);
     
     print_linked_list(head);
+    exec_command(head);
     //exec_command(head);
     //data = malloc(sizeof(t_data));
     //if (!data)
