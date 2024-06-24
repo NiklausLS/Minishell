@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/24 12:10:12 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:30:44 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int main(int argc, char **argv, char **envp)
     printf("argv[0] = %s\n", argv[0]);
     //char *in = "ls > tests/in.txt";
     char    *cmd1[] = {"ls", NULL};
-    char    *cmd2[] = {"blabla", NULL};
-    //char    *cmd3[] = {"wc", "-l", NULL};
+    //char    *cmd2[] = {"ls", NULL};
+    char    *cmd3[] = {"wc", "-l", NULL};
 
     ft_addlst(cmd1, &head, envp);
-    ft_addlst(cmd2, &head, envp);
-    //ft_addlst(cmd3, &head, envp);
+    //ft_addlst(cmd2, &head, envp);
+    ft_addlst(cmd3, &head, envp);
 
     print_linked_list(head);
     exec_command(head);

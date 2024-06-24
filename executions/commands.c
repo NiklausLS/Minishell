@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/24 12:23:31 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:29:42 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,11 @@ void	exec_command(t_data *head)
 			make_redirections(current, input_fd);
 			make_exec_path(current);
 		}
+		else if (pid < 0)
+		{
+			ft_putstr_fd("error : forkin exec_command\n", 2);
+			exit(EXIT_FAILURE);
+		}
         if (input_fd != 0)
             close(input_fd);
         if (current->next != NULL)
@@ -93,6 +98,7 @@ void	exec_command(t_data *head)
         input_fd = current->pipefd[0];
         current = current->next;
     }
+	while (wait(NULL) > 0);
 }
 
 /*

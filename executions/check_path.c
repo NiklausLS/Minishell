@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:12:42 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/24 12:11:09 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:25:59 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static void	get_path(char **envp, t_data *data)
 	current = data;
 	printf("--- IN GET PATH\n");
 
-	//if (envp == NULL || *envp == NULL)
-	//	return ;
+	if (envp == NULL || *envp == NULL)
+		return ;
 	//printf("--- IN GET PATH\n");
 	//print_array(data->env);
 	while (*envp != NULL)
