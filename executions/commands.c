@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/24 12:29:42 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/25 07:16:01 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	make_exec_path(t_data *data)
 	if (data->path == NULL)
 	{
 		make_path(data->env, data, data->cmd);
-		//printf("data->cmd = %s\n", data->cmd);
+		printf("data->cmd = %s\n", data->cmd);
 		if (data->path == NULL)
 		{
 			ft_putstr_fd("Minishell: ", 2);
@@ -67,36 +67,68 @@ static void	make_exec_path(t_data *data)
 			exit(EXIT_FAILURE);
 		}
 	}
+	if (execve(data->path, &data->cmd, data->env) == -1)
+    {
+        write (2, "Error : execve\n", 16);
+        exit(EXIT_FAILURE);
+    }
 }
 
-void	exec_command(t_data *head)
+void	exec_only_cmd(t_data *data)
+{
+	int	pid;
+
+	pid = make_fork();
+	if (pid == 0)
+	{
+		if (get_builtin(data, data->env) != 0)
+			make_exec_path(data);
+	}
+}
+
+void	exec_command_lst(t_data *data)
 {
     t_data *current;
     int     input_fd;
 	int		pid;
 
-    current = head;
+    current = data;
 	input_fd = 0;
+	printf("---EXEC_COMMAND");
     while (current)
     {
-        make_pipe(current);
-		pid = make_fork();
-        if (pid == 0)
+		//A FAIRE
+		//regarder si la cmd est un built-in ou pas
+		if (data->cmd_nbr == 1)
+			exec_only_cmd(data);
+		else if (data->redir_nbr > 0)
 		{
-			make_redirections(current, input_fd);
-			make_exec_path(current);
+			//A FAIRE
+			//regarder le type de redirection
+			//pipe ou fleches
+			if (check_pipe(current->cmd) == 0)
+			{
+				printf("pipe found\n");
+        		make_pipe(current);
+			}
+			pid = make_fork();
+        	if (pid == 0)
+			{
+				make_redirections(current, input_fd);
+				make_exec_path(current);
+			}
+			else if (pid < 0)
+			{
+				ft_putstr_fd("error : forkin exec_command\n", 2);
+				exit(EXIT_FAILURE);
+			}
+    		if (input_fd != 0)
+        		close(input_fd);
+    		if (current->next != NULL)
+        		close(current->pipefd[1]);
+        	input_fd = current->pipefd[0];
+        	current = current->next;
 		}
-		else if (pid < 0)
-		{
-			ft_putstr_fd("error : forkin exec_command\n", 2);
-			exit(EXIT_FAILURE);
-		}
-        if (input_fd != 0)
-            close(input_fd);
-        if (current->next != NULL)
-            close(current->pipefd[1]);
-        input_fd = current->pipefd[0];
-        current = current->next;
     }
 	while (wait(NULL) > 0);
 }

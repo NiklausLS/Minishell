@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/20 22:04:19 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:28:01 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,22 @@ int	check_redirection(char *str)
 		i++;
 	}
 	//printf("no redirection sign found\n");
+	return (-1);
+}
+
+int		check_pipe(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '|')
+		{
+			printf("a pipe have been found\n");
+			return (0);
+		}
+	}
 	return (-1);
 }
 

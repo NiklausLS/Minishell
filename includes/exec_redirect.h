@@ -23,27 +23,32 @@ typedef struct s_data
     char    *cmd;
     struct  s_data *next;
     struct  s_data *redirect;
+    char    *redir_sign;
+    int     redir_nbr;
+    int     cmd_nbr;
 } t_data;
 
 //Initialise my structures
 void	init_struc(t_data *data);
 
 //BUILDIN
-void	get_builtin(char **argv, t_data *data, char **envp);
+int     get_builtin(t_data *data, char **envp);
 int		make_cd(char **argv);
 int     make_env(char **envp);
 int     make_exit(void);
 
 //EXECUTION functions
 void	make_path(char **envp, t_data *data, char *cmd);
-void    make_child(t_data *data, char **env);
-void	exec_command(t_data *head);
+//void    make_child(t_data *data, char **env);
+void	exec_command_lst(t_data *data);
+void	exec_only_cmd(t_data *data);
 
 //OPERATOR checkers and managers
 void    split_redirection(char *str, t_data *data);
 int     check_redirection(char *str);
 void    make_redirection(char *str);
-int     check_before_after(char *str, t_data *data);
+int		check_pipe(char *str);
+//int     check_before_after(char *str, t_data *data);
 
 //PROTECTED functions so make other functionsmy code shorter
 int		protected_open(char *file, int flags);
@@ -53,8 +58,8 @@ int		protected_open(char *file, int flags);
 void    get_args(char **argv, t_data *data);
 
 //modified functions for chained list
-t_data	*ft_lstnew(char **args, char **envp);
-void	ft_addlst(char **args, t_data **head, char **envp);
+t_data	*ft_lstnew(char *cmd, char **args, char **envp);
+void	ft_addlst(char *cmd, char **args, t_data **head, char **envp);
 
 //functions to help debug and improve my projet
 void	print_array(char **array);
