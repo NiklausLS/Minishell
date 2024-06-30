@@ -6,139 +6,118 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/25 07:16:01 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/30 07:23:15 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec_redirect.h"
 
-static void	make_pipe(t_data *data)
+static void	make_input_heredoc(char *input)
 {
-	if (data->next)
+	int	pipefd[2];
+	
+	printf("---IN_MAKE_INPUT_HEREDOC\n");
+	if (pipe(pipefd) == -1)
 	{
-		if (pipe(data->pipefd) == -1)
+		ft_putstr_fd("heredoc pipe failed\n", 2);
+		exit(EXIT_FAILURE);
+	}
+	make_heredoc(pipefd[WRITE_END], input + 2);
+	close(pipefd[WRITE_END]);
+	dup2(pipefd[READ_END], STDIN_FILENO);
+	close(pipefd[READ_END]);
+}
+
+static void	make_input(t_commands *cmd, int	prev_pipe)
+{
+	int	input_red;
+
+	printf("---IN_MAKE_INPUTE\n");
+	input_red = check_redirection(cmd->input);
+	if (input_red == -1)
+		return ;
+	if (cmd && cmd->next)
+	{
+		//input_red = check_redirection(cmd->input);
+		if (input_red == 0)
+			make_redirection(cmd->input);
+		else if (input_red == 1)
+			make_input_heredoc(cmd->input);
+		else if (prev_pipe != -1)
 		{
-			ft_putstr_fd("pipe creation failed\n", 2);
-			exit(EXIT_FAILURE);
-		}
+			dup2(prev_pipe, STDIN_FILENO);
+			close(prev_pipe);
+		}	
 	}
 }
 
-static int	make_fork(void)
+static void	make_output(t_commands *cmd, int pipefd[2])
 {
-	int pid;
+	int	output_red;
 
+	printf("---IN_MAKE_OUTPUT\n");
+	output_red = check_redirection(cmd->output);
+	if (output_red == -1)
+		return ;
+	printf("output_red = %d\n", output_red);
+	if (cmd->output)
+	{
+		if (output_red == 2 || output_red == 3)
+		{
+			printf("end of make_output\n");
+			make_redirection(cmd->output);
+		}
+	}
+	else if (cmd->next != NULL)
+	{
+		close(pipefd[READ_END]);
+		dup2(pipefd[WRITE_END], STDERR_FILENO);
+		close(pipefd[WRITE_END]);
+	}
+	printf("end of make_output\n");
+}
+
+static void	exec_command(t_commands *cmd, char **envp)
+{
+    t_data data;
+	
+	printf("---IN_EXEC_COMMAND\n");
+	data.cmd_lst = cmd;
+	make_path(envp, &data);
+	printf("exec_command : cmd = %s\n", data.cmd_lst->cmd);
+	printf("exec_command : path = %s\n", data.cmd_lst->path);
+	printf("exec_command : args = %s\n", data.cmd_lst->args[0]);
+	
+	if (data.cmd_lst->path == NULL)
+	{
+		ft_putstr_fd(cmd->cmd, 2);
+		ft_putstr_fd(": Command not found\n", 2);
+		exit(EXIT_FAILURE);
+	}
+	if (execve(data.cmd_lst->path, cmd->args, envp) == -1)
+	{
+		//perror("execve");
+        write (2, "Error : execve\n", 16);
+        exit(EXIT_FAILURE);
+    }
+}
+
+void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
+{
+	pid_t	pid;
+
+	printf("---IN_MAKE_CHILD\n");
 	pid = fork();
 	if (pid == -1)
 	{
-		ft_putstr_fd("fork creation failed\n", 2);
+		ft_putstr_fd("Error : fork creation failed\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	return (pid);
-}
-
-static	void	make_redirections(t_data *data, int input_fd)
-{
-	if (input_fd != 0)
-	{
-		dup2(input_fd, 0);
-		close(input_fd);
-	}
-	if (data->next != NULL)
-	{
-		dup2(data->pipefd[1], 1);
-		close(data->pipefd[1]);
-	}
-	if (data->next != NULL)
-		close(data->pipefd[0]);
-}
-
-static void	make_exec_path(t_data *data)
-{
-	if (data->path == NULL)
-	{
-		make_path(data->env, data, data->cmd);
-		printf("data->cmd = %s\n", data->cmd);
-		if (data->path == NULL)
-		{
-			ft_putstr_fd("Minishell: ", 2);
-			ft_putstr_fd(data->cmd, 2);
-			ft_putstr_fd(": Command not found\n", 2);
-			exit(EXIT_FAILURE);
-		}
-	}
-	if (execve(data->path, &data->cmd, data->env) == -1)
-    {
-        write (2, "Error : execve\n", 16);
-        exit(EXIT_FAILURE);
-    }
-}
-
-void	exec_only_cmd(t_data *data)
-{
-	int	pid;
-
-	pid = make_fork();
 	if (pid == 0)
 	{
-		if (get_builtin(data, data->env) != 0)
-			make_exec_path(data);
+		make_input(cmd, prev_pipe);
+		make_output(cmd, pipefd);
+		//printf("before exec_command");
+		exec_command(cmd, envp);
 	}
 }
-
-void	exec_command_lst(t_data *data)
-{
-    t_data *current;
-    int     input_fd;
-	int		pid;
-
-    current = data;
-	input_fd = 0;
-	printf("---EXEC_COMMAND");
-    while (current)
-    {
-		//A FAIRE
-		//regarder si la cmd est un built-in ou pas
-		if (data->cmd_nbr == 1)
-			exec_only_cmd(data);
-		else if (data->redir_nbr > 0)
-		{
-			//A FAIRE
-			//regarder le type de redirection
-			//pipe ou fleches
-			if (check_pipe(current->cmd) == 0)
-			{
-				printf("pipe found\n");
-        		make_pipe(current);
-			}
-			pid = make_fork();
-        	if (pid == 0)
-			{
-				make_redirections(current, input_fd);
-				make_exec_path(current);
-			}
-			else if (pid < 0)
-			{
-				ft_putstr_fd("error : forkin exec_command\n", 2);
-				exit(EXIT_FAILURE);
-			}
-    		if (input_fd != 0)
-        		close(input_fd);
-    		if (current->next != NULL)
-        		close(current->pipefd[1]);
-        	input_fd = current->pipefd[0];
-        	current = current->next;
-		}
-    }
-	while (wait(NULL) > 0);
-}
-
-/*
-void   make_child(t_data *data, char **env)
-{
-    if (execve(data->path, &data->cmd, env) == -1)
-    {
-        write (2, "Error : execve\n", 16);
-        exit(EXIT_FAILURE);
-    }
-}*/

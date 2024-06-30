@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/20 22:04:34 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/29 21:53:55 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,73 +23,30 @@
  * @returns -1 if none of them is found
 */
 
-/*
-static int	output_redirection(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '>')
-		{
-			printf("output_redirection : > found.\n");
-			return (0);
-		}
-		else if (str[i] == '>' && str[i + 1] == '>')
-		{
-			printf("output_redirection : >> found.\n");
-			return (1);
-		}
-		i++;
-	}
-	return (-1);
-}*/
-
-//check if a pipe is present
-/*static int	check_pipes(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '|')
-		{
-			return (0);
-		}
-		i++;
-	}
-	return (-1);
-}*/
-
 //open the file and use the right flag depending of the operator
 //will handle the file opener depending of the operator ?
-//PAS COMPLETE : IL FAUT GERER LES RISQUES D ERREUR
 void	make_redirection(char *str)
 {
 	int	fd;
+	int	redir;
 
+	redir = check_redirection(str);
 	//printf("in make_redirections\n");
-	if (check_redirection(str) == 0)
+	if (redir == 0)
 	{
-		fd = protected_open(str, O_RDONLY);
+		fd = protected_open(str + 1, O_RDONLY);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
-	/*else if (check_redirection(str, ???) == 1)
+	else if (redir == 2)
 	{
-		//voir pour le here_doc
-	}*/
-	else if (check_redirection(str) == 2)
-	{
-		fd = protected_open(str, O_WRONLY);
+		fd = protected_open(str + 1, O_WRONLY | O_CREAT | O_TRUNC);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
-	else if (check_redirection(str) == 3)
+	else if (redir == 3)
 	{
-		fd = protected_open(str, O_RDWR | O_APPEND);
+		fd = protected_open(str + 3, O_RDWR | O_APPEND);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
@@ -98,3 +55,21 @@ void	make_redirection(char *str)
 //TO DO LIST : vérifier les différences entre tous les opérateurs
 //pour les ouvertures du fichier
 //finir exec pour le here doc
+void	make_heredoc(int fd, char *delim)
+{
+	char	*str;
+	size_t	len;
+	ssize_t	read;
+
+	printf("---IN_MAKE_HEREDOC\n");
+	printf("Heredoc> ");
+	while ((read = getline(&str, &len, stdin)) != -1)
+	{
+		if (ft_strncmp(str, delim, ft_strlen(delim)) == 0 &&
+			(str[ft_strlen(delim)] == '\n' || str[ft_strlen(delim)] == '\0'))
+			break;
+		write(fd, str, read);
+		printf("Heredoc> ");
+	}
+	free(str);
+}

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/24 15:28:01 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/30 07:09:37 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,16 @@ void	split_redirection(char *str, t_data *data)
 
 	i = 0;
 	file_index = 0;
-	data->split_args = ft_split(str, ' ');
-	while (data->split_args[i])
+	data->cmd_lst->args = ft_split(str, ' ');
+	while (data->cmd_lst->args[i])
 	{
-		printf("[%d] = %s\n", i, data->split_args[i]);
-		if (check_if_operators(data->split_args[i]) == 0)
+		printf("[%d] = %s\n", i, data->cmd_lst->args[i]);
+		if (check_if_operators(data->cmd_lst->args[i]) == 0)
 		{
 			printf("An operator have been found at [%d].\n", i);
 			file_index = i + 1;
 			printf("file index is : %d\n", file_index);
-			file = ft_strdup(data->split_args[file_index]);
+			file = ft_strdup(data->cmd_lst->args[file_index]);
 			printf("file name is : %s\n", file);
 		}
 		i++;
@@ -74,7 +74,14 @@ int	check_redirection(char *str)
 	int	i;
 
 	i = 0;
-	//printf("check_redirection\n");
+	printf("---IN_CHECK_REDIR\n");
+	printf("str = %s\n", str);
+	if (str == NULL)
+	{
+		//perror("check_redirection");
+		//ft_putstr_fd("Error : check_redirection\n", 2);
+		return (-1);
+	}
 	while (str[i])
 	{
 		if (str[i] == '<')
@@ -92,7 +99,6 @@ int	check_redirection(char *str)
 		}
 		else if (str[i] == '>')
 		{
-			printf("test\n");
 			if (str[i] == '>' && str[i + 1] == '>')
 			{
 				printf("output_redirection : >> found.\n");
@@ -104,22 +110,18 @@ int	check_redirection(char *str)
 		}
 		i++;
 	}
-	//printf("no redirection sign found\n");
 	return (-1);
 }
 
 int		check_pipe(char *str)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
+	printf("---IN_CHECK_PIPE\n");
+	if (str == NULL)
+		return (-1);
+	if (ft_strchr(str, '|' ) != 0)
 	{
-		if (str[i] == '|')
-		{
-			printf("a pipe have been found\n");
-			return (0);
-		}
+		printf("a pipe have been found\n");
+		return (0);
 	}
 	return (-1);
 }

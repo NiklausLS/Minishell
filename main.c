@@ -6,68 +6,72 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/25 07:16:43 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/30 07:27:12 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/exec_redirect.h"
 
+static void	exec_all(t_commands *cmd, char **envp)
+{
+    int	pipefd[2];
+	int	prev_pipe;
+	
+	prev_pipe = -1;
+	while (cmd)
+	{
+		if (check_pipe(cmd->cmd) == 0 && cmd->next)
+		{
+			if (pipe(pipefd) == -1)
+			{
+				perror("pipe");
+				exit(EXIT_FAILURE);
+			}
+		}
+		make_child(cmd, prev_pipe, pipefd, envp);
+		if (prev_pipe != -1)
+			close(prev_pipe);
+		if (cmd->next != NULL)
+		{
+			close(pipefd[WRITE_END]);
+			prev_pipe = pipefd[READ_END];
+		}
+		else
+			prev_pipe = -1;
+		cmd = cmd->next;
+		while (wait(NULL) > 0);
+	}
+}
+
 int main(int argc, char **argv, char **envp)
 {
-    t_data *data = NULL;
+    t_data data;
+
+	data.cmd_lst = NULL;
+	printf("lanching the program\n");
     if (argc == 0)
+	{
         printf("argc = %d\n", argc);
-    printf("argv[0] = %s\n", argv[0]);
-    //char *in = "ls > tests/in.txt";
-    char    *cmd1[] = {"env", NULL};
-    //char    *cmd2[] = {"g", ".c", NULL};
-    //char    *cmd3[] = {"wc", "-l", NULL};
+		printf("argv[0 = %s\n]", argv[0]);
+	}
+	
+	add_node(&data.cmd_lst, create_node("ls"));
+	//add_node(&data.cmd_lst, create_node("|"));
+	//add_node(&data.cmd_lst, create_node("wc"));
+	add_node(&data.cmd_lst, create_node(">"));
+	add_node(&data.cmd_lst, create_node("test/in.txt"));
+	
+	exec_all(data.cmd_lst, envp);
 
-    //cmd1.next = &cmd2;
-    //cmd2.next = &cmd3;
-    ft_addlst("env", cmd1, &data, envp);
-    //ft_addlst("grep", cmd2, &data, envp);
-    //ft_addlst("wc", cmd3, &data, envp);
+	t_commands *current = data.cmd_lst;
+	while (current)
+	{
+		t_commands *tmp = current;
+		current = current->next;
+		free(tmp->cmd);
+		free(tmp);
+	}
 
-    print_linked_list(data);
-    //exec_command(data);
-    exec_only_cmd(data);
-    //data = malloc(sizeof(t_data));
-    //if (!data)
-    //    ft_errorexit("Memory allocation failed for data structure\n");
-    //init_struc(data);
-    //int i = 0;
-
-    /*while (1)
-    {
-        input = readline("> ");
-        if (input == NULL)
-            break;
-        data->args = ft_split(input, ' ');
-    }
-
-    if (argc > 0)
-    {
-        while (argv[i])
-        {
-            printf("argv[%d] = %s\n", i, argv[i]);
-            i++;
-        }
-        data->args = ft_split(in, ' ');
-        print_array(data->args);
-        data->cmd = data->args[0];
-        printf("cmd = %s\n", data->cmd);
-        
-        make_path(envp, data, data->cmd);
-        make_redirection(in);
-        get_builtin(argv, data, envp);
-        exec_command(data, &data->cmd, envp);
-        //split_redirection(argv[1], data);
-        //make_redirection(argv[1]);
-        //print_array(data->split_args);
-    }
-    //printf("OUT = ");
-    //manage_redirection(out);*/
     return (0);
 }
 

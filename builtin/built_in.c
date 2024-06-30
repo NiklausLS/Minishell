@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/25 07:14:08 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/30 06:22:37 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int get_builtin(t_data *data, char **envp)
     {
         printf("UNSET USED\n");
     }*/
-	if (ft_strcmp(data->cmd, "env") == 0)
+	if (ft_strcmp(data->cmd_lst->cmd, "env") == 0)
 	{
 		printf("ENV USED\n");
 		make_env(envp);
         return (0);
 	}
-	else if (ft_strcmp(data->cmd, "exit") == 0)
+	else if (ft_strcmp(data->cmd_lst->cmd, "exit") == 0)
 	{
 		printf("EXIT USED\n");
 		make_exit();
