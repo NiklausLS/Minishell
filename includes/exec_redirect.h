@@ -70,6 +70,8 @@ void    get_args(char **argv, t_data *data);
 void add_node(t_commands **head, t_commands *new_node);
 t_commands *create_node(char *cmd);
 
+void    check_lst(t_data *data);
+
 //functions to help debug and improve my projet
 void	print_array(char **array);
 void	print_linked_list(t_data *head);

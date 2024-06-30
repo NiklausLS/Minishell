@@ -6,13 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/30 07:27:12 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/30 07:49:46 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/exec_redirect.h"
 
-static void	exec_all(t_commands *cmd, char **envp)
+/*static void	exec_all(t_commands *cmd, char **envp)
 {
     int	pipefd[2];
 	int	prev_pipe;
@@ -20,7 +20,7 @@ static void	exec_all(t_commands *cmd, char **envp)
 	prev_pipe = -1;
 	while (cmd)
 	{
-		if (check_pipe(cmd->cmd) == 0 && cmd->next)
+		if (check_pipe(cmd->next->cmd) == 0 && cmd->next->next)
 		{
 			if (pipe(pipefd) == -1)
 			{
@@ -41,9 +41,9 @@ static void	exec_all(t_commands *cmd, char **envp)
 		cmd = cmd->next;
 		while (wait(NULL) > 0);
 	}
-}
+}*/
 
-int main(int argc, char **argv, char **envp)
+int main(int argc, char **argv)
 {
     t_data data;
 
@@ -56,12 +56,13 @@ int main(int argc, char **argv, char **envp)
 	}
 	
 	add_node(&data.cmd_lst, create_node("ls"));
-	//add_node(&data.cmd_lst, create_node("|"));
-	//add_node(&data.cmd_lst, create_node("wc"));
+	add_node(&data.cmd_lst, create_node("|"));
+	add_node(&data.cmd_lst, create_node("wc"));
 	add_node(&data.cmd_lst, create_node(">"));
-	add_node(&data.cmd_lst, create_node("test/in.txt"));
+	//add_node(&data.cmd_lst, create_node("test/in.txt"));
 	
-	exec_all(data.cmd_lst, envp);
+	check_lst(&data);
+	//exec_all(data.cmd_lst, envp);
 
 	t_commands *current = data.cmd_lst;
 	while (current)

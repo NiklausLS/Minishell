@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/30 07:09:37 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/30 07:50:39 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,11 @@ int	check_redirection(char *str)
 	int	i;
 
 	i = 0;
-	printf("---IN_CHECK_REDIR\n");
-	printf("str = %s\n", str);
+	//printf("---IN_CHECK_REDIR\n");
+	//printf("str = %s\n", str);
 	if (str == NULL)
 	{
-		//perror("check_redirection");
-		//ft_putstr_fd("Error : check_redirection\n", 2);
+		ft_putstr_fd("Error : check_redirection\n", 2);
 		return (-1);
 	}
 	while (str[i])
@@ -88,12 +87,12 @@ int	check_redirection(char *str)
 		{
 			if (str[i] == '<' && str[i + 1] == '<')
 			{
-				printf("input_redirection : << found.\n");
+				//printf("input_redirection : << found.\n");
 				return (1);
 			}
 			else
 			{
-				printf("input_redirection : < found.\n");
+				//printf("input_redirection : < found.\n");
 				return (0);
 			}
 		}
@@ -101,11 +100,11 @@ int	check_redirection(char *str)
 		{
 			if (str[i] == '>' && str[i + 1] == '>')
 			{
-				printf("output_redirection : >> found.\n");
+				//printf("output_redirection : >> found.\n");
 				return (3);
 			}
 			else
-				printf("output_redirection : > found.\n");
+				//printf("output_redirection : > found.\n");
 				return (2);
 		}
 		i++;
@@ -115,12 +114,12 @@ int	check_redirection(char *str)
 
 int		check_pipe(char *str)
 {
-	printf("---IN_CHECK_PIPE\n");
+	//printf("---IN_CHECK_PIPE\n");
 	if (str == NULL)
 		return (-1);
 	if (ft_strchr(str, '|' ) != 0)
 	{
-		printf("a pipe have been found\n");
+		//printf("a pipe have been found\n");
 		return (0);
 	}
 	return (-1);
