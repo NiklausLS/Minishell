@@ -6,13 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/30 07:23:15 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/30 22:27:45 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec_redirect.h"
 
-static void	make_input_heredoc(char *input)
+/*static void	make_input_heredoc(char *input)
 {
 	int	pipefd[2];
 	
@@ -26,67 +26,63 @@ static void	make_input_heredoc(char *input)
 	close(pipefd[WRITE_END]);
 	dup2(pipefd[READ_END], STDIN_FILENO);
 	close(pipefd[READ_END]);
-}
+}*/
 
-static void	make_input(t_commands *cmd, int	prev_pipe)
+/*static void	make_input(t_commands *cmd, int	prev_pipe)
 {
 	int	input_red;
 
 	printf("---IN_MAKE_INPUTE\n");
-	input_red = check_redirection(cmd->input);
-	if (input_red == -1)
-		return ;
-	if (cmd && cmd->next)
+	//input_red = check_redirection(cmd->input);
+	if (cmd->input)
 	{
-		//input_red = check_redirection(cmd->input);
+		input_red = check_redirection(cmd->input);
 		if (input_red == 0)
 			make_redirection(cmd->input);
 		else if (input_red == 1)
 			make_input_heredoc(cmd->input);
-		else if (prev_pipe != -1)
-		{
-			dup2(prev_pipe, STDIN_FILENO);
-			close(prev_pipe);
-		}	
 	}
-}
+	else if (prev_pipe != -1)
+	{
+		dup2(prev_pipe, STDIN_FILENO);
+		close(prev_pipe);
+	}
+}*/
 
-static void	make_output(t_commands *cmd, int pipefd[2])
+/*static void	make_output(t_commands *cmd, int pipefd[2])
 {
 	int	output_red;
 
 	printf("---IN_MAKE_OUTPUT\n");
-	output_red = check_redirection(cmd->output);
-	if (output_red == -1)
-		return ;
-	printf("output_red = %d\n", output_red);
+	//printf("output_red = %d\n", output_red);
 	if (cmd->output)
 	{
+		output_red = check_redirection(cmd->output);
 		if (output_red == 2 || output_red == 3)
 		{
 			printf("end of make_output\n");
 			make_redirection(cmd->output);
 		}
 	}
-	else if (cmd->next != NULL)
+	else if (cmd->next != NULL && check_pipe(cmd->next->cmd) == 0)
 	{
-		close(pipefd[READ_END]);
+		//close(pipefd[READ_END]);
 		dup2(pipefd[WRITE_END], STDERR_FILENO);
-		close(pipefd[WRITE_END]);
+		//close(pipefd[WRITE_END]);
 	}
 	printf("end of make_output\n");
-}
+}*/
 
 static void	exec_command(t_commands *cmd, char **envp)
 {
     t_data data;
 	
-	printf("---IN_EXEC_COMMAND\n");
+	//printf("---IN_EXEC_COMMAND\n");
 	data.cmd_lst = cmd;
 	make_path(envp, &data);
-	printf("exec_command : cmd = %s\n", data.cmd_lst->cmd);
-	printf("exec_command : path = %s\n", data.cmd_lst->path);
-	printf("exec_command : args = %s\n", data.cmd_lst->args[0]);
+	//printf("exec_command : cmd = %s\n", data.cmd_lst->cmd);
+	//printf("exec_command : path = %s\n", data.cmd_lst->path);
+	//printf("exec_command : args = %s\n", data.cmd_lst->args[0]);
 	
 	if (data.cmd_lst->path == NULL)
 	{
@@ -106,7 +102,8 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 {
 	pid_t	pid;
 
-	printf("---IN_MAKE_CHILD\n");
+	//printf("---IN_MAKE_CHILD\n");
+	//printf("cmd = %s\n", cmd->cmd);
 	pid = fork();
 	if (pid == -1)
 	{
@@ -115,9 +112,31 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 	}
 	if (pid == 0)
 	{
-		make_input(cmd, prev_pipe);
-		make_output(cmd, pipefd);
+		//printf("child process for command : %s\n", cmd->cmd);
+		if (prev_pipe != -1)
+		{
+			dup2(prev_pipe, STDIN_FILENO);
+			close(prev_pipe);
+		}
+		if (cmd->next && check_pipe(cmd->next->cmd) == 0)
+		{
+			close(pipefd[READ_END]);
+			dup2(pipefd[WRITE_END], STDOUT_FILENO);
+			close(pipefd[WRITE_END]);
+		}
+		//make_input(cmd, prev_pipe);
+		//make_output(cmd, pipefd);
 		//printf("before exec_command");
 		exec_command(cmd, envp);
+		//printf("if exec_command is working i shouldn't see this\n");
+		//exit(EXIT_FAILURE);
+	}
+	else
+	{
+		//printf("parent process %d\n", pid);
+		if (cmd->next && check_pipe(cmd->next->cmd) == 0)
+			close(pipefd[WRITE_END]);
+		if (prev_pipe != -1)
+			close (prev_pipe);
 	}
 }

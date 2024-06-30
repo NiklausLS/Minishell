@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:02:33 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/30 07:51:55 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/30 22:27:11 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,15 @@ void    check_lst(t_data *data)
         }
         else if (check_pipe(current->cmd) == 0)
         {
-            printf("pipe detected\n");
+            printf("%s is a pipe\n", current->cmd);
+            current->pipe_type = 1;
+        }
+        else
+        {
+            printf("%s is a cmd\n", current->cmd);
         }
         current = current->next;
         i++;
     }
+    printf("----------------------\n");
 }

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:26:24 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/20 03:36:21 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/30 20:10:53 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,17 @@ int	protected_open(char *file, int flags)
 	fd = open(file, flags);
 	if (fd == -1)
 	{
-		write (2, "Error: open failed\n", 20);
+		ft_putstr_fd("Error : open\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	return (fd);
+}
+
+void	protected_pipe(int pipefd[2])
+{
+	if (pipe(pipefd) == -1)
+	{
+		ft_putstr_fd("Error : pipe/n", 2);
+		exit(EXIT_FAILURE);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/30 07:24:43 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/06/30 20:26:15 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,19 @@
 t_commands *create_node(char *cmd)
 {
     t_commands *new_node = malloc(sizeof(t_commands));
-    new_node->cmd = strdup(cmd);
+    new_node->cmd = ft_strdup(cmd);
     new_node->args = ft_split(cmd, ' ');
     new_node->input_fd = -1;
     new_node->output_fd = -1;
     new_node->path = NULL;
     new_node->env = NULL;
-    new_node->input_type = 0;
+    new_node->input_type = -1;
     new_node->input = NULL;
-    new_node->output_type = 0;
+    new_node->output_type = -1;
     new_node->output = NULL;
     new_node->heredoc_delim = NULL;
     new_node->next = NULL;
+    new_node->pipe_type = -1;
     return new_node;
 }
 

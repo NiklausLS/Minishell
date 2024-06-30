@@ -27,6 +27,7 @@ typedef struct s_commands
     char    *input;
     int     output_type;
     char    *output;
+    int     pipe_type;
     char    *heredoc_delim;
     struct  s_commands *next;
 } t_commands;
@@ -59,8 +60,9 @@ int		check_pipe(char *str);
 void	make_heredoc(int fd, char *delim);
 //int     check_before_after(char *str, t_data *data);
 
-//PROTECTED functions so make other functionsmy code shorter
+//PROTECTED functions to make other functions shorter
 int		protected_open(char *file, int flags);
+void    protected_pipe(int pipefd[2]);
 
 //PARSING commands, path, envp
 //void	split_path(char **envp, t_data *data);
