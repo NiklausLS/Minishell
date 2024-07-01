@@ -30,6 +30,7 @@ typedef struct s_commands
     int     pipe_type;
     char    *heredoc_delim;
     int     file_type;
+    int     cmd_type;
     struct  s_commands *next;
 } t_commands;
 

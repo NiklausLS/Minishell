@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/01 18:28:58 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/01 20:00:58 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static void	exec_command(t_commands *cmd, char **envp)
 	printf("exec_command : args = %s\n", data.cmd_lst->args[0]);
 	printf("exec_command : input = %s\n", data.cmd_lst->input);
 	printf("exec_command : output = %s\n", data.cmd_lst->output);
-	if (data.cmd_lst->input || data.cmd_lst->output)
-		return;
+	
 	if (data.cmd_lst->path == NULL)
 	{
+		ft_putstr_fd("Minishell:", 2);
 		ft_putstr_fd(cmd->cmd, 2);
 		ft_putstr_fd(": Command not found\n", 2);
 		exit(EXIT_FAILURE);

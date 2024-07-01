@@ -6,33 +6,32 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/01 18:48:08 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/01 22:12:57 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/exec_redirect.h"
 
-/*static void	exec_all(t_commands *cmd, char **envp)
+//static void	exec_redirect(t_commands *cmd);
+
+static void	exec_all(t_commands *cmd, char **envp)
 {
     int	pipefd[2];
 	int	prev_pipe;
-	//t_commands *current;
 	
 	prev_pipe = -1;
-	//current = NULL;
 	//printf("---IN_EXEC_ALL\n");
 	while (cmd)
 	{
-		if (cmd->pipe_type == -1 && cmd->input_type == -1 && cmd->output_type == -1)
+		if (cmd)
 		{
-			//current = cmd;
+			//exec_redirect(cmd);
+			//make_child(cmd, prev_pipe, pipefd, envp);
 			if (cmd->next && cmd->next->pipe_type == 1)
 				protected_pipe(pipefd);
 			else
 				pipefd[WRITE_END] = STDOUT_FILENO;
-
 			make_child(cmd, prev_pipe, pipefd, envp);
-
 			if (prev_pipe != -1)
 					close(prev_pipe);
 					
@@ -44,14 +43,38 @@
 			else
 				prev_pipe = -1;
 		}
-	cmd = cmd->next;
-	//printf("wait for child process\n");
+		cmd = cmd->next;
+		//printf("wait for child process\n");
 	}
 	while (wait(NULL) > 0);
 	printf("end of exec_all\n");
+}
+
+/*static void	exec_redirect(t_commands *cmd)
+{
+	t_commands *current;
+
+	current = cmd;
+	while (current->next && current->next->cmd_type == -1)
+	{
+		if (current->next->input_type != -1 && current->next->output_type != -1)
+		{
+			if (current->next->input_type != -1)
+			{
+				cmd->input = current->next->input;
+				cmd->input_type = current->next->input_type;
+			}
+			else if (current->next->output_type != -1)
+			{
+				cmd->output = current->next->output;
+				cmd->output_type = current->next->output_type;
+			}
+		}
+		current = current->next;
+	}
 }*/
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
     t_data data;
 
@@ -62,7 +85,6 @@ int main(int argc, char **argv)
         printf("argc = %d\n", argc);
 		printf("argv[0 = %s\n]", argv[0]);
 	}
-	
 	//add_node(&data.cmd_lst, init_node("piapipa"));
 	//add_node(&data.cmd_lst, init_node("|"));
 	//add_node(&data.cmd_lst, init_node("wc"));
@@ -73,12 +95,12 @@ int main(int argc, char **argv)
 	//add_node(&data.cmd_lst, init_node("wc"));
 	add_node(&data.cmd_lst, init_node(">"));
 	add_node(&data.cmd_lst, init_node("tests/in.txt"));
-	//add_node(&data.cmd_lst, create_node("|"));
-	//add_node(&data.cmd_lst, create_node("ls"));
+	//add_node(&data.cmd_lst, init_node("|"));
+	//add_node(&data.cmd_lst, init_node("wc"));
 	
 	check_lst(&data);
-	//print_linked_list(&data);
-	//exec_all(data.cmd_lst, envp);
+	print_linked_list(&data);
+	exec_all(data.cmd_lst, envp);
 
 	t_commands *current = data.cmd_lst;
 	while (current)

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/01 19:11:39 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/01 21:58:43 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	check_redirection(char *str)
 				return (3);
 			}
 			else
-				//printf("output_redirection : > found.\n");
+				printf("output_redirection : > found.\n");
 				return (2);
 		}
 		i++;

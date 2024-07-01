@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/01 17:50:43 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/01 19:46:24 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_commands *init_node(char *cmd)
     new_node->next = NULL;
     new_node->pipe_type = -1;
     new_node->file_type = -1;
+    new_node->cmd_type = -1;
     return (new_node);
 }
 

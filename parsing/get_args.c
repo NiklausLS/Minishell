@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:02:33 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/01 19:09:49 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/01 20:41:11 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,17 @@ static void parse_redirection(t_commands *current)
         printf("current->input_type = %d\n", current->input_type);
         if (current->next)
         {
-            current->next->input = ft_strdup(current->next->cmd);
-            printf("current->next->input = %s\n\n", current->next->input);
+            current->input = ft_strdup(current->next->cmd);
+            current->next->file_type = 1;
+            printf("current->input = %s\n\n", current->next->input);
         }
     }
     else if (redir_type == 2 || redir_type == 3)
     {
-        current->next->output = ft_strdup(current->next->cmd);
-        printf("current->next->output = %s\n", current->next->output);
         current->output_type = redir_type;
+        current->output = ft_strdup(current->next->cmd);
+        printf("current->output = %s\n", current->output);
+        current->next->file_type = 1;
         printf("current->output_type = %d\n\n", current->output_type);
     }
     //current->cmd = NULL;
@@ -82,7 +84,8 @@ void    check_lst(t_data *data)
             parse_pipe(current);
         else
         {
-            printf("%s is a cmd\n", current->cmd);
+            if (current->file_type == -1)
+                current->cmd_type = 1;
         }
         current = current->next;
         i++;
