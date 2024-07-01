@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 07:21:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/30 06:38:40 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/01 16:21:30 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	print_linked_list(t_data *data)
 		{
 			while (current->args[i])
 			{
-				printf("%s ", current->args[i]);
+				printf("current->args[%d] = %s\n", i, current->args[i]);
 				i++;
 			}
 		}

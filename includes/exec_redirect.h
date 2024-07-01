@@ -55,10 +55,14 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp);
 //OPERATOR checkers and managers
 void    split_redirection(char *str, t_data *data);
 int     check_redirection(char *str);
-void    make_redirection(char *str);
+//void    make_redirection(char *str);
 int		check_pipe(char *str);
-void	make_heredoc(int fd, char *delim);
 //int     check_before_after(char *str, t_data *data);
+
+void    make_input(t_commands *cmd);
+void	make_output(t_commands *cmd);
+void	make_heredoc(int fd, char *delim);
+void	make_all_redirections(t_commands *cmd, int prev_pipe, int pipefd[2]);
 
 //PROTECTED functions to make other functions shorter
 int		protected_open(char *file, int flags);

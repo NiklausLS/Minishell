@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:02:33 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/30 22:27:11 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/01 16:20:38 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,43 @@
     data->args = ft_split(*argv, ' ');
 }*/
 
+static void parse_redirection(t_commands *current)
+{
+    int redir_type;
+
+    redir_type = check_redirection(current->cmd);
+    if (redir_type == 0 || redir_type == 1)
+        current->input_type = redir_type;
+    else if (redir_type == 2 || redir_type == 3)
+    {
+        current->output = ft_strdup(current->cmd);
+        current->output_type = redir_type;
+    }
+    current->cmd = NULL;
+}
+
+static void parse_pipe(t_commands *current)
+{ 
+    if (current->cmd)
+    {
+        current->pipe_type = 1;
+        printf("%s is a pipe\n", current->cmd);
+    }
+}
+
+/*static void parse_command(t_commands *current, t_commands *previous)
+{
+    if (previous && previous->cmd && previous->cmd[0] != '|' &&
+        !previous->input && !previous->output)
+    {
+        current->cmd = NULL;
+    }
+}*/
+
 void    check_lst(t_data *data)
 {
     t_commands  *current;
+    //t_commands  *previous;
     int         i;
 
     current = data->cmd_lst;
@@ -27,23 +61,10 @@ void    check_lst(t_data *data)
     while (current)
     {
         printf("check cmd %d : %s\n", i, current->cmd);
-        if (check_redirection(current->cmd) == 0 || check_redirection(current->cmd) == 1)
-        {
-            printf("Input redirection : %s\n", current->cmd);
-            current->input = ft_strdup(current->cmd);
-            current->input_type = check_redirection(current->cmd);
-        }
-        else if (check_redirection(current->cmd) == 2 || check_redirection(current->cmd) == 3)
-        {
-            printf("Output redirection : %s\n", current->cmd);
-            current->output = ft_strdup(current->cmd);
-            current->output_type = check_redirection(current->cmd);
-        }
+        if (check_redirection(current->cmd) != -1)
+            parse_redirection(current);
         else if (check_pipe(current->cmd) == 0)
-        {
-            printf("%s is a pipe\n", current->cmd);
-            current->pipe_type = 1;
-        }
+            parse_pipe(current);
         else
         {
             printf("%s is a cmd\n", current->cmd);

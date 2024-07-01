@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/30 07:50:39 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/01 00:17:40 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,8 @@
 //check if operator
 //split the cmd (operatior/file)
 
-//check if there is an operator
-static int	check_if_operators(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '<' || str[i] == '>')
-		{
-			printf("An operator have been found.\n");
-			return (0);
-		}
-		i++;
-	}
-	printf("0 operators found\n");
-	return (1);
-}
-
 //split the str so i can get the name of the file
-void	split_redirection(char *str, t_data *data)
+/*void	split_redirection(char *str, t_data *data)
 {
 	int		i;
 	int		file_index;
@@ -58,7 +39,7 @@ void	split_redirection(char *str, t_data *data)
 		}
 		i++;
 	}
-}
+}*/
 
 //check the operator sign
 //< redirige l'entrée vers le fichier
@@ -124,22 +105,3 @@ int		check_pipe(char *str)
 	}
 	return (-1);
 }
-
-/*int	check_before_after(char *str, t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (check_redirection(&str[i]) != -1)
-		{
-			if (data->path != NULL)
-				make_redirection(&str[i + 1]);
-			return (0);
-		}
-	}
-	return (1);
-}*/
-// TO DO LIST
-// Check les droits d'ouverture en fonction de l'opérateur
