@@ -1,15 +1,1 @@
-LIBFT
-Makefile
-builtin
-debug
-executions
-includes
-inits
-main.c
-main.o
-minishell
-parsing
-protected_functions
-redirections
-tests
-utils
+      15      15     132

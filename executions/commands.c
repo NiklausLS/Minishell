@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/01 12:07:02 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/01 18:28:58 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static void	exec_command(t_commands *cmd, char **envp)
 	printf("exec_command : cmd = %s\n", data.cmd_lst->cmd);
 	printf("exec_command : path = %s\n", data.cmd_lst->path);
 	printf("exec_command : args = %s\n", data.cmd_lst->args[0]);
-	
+	printf("exec_command : input = %s\n", data.cmd_lst->input);
+	printf("exec_command : output = %s\n", data.cmd_lst->output);
+	if (data.cmd_lst->input || data.cmd_lst->output)
+		return;
 	if (data.cmd_lst->path == NULL)
 	{
 		ft_putstr_fd(cmd->cmd, 2);
@@ -72,9 +75,12 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 	{
 		make_all_redirections(cmd, prev_pipe, pipefd);
 		exec_command(cmd, envp);
+		exit(EXIT_FAILURE);
 	}
-	if (cmd->next && cmd->next->pipe_type == 1)
+	else
+		printf("in parent process\n");
+	/*if (cmd->next && cmd->next->pipe_type == 1)
 		close(pipefd[WRITE_END]);
 	if (prev_pipe != -1)
-		close(prev_pipe);
+		close(prev_pipe);*/
 }

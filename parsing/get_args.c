@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:02:33 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/01 16:20:38 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/01 19:09:49 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,28 @@ static void parse_redirection(t_commands *current)
 {
     int redir_type;
 
+    //printf("*** IN_PARSE_redirection\n");
     redir_type = check_redirection(current->cmd);
+    printf("redir_type = %d\n", redir_type);
+    printf("*** IN_PARSE_redirection\n\n");
     if (redir_type == 0 || redir_type == 1)
+    {
         current->input_type = redir_type;
+        printf("current->input_type = %d\n", current->input_type);
+        if (current->next)
+        {
+            current->next->input = ft_strdup(current->next->cmd);
+            printf("current->next->input = %s\n\n", current->next->input);
+        }
+    }
     else if (redir_type == 2 || redir_type == 3)
     {
-        current->output = ft_strdup(current->cmd);
+        current->next->output = ft_strdup(current->next->cmd);
+        printf("current->next->output = %s\n", current->next->output);
         current->output_type = redir_type;
+        printf("current->output_type = %d\n\n", current->output_type);
     }
-    current->cmd = NULL;
+    //current->cmd = NULL;
 }
 
 static void parse_pipe(t_commands *current)
@@ -53,10 +66,12 @@ static void parse_pipe(t_commands *current)
 void    check_lst(t_data *data)
 {
     t_commands  *current;
+    t_commands  *current_errors;
     //t_commands  *previous;
     int         i;
 
     current = data->cmd_lst;
+    current_errors = data->cmd_lst;
     i = 0;
     while (current)
     {
@@ -71,6 +86,11 @@ void    check_lst(t_data *data)
         }
         current = current->next;
         i++;
+    }
+    while (current_errors)
+    {
+        pipe_errors(current_errors);
+        current_errors = current_errors->next;
     }
     printf("----------------------\n");
 }

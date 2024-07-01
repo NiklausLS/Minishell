@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/30 20:26:15 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/01 17:50:43 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,17 @@
 
 //Pour tester en attendant d'avoir le code du mate
 
-
-t_commands *create_node(char *cmd)
+t_commands *init_node(char *cmd)
 {
     t_commands *new_node = malloc(sizeof(t_commands));
     new_node->cmd = ft_strdup(cmd);
     new_node->args = ft_split(cmd, ' ');
+    /*int i = 0;
+    while (new_node->args[i])
+    {
+        printf("create node : %s\n", new_node->args[i]);
+        i++;
+    }*/
     new_node->input_fd = -1;
     new_node->output_fd = -1;
     new_node->path = NULL;
@@ -31,7 +36,8 @@ t_commands *create_node(char *cmd)
     new_node->heredoc_delim = NULL;
     new_node->next = NULL;
     new_node->pipe_type = -1;
-    return new_node;
+    new_node->file_type = -1;
+    return (new_node);
 }
 
 // Fonction pour ajouter une node à la fin de la liste

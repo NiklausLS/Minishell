@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/01 12:02:38 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/01 19:20:57 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,27 +35,29 @@ void	make_input(t_commands *cmd)
 	printf("---IN_MAKE_INPUTE\n");
 	if (cmd->input_type == 0)
 	{
-		fd = protected_open(cmd->cmd + 1, O_RDONLY);
+		//cmd->next->input = ft_strdup(cmd->cmd);
+		//cmd->input = ft_strdup(cmd->cmd);
+		fd = protected_open(cmd->next->input, O_RDONLY);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
 	else if (cmd->input_type == 1)
-		make_input_heredoc(cmd->cmd + 2);
+		make_input_heredoc(cmd->next->input);
 }
 
 void	make_output(t_commands *cmd)
 {
 	int	fd;
 	
-	if (cmd->input_type == 2)
+	if (cmd->output_type == 2)
 	{
-		fd = protected_open(cmd->cmd + 1, O_WRONLY | O_CREAT | O_TRUNC);
+		fd = protected_open(cmd->next->output, O_WRONLY | O_CREAT | O_TRUNC);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	else if (cmd->input_type == 3)
 	{
-		fd = protected_open(cmd->cmd + 1, O_RDWR | O_APPEND);
+		fd = protected_open(cmd->next->output, O_RDWR | O_APPEND);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}

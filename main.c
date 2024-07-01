@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/01 16:17:52 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/01 18:48:08 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 	//printf("---IN_EXEC_ALL\n");
 	while (cmd)
 	{
-		if (cmd->pipe_type == 0 && cmd->input_type == -1)
+		if (cmd->pipe_type == -1 && cmd->input_type == -1 && cmd->output_type == -1)
 		{
 			//current = cmd;
 			if (cmd->next && cmd->next->pipe_type == 1)
@@ -43,12 +43,12 @@
 			}
 			else
 				prev_pipe = -1;
-			cmd = cmd->next;
 		}
+	cmd = cmd->next;
 	//printf("wait for child process\n");
 	}
 	while (wait(NULL) > 0);
-	//printf("end of exec_all\n");
+	printf("end of exec_all\n");
 }*/
 
 int main(int argc, char **argv)
@@ -63,18 +63,21 @@ int main(int argc, char **argv)
 		printf("argv[0 = %s\n]", argv[0]);
 	}
 	
-	add_node(&data.cmd_lst, create_node("piapipa"));
-	add_node(&data.cmd_lst, create_node("|"));
-	add_node(&data.cmd_lst, create_node("wc -l"));
-	add_node(&data.cmd_lst, create_node("|"));
-	add_node(&data.cmd_lst, create_node("ls"));
-	//add_node(&data.cmd_lst, create_node(">"));
-	// add_node(&data.cmd_lst, create_node("test/in.txt"));
+	//add_node(&data.cmd_lst, init_node("piapipa"));
+	//add_node(&data.cmd_lst, init_node("|"));
+	//add_node(&data.cmd_lst, init_node("wc"));
+	//add_node(&data.cmd_lst, init_node(">"));
+	//add_node(&data.cmd_lst, init_node("ls"));
+	//add_node(&data.cmd_lst, init_node("|"));
+	add_node(&data.cmd_lst, init_node("ls"));
+	//add_node(&data.cmd_lst, init_node("wc"));
+	add_node(&data.cmd_lst, init_node(">"));
+	add_node(&data.cmd_lst, init_node("tests/in.txt"));
 	//add_node(&data.cmd_lst, create_node("|"));
 	//add_node(&data.cmd_lst, create_node("ls"));
 	
 	check_lst(&data);
-	print_linked_list(&data);
+	//print_linked_list(&data);
 	//exec_all(data.cmd_lst, envp);
 
 	t_commands *current = data.cmd_lst;
