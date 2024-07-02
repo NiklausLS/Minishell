@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/01 22:08:22 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:21:46 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	make_input_heredoc(char *input)
 {
 	int	pipefd[2];
-	
+
 	printf("---IN_MAKE_INPUT_HEREDOC\n");
 	if (pipe(pipefd) == -1)
 	{
@@ -48,7 +48,7 @@ void	make_input(t_commands *cmd)
 void	make_output(t_commands *cmd)
 {
 	int	fd;
-	
+
 	printf(" A A A A A A A IN MAKE OUTPUT\n");
 	if (cmd->output_type == 2)
 	{
@@ -66,6 +66,7 @@ void	make_output(t_commands *cmd)
 	}
 }
 
+//A REVOIR
 void	make_heredoc(int fd, char *delim)
 {
 	char	*str;
@@ -76,8 +77,9 @@ void	make_heredoc(int fd, char *delim)
 	printf("Heredoc> ");
 	while ((read = getline(&str, &len, stdin)) != -1)
 	{
-		if (ft_strncmp(str, delim, ft_strlen(delim)) == 0 &&
-			(str[ft_strlen(delim)] == '\n' || str[ft_strlen(delim)] == '\0'))
+		if (ft_strncmp(str, delim, ft_strlen(delim)) == 0
+			&& (str[ft_strlen(delim)] == '\n'
+				|| str[ft_strlen(delim)] == '\0'))
 			break;
 		write(fd, str, read);
 		printf("Heredoc> ");
