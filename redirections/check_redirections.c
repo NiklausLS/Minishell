@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/02 13:19:20 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/02 16:13:35 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,33 +61,21 @@ int	check_redirection(char *str)
 		if (str[i] == '<')
 		{
 			if (str[i] == '<' && str[i + 1] == '<')
-			{
-				//printf("input_redirection : << found.\n");
 				return (1);
-			}
 			else
-			{
-				//printf("input_redirection : < found.\n");
 				return (0);
-			}
 		}
 		else if (str[i] == '>')
 		{
 			if (str[i] == '>' && str[i + 1] == '>')
-			{
-				//printf("output_redirection : >> found.\n");
 				return (3);
-			}
 			else
-			{
-				printf("output_redirection : > found.\n");
 				return (2);
-			}
 		}
 		i++;
 	}
-	printf("no redirections found\n");
-	printf("	- - - -\n");
+	//printf("no redirections found\n");
+	//printf("	- - - -\n");
 	return (-1);
 }
 
@@ -97,9 +85,6 @@ int	check_pipe(char *str)
 	if (str == NULL)
 		return (-1);
 	if (ft_strchr(str, '|' ) != 0)
-	{
-		//printf("a pipe have been found\n");
 		return (0);
-	}
 	return (-1);
 }

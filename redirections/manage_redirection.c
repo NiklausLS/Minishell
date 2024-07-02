@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/02 13:21:46 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:31:29 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	make_input_heredoc(char *input)
 		ft_putstr_fd("heredoc pipe failed\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	make_heredoc(pipefd[WRITE_END], input + 2);
+	make_heredoc(pipefd[WRITE_END], input);
 	close(pipefd[WRITE_END]);
 	dup2(pipefd[READ_END], STDIN_FILENO);
 	close(pipefd[READ_END]);
@@ -36,8 +36,10 @@ void	make_input(t_commands *cmd)
 	if (cmd->input_type == 0)
 	{
 		//cmd->next->input = ft_strdup(cmd->cmd);
-		cmd->input = ft_strdup(cmd->cmd);
-		fd = protected_open(cmd->next->input, O_RDONLY);
+		cmd->next->input = ft_strdup(cmd->next->cmd);
+
+		printf("OPEN = %s\n", cmd->next->input);
+		fd = protected_open(cmd->next->cmd, O_RDONLY);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
