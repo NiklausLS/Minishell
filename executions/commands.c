@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/02 16:10:41 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/02 21:37:02 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,15 @@ static void	exec_command(t_commands *cmd, char **envp)
     t_data data;
 	
 	printf("---IN_EXEC_COMMAND\n");
+	if (!cmd || !cmd->cmd)
+	{
+		ft_putstr_fd("Minishell: Command not found\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	data.cmd_lst = cmd;
-	if (data.cmd_lst->cmd_type == 1) //|| data.cmd_lst->output_type != -1 || data.cmd_lst->pipe_type == 1)
+	//printf("cmd = %s\n", cmd->cmd);
+	//printf("cmd->cmd_type = %d\n", cmd->cmd_type);
+	if (data.cmd_lst->cmd_type == 1)
 	{
 		make_path(envp, &data);
 		printf("exec_command : cmd = %s\n", data.cmd_lst->cmd);
@@ -27,6 +34,8 @@ static void	exec_command(t_commands *cmd, char **envp)
 		printf("exec_command : input = %s\n", data.cmd_lst->input);
 		printf("exec_command : output = %s\n", data.cmd_lst->output);
 	
+		make_input(cmd);
+		make_output(cmd);
 		if (data.cmd_lst->path == NULL)
 		{
 			ft_putstr_fd("Minishell: ", 2);
@@ -40,6 +49,11 @@ static void	exec_command(t_commands *cmd, char **envp)
         	write (2, "Error : execve\n", 16);
         	exit(EXIT_FAILURE);
     	}
+	}
+	else
+	{
+		printf("nothing to execute in exec_command\n");
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -78,13 +92,15 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 	{
 		//if (cmd->cmd_type == 1)
 		//	exec_command(cmd, envp);
-		//else if (cmd->input_type != -1 || cmd->output_type != -1)
-		make_all_redirections(cmd, prev_pipe, pipefd);
+		if (cmd->input_type != -1 || cmd->output_type != -1)
+			make_all_redirections(cmd, prev_pipe, pipefd);
+		//if (cmd->cmd_type == 1)
 		exec_command(cmd, envp);
 		//else if (cmd->cmd_type == 1)
 		//	exec_command(cmd, envp);
+		exit(EXIT_FAILURE);
 	}
-	else
+	//else
 		printf("in parent process\n");
 	/*if (cmd->next && cmd->next->pipe_type == 1)
 		close(pipefd[WRITE_END]);

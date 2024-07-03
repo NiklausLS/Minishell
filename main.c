@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/02 16:15:59 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/02 21:25:46 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,26 @@ static void	exec_all(t_commands *cmd, char **envp)
 	//printf("---IN_EXEC_ALL\n");
 	while (cmd)
 	{
-		if (cmd)
+		if (cmd->args && cmd->args[0])
 		{
 			//exec_redirect(cmd);
 			//make_child(cmd, prev_pipe, pipefd, envp);
-			if (cmd->next && cmd->next->pipe_type == 1)
-				protected_pipe(pipefd);
-			else
-				pipefd[WRITE_END] = STDOUT_FILENO;
+			//if (cmd->next && cmd->next->pipe_type == 1)
+			//	protected_pipe(pipefd);
+			//else
+			//	pipefd[WRITE_END] = STDOUT_FILENO;
 			make_child(cmd, prev_pipe, pipefd, envp);
-			if (prev_pipe != -1)
-					close(prev_pipe);
-			if (cmd->next && cmd->next->pipe_type == 1)
-			{
-				close(pipefd[WRITE_END]);
-				prev_pipe = pipefd[READ_END];
-			}
-			else
-				prev_pipe = -1;
+
+			//if (prev_pipe != -1)
+			//		close(prev_pipe);
+			//if (cmd->next && cmd->next->pipe_type == 1)
+			//{
+			//	close(pipefd[WRITE_END]);
+			//	prev_pipe = pipefd[READ_END];
+			//}
+			//else
+			//	prev_pipe = -1;
+			//printf("***\nIN EXEC_ALL : cmd = %s\n", cmd->cmd);
 		}
 		cmd = cmd->next;
 		//printf("wait for child process\n");
@@ -93,7 +95,7 @@ int main(int argc, char **argv, char **envp)
 	//add_node(&data.cmd_lst, init_node("ls"));
 	//add_node(&data.cmd_lst, init_node("wc"));
 	add_node(&data.cmd_lst, init_node(">"));
-	add_node(&data.cmd_lst, init_node("tests/in.txt"));
+	add_node(&data.cmd_lst, init_node("tests/fichier.txt"));
 	//add_node(&data.cmd_lst, init_node("|"));
 	//add_node(&data.cmd_lst, init_node("wc"));
 	

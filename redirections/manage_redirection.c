@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/02 15:31:29 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/02 20:55:59 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,52 @@ void	make_input(t_commands *cmd)
 	if (cmd->input_type == 0)
 	{
 		//cmd->next->input = ft_strdup(cmd->cmd);
-		cmd->next->input = ft_strdup(cmd->next->cmd);
+		//cmd->next->input = ft_strdup(cmd->next->cmd);
 
-		printf("OPEN = %s\n", cmd->next->input);
-		fd = protected_open(cmd->next->cmd, O_RDONLY);
+		printf("OPEN = %s\n", cmd->input);
+		fd = open(cmd->input, O_RDONLY);
+		if (fd == -1)
+		{
+			ft_putstr_fd("Error : open\n", 2);
+			exit(EXIT_FAILURE);
+		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
 	else if (cmd->input_type == 1)
-		make_input_heredoc(cmd->next->input);
+		make_input_heredoc(cmd->input);
 }
 
 void	make_output(t_commands *cmd)
 {
 	int	fd;
 
-	printf(" A A A A A A A IN MAKE OUTPUT\n");
+	printf("---IN MAKE OUTPUT\n");
 	if (cmd->output_type == 2)
 	{
 		printf("cmd->output_type = 2\n");
-		printf("cmd->next->output = %s\n", cmd->next->output);
-		fd = protected_open(cmd->next->output, O_WRONLY | O_CREAT | O_TRUNC);
+		printf("cmd->next->cmd = %s\n", cmd->output);
+		cmd->output = ft_strdup(cmd->output);
+		//cmd->next->cmd = NULL;
+		//cmd->cmd = NULL;
+		fd = open(cmd->output, O_WRONLY | O_CREAT | O_TRUNC);
+		if (fd == -1)
+		{
+			ft_putstr_fd("Error : open\n", 2);
+			exit(EXIT_FAILURE);
+		}
+		printf("%s have been opened\n", cmd->output);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	else if (cmd->output_type == 3)
 	{
-		fd = protected_open(cmd->next->output, O_RDWR | O_APPEND);
+		fd = open(cmd->next->cmd, O_RDWR | O_APPEND);
+		if (fd == -1)
+		{
+		ft_putstr_fd("Error : open\n", 2);
+		exit(EXIT_FAILURE);
+		}
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
