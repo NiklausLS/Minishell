@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/04 19:45:19 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 22:04:17 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ static void	exec_command(t_commands *cmd, char **envp)
     t_data data;
 	
 	//printf("***---IN_EXEC_COMMAND\n");
-	/*if (!cmd || !cmd->cmd || !cmd->args[0])
+	data.cmd_lst = cmd;
+	if (!cmd->args[0])
 	{
 		ft_putstr_fd("Minishell: Command not found\n", 2);
 		exit(EXIT_FAILURE);
-	}*/
-	data.cmd_lst = cmd;
+	}
 	//printf("cmd->cmd = %s\n", data.cmd_lst->args[0]);
 	if (!cmd->args[0])
 	{

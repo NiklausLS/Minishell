@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/04 21:52:55 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 22:03:24 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	make_input(t_commands *cmd)
 			exit(EXIT_FAILURE);
 		}
 		close(fd);
+		//printf("input have been redirected\n");
 	}
 	else if (cmd->input_type == 1)
 		make_input_heredoc(cmd->input);
@@ -60,7 +61,7 @@ void	make_output(t_commands *cmd)
 	if (cmd->output_type == 2)
 	{
 		//printf("cmd->output_type = 2\n");
-		cmd->output = ft_strdup(cmd->output);
+		//cmd->output = ft_strdup(cmd->output);
 		//printf("cmd->output = %s\n", cmd->output);
 		//cmd->output = ft_strdup(cmd->output);
 		//cmd->next->cmd = NULL;
