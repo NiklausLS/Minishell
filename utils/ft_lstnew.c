@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/01 19:46:24 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:19:13 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_commands *init_node(char *cmd)
 {
     t_commands *new_node = malloc(sizeof(t_commands));
     new_node->cmd = ft_strdup(cmd);
+    //printf("init_node = cmd = %s\n", cmd);
     new_node->args = ft_split(cmd, ' ');
     /*int i = 0;
     while (new_node->args[i])
@@ -54,3 +55,32 @@ void add_node(t_commands **head, t_commands *new_node)
     }
     current->next = new_node;
 }
+
+/*
+t_commands *make_node()
+{
+    t_commands *cmd;
+
+    cmd = (t_commands *)malloc(sizeof(t_commands));
+    if (!cmd)
+        return (NULL);
+    ft_memset(cmd, 0, sizeof(t_commands));
+    cmd->args = (t_commands *)malloc(sizeof(t_commands));
+    if (!cmd->args)
+    {
+        free(cmd);
+        return (NULL);
+    }
+    return (cmd);
+}
+
+t_commands *parse_node(char *str)
+{
+    t_commands *head;
+    t_commands *current;
+
+    heal = NULL;
+    current = NULL;
+
+
+}*/

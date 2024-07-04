@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:02:33 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/02 21:01:46 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:22:40 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@ static void parse_redirection(t_commands *current)
         printf("--- current->input = %s\n", current->output);
         current->cmd_type = -1;
         printf("--- current->input_type = %d\n", current->input_type);
-        /*if (current->next)
-        {
-            //current->input = ft_strdup(current->next->cmd);
-            current->next->file_type = 1;
-            printf("current->input = %s\n\n", current->next->input);
-        }*/
     }
     else if (redir_type == 2 || redir_type == 3)
     {
@@ -81,18 +75,26 @@ void    check_lst(t_data *data)
     i = 0;
     while (current)
     {
-        printf("IN check_lst %d : %s\n", i, current->cmd);
+        //printf("IN check_lst %d : %s\n", i, current->cmd);
         //if (check_redirection(current->cmd) != -1)
         parse_redirection(current);
         if (check_pipe(current->cmd) == 0)
             parse_pipe(current);
         else
         {
-            if (current->file_type == -1)
+            if (current->file_type == -1 && current->input_type == -1
+                && current->output_type == -1)
                 current->cmd_type = 1;
         }
+        /*printf("cmd = %s\n", current->args[0]);
+		printf("input_type = %d && input = %s\n", current->input_type, current->input);
+		printf("out_type = %d && output = %s\n", current->output_type, current->output);
+		printf("cmd_type = %d\n", current->cmd_type);
+		printf("file_type = %d\n", current->file_type);
+		printf("pipe_tye = %d\n", current->pipe_type);*/
         current = current->next;
         i++;
+        printf("        ----\n");
     }
     while (current_errors)
     {

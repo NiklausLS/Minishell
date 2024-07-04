@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/02 21:25:46 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 18:34:07 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	exec_all(t_commands *cmd, char **envp)
 		cmd = cmd->next;
 		//printf("wait for child process\n");
 	}
-	while (wait(NULL) > 0);
+	//while (wait(NULL) > 0);
 	printf("end of exec_all\n");
 }
 
@@ -95,7 +95,7 @@ int main(int argc, char **argv, char **envp)
 	//add_node(&data.cmd_lst, init_node("ls"));
 	//add_node(&data.cmd_lst, init_node("wc"));
 	add_node(&data.cmd_lst, init_node(">"));
-	add_node(&data.cmd_lst, init_node("tests/fichier.txt"));
+	add_node(&data.cmd_lst, init_node("fichier.txt"));
 	//add_node(&data.cmd_lst, init_node("|"));
 	//add_node(&data.cmd_lst, init_node("wc"));
 	
@@ -108,7 +108,12 @@ int main(int argc, char **argv, char **envp)
 	{
 		t_commands *tmp = current;
 		current = current->next;
-		free(tmp->cmd);
+		if (tmp->cmd)
+			free(tmp->cmd);
+		if (tmp->input)
+			free(tmp->input);
+		if (tmp->output)
+			free(tmp->output);
 		free(tmp);
 	}
 

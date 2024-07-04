@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/02 20:55:59 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:22:20 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,10 @@ void	make_input(t_commands *cmd)
 	printf("---IN_MAKE_INPUT\n");
 	if (cmd->input_type == 0)
 	{
-		//cmd->next->input = ft_strdup(cmd->cmd);
+		cmd->input = ft_strdup(cmd->cmd);
 		//cmd->next->input = ft_strdup(cmd->next->cmd);
-
 		printf("OPEN = %s\n", cmd->input);
-		fd = open(cmd->input, O_RDONLY);
+		fd = open(cmd->input, O_RDONLY, 06440);
 		if (fd == -1)
 		{
 			ft_putstr_fd("Error : open\n", 2);
@@ -59,24 +58,35 @@ void	make_output(t_commands *cmd)
 	printf("---IN MAKE OUTPUT\n");
 	if (cmd->output_type == 2)
 	{
-		printf("cmd->output_type = 2\n");
-		printf("cmd->next->cmd = %s\n", cmd->output);
+		//printf("cmd->output_type = 2\n");
 		cmd->output = ft_strdup(cmd->output);
+		//printf("cmd->output = %s\n", cmd->output);
+		//cmd->output = ft_strdup(cmd->output);
 		//cmd->next->cmd = NULL;
 		//cmd->cmd = NULL;
-		fd = open(cmd->output, O_WRONLY | O_CREAT | O_TRUNC);
+		fd = open(cmd->output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
 		{
 			ft_putstr_fd("Error : open\n", 2);
 			exit(EXIT_FAILURE);
 		}
-		printf("%s have been opened\n", cmd->output);
-		dup2(fd, STDOUT_FILENO);
+		//printf("%s have been opened\n", cmd->output);
+		//printf("redirecting output\n");
+		if (dup2(fd, STDOUT_FILENO) == -1)
+		{
+			ft_putstr_fd("Minishell: Error redirecting output\n", 2);
+			exit(EXIT_FAILURE);
+		}
 		close(fd);
+		printf("output have been redirected\n");
 	}
 	else if (cmd->output_type == 3)
 	{
-		fd = open(cmd->next->cmd, O_RDWR | O_APPEND);
+		printf("cmd->output_type = 3\n");
+		cmd->output = ft_strdup(cmd->output);
+		printf("cmd->output = %s\n", cmd->output);
+		//cmd->output = ft_strdup(cmd->output);
+		fd = open(cmd->output, O_RDWR | O_APPEND);
 		if (fd == -1)
 		{
 		ft_putstr_fd("Error : open\n", 2);
@@ -126,12 +136,12 @@ void	make_all_redirections(t_commands *cmd, int prev_pipe, int pipefd[2])
 	}
 	if (cmd->input_type == 0 || cmd->input_type == 1)
 	{
-		printf("unsing make_input in make all redirections\n");
+		printf(" * unsing make_input in make all redirections\n");
 		make_input(cmd);
 	}
 	else if (cmd->output_type == 2 || cmd->output_type == 3)
 	{
-		printf("unsign make_output in make all redirections\n");
+		printf(" * unsign make_output in make all redirections\n");
 		make_output(cmd);
 	}
 }

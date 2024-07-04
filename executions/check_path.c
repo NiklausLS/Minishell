@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:12:42 by nileempo          #+#    #+#             */
-/*   Updated: 2024/06/30 22:25:47 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:34:15 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static void	get_path(char **envp, t_data *data)
 	t_commands *current;
 
 	current = data->cmd_lst;
-	//printf("--- IN GET PATH\n");
+	printf("--- IN GET PATH\n");
+	//printf("data->cmd_lst->cmd = %s\n", data->cmd_lst->cmd);
 	if (envp == NULL || *envp == NULL)
 		return ;
 	//printf("--- IN GET PATH\n");
@@ -51,10 +52,10 @@ static void	split_path(t_data *data)
 	int		i;
 
 	//get_path(envp, data);
-	//printf("--- IN SPLIT PATH\n");
+	printf("--- IN SPLIT PATH\n");
 	if (data->cmd_lst->path == NULL)
 		return ;
-	//printf("data->path = %s\n", data->path);
+	//printf("data->path = %s\n", data->cmd_lst->path);
 	data->cmd_lst->env = ft_split(data->cmd_lst->path, ':');
 	if (data->cmd_lst->env == NULL)
 		return ;
@@ -69,7 +70,7 @@ static void	split_path(t_data *data)
 		i++;
 	}
 	//printf("AFTER\n");
-	//print_array(data->env);
+	print_array(data->cmd_lst->env);
 }
 
 /*
@@ -98,14 +99,15 @@ static char	*check_path(t_data *data)
 	char	*cmd;
 
 	i = 0;
-	//printf("--- IN CHECK PATH = %s\n", data->cmd_lst->cmd);
-	cmd = data->cmd_lst->cmd;
+	printf("--- IN CHECK PATH\n");
+	printf("cmd = %s\n", data->cmd_lst->args[0]);
+	cmd = data->cmd_lst->args[0];
 	if (cmd == NULL || cmd[0] == '\0')
-		ft_errorexit("check path : Command not found\n");
+		ft_errorexit("Minishell : Command not found\n");
 	if (access(cmd, F_OK | X_OK) == 0)
 	{
 		data->cmd_lst->path = ft_strdup(cmd);
-		//printf("check path : path ok\n");
+		printf("check path : path ok\n");
 		return (data->cmd_lst->path);
 	}
 	//check_cmd(cmd);
@@ -116,8 +118,8 @@ static char	*check_path(t_data *data)
 		data->cmd_lst->path = ft_strjoin(data->cmd_lst->env[i], cmd);
 		if (access(data->cmd_lst->path, F_OK | X_OK) == 0)
 		{
-			//printf("check path : cmd %s is OK\n", data->cmd_lst->cmd);
-			//printf("check path : path = %s\n", data->cmd_lst->path);
+			printf("check path : cmd %s is OK\n", data->cmd_lst->args[0]);
+			printf("check path : path = %s\n", data->cmd_lst->path);
 			return (data->cmd_lst->path);
 		}
 		i++;
@@ -130,8 +132,8 @@ static char	*check_path(t_data *data)
 
 void	make_path(char **envp, t_data *data)
 {
-	//printf("launching get_path");
-	//printf("---IN_MAKE_PATH\n");
+	printf("launching get_path\n");
+	printf("--- IN_MAKE_PATH\n");
 	get_path(envp, data);
 	split_path(data);
 	check_path(data);
