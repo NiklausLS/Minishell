@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:02:33 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/04 19:22:40 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 20:00:11 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void    check_lst(t_data *data)
     i = 0;
     while (current)
     {
-        //printf("IN check_lst %d : %s\n", i, current->cmd);
+        printf("IN check_lst %d : %s\n", i, current->cmd);
         //if (check_redirection(current->cmd) != -1)
         parse_redirection(current);
         if (check_pipe(current->cmd) == 0)

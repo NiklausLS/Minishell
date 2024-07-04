@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/04 18:34:07 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 21:54:15 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ static void	exec_all(t_commands *cmd, char **envp)
 	//printf("---IN_EXEC_ALL\n");
 	while (cmd)
 	{
-		if (cmd->args && cmd->args[0])
+		if (cmd->args && cmd->args[0] && cmd->cmd_type == 1)
 		{
 			//exec_redirect(cmd);
 			//make_child(cmd, prev_pipe, pipefd, envp);
+			printf("cmd = %s\n", cmd->args[0]);
+			printf("cmd->next->pipe_type = %d\n", cmd->next->pipe_type);
 			//if (cmd->next && cmd->next->pipe_type == 1)
 			//	protected_pipe(pipefd);
 			//else

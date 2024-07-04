@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/04 19:46:28 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 21:52:55 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,17 @@ void	make_input(t_commands *cmd)
 	printf("---IN_MAKE_INPUT\n");
 	if (cmd->input_type == 0)
 	{
-		cmd->input = ft_strdup(cmd->cmd);
+		//cmd->input = ft_strdup(cmd->cmd);
 		//cmd->next->input = ft_strdup(cmd->next->cmd);
 		printf("OPEN = %s\n", cmd->input);
-		fd = open(cmd->input, O_RDONLY, 06440);
+		fd = open(cmd->input, O_RDONLY, 0644);
 		if (fd == -1)
 		{
-			ft_putstr_fd("Error : open\n", 2);
+			ft_putstr_fd("Minishell: ", 2);
+			ft_putstr_fd(cmd->input, 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
 			exit(EXIT_FAILURE);
 		}
-		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
 	else if (cmd->input_type == 1)
@@ -86,7 +87,7 @@ void	make_output(t_commands *cmd)
 		cmd->output = ft_strdup(cmd->output);
 		printf("cmd->output = %s\n", cmd->output);
 		//cmd->output = ft_strdup(cmd->output);
-		fd = open(cmd->output, O_RDWR | O_APPEND);
+		fd = open(cmd->output, O_RDWR | O_APPEND, 0644);
 		if (fd == -1)
 		{
 		ft_putstr_fd("Error : open\n", 2);
