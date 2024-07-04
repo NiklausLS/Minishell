@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/04 22:10:41 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 22:11:42 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int main(int argc, char **argv, char **envp)
 	//add_node(&data.cmd_lst, init_node("|"));
 	//add_node(&data.cmd_lst, init_node("ls"));
 	//add_node(&data.cmd_lst, init_node("wc"));
-	add_node(&data.cmd_lst, init_node("<"));
+	add_node(&data.cmd_lst, init_node(">>"));
 	add_node(&data.cmd_lst, init_node("fichier.txt"));
 	//add_node(&data.cmd_lst, init_node("|"));
 	//add_node(&data.cmd_lst, init_node("wc"));
