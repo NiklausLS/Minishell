@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/04 22:03:24 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 22:06:42 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ void	make_output(t_commands *cmd)
 		fd = open(cmd->output, O_RDWR | O_APPEND, 0644);
 		if (fd == -1)
 		{
-		ft_putstr_fd("Error : open\n", 2);
-		exit(EXIT_FAILURE);
+			ft_putstr_fd("Error : open\n", 2);
+			exit(EXIT_FAILURE);
 		}
 		dup2(fd, STDOUT_FILENO);
 		close(fd);

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/04 21:54:15 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 22:10:41 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static void	exec_all(t_commands *cmd, char **envp)
 		{
 			//exec_redirect(cmd);
 			//make_child(cmd, prev_pipe, pipefd, envp);
-			printf("cmd = %s\n", cmd->args[0]);
-			printf("cmd->next->pipe_type = %d\n", cmd->next->pipe_type);
+			//printf("cmd = %s\n", cmd->args[0]);
+			//printf("cmd->next->pipe_type = %d\n", cmd->next->pipe_type);
 			//if (cmd->next && cmd->next->pipe_type == 1)
 			//	protected_pipe(pipefd);
 			//else
@@ -96,7 +96,7 @@ int main(int argc, char **argv, char **envp)
 	//add_node(&data.cmd_lst, init_node("|"));
 	//add_node(&data.cmd_lst, init_node("ls"));
 	//add_node(&data.cmd_lst, init_node("wc"));
-	add_node(&data.cmd_lst, init_node(">"));
+	add_node(&data.cmd_lst, init_node("<"));
 	add_node(&data.cmd_lst, init_node("fichier.txt"));
 	//add_node(&data.cmd_lst, init_node("|"));
 	//add_node(&data.cmd_lst, init_node("wc"));
