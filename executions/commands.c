@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/04 19:35:25 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:45:19 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@ static void	exec_command(t_commands *cmd, char **envp)
 {
     t_data data;
 	
-	printf("***---IN_EXEC_COMMAND\n");
+	//printf("***---IN_EXEC_COMMAND\n");
 	/*if (!cmd || !cmd->cmd || !cmd->args[0])
 	{
 		ft_putstr_fd("Minishell: Command not found\n", 2);
 		exit(EXIT_FAILURE);
 	}*/
 	data.cmd_lst = cmd;
-	printf("cmd->cmd = %s\n", data.cmd_lst->args[0]);
+	//printf("cmd->cmd = %s\n", data.cmd_lst->args[0]);
 	if (!cmd->args[0])
 	{
 		ft_putstr_fd("Minishell: Command not found\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	printf("cmd = %s\n", data.cmd_lst->cmd);
-	printf("cmd->cmd_type = %d\n", data.cmd_lst->cmd_type);
+	//printf("cmd = %s\n", data.cmd_lst->cmd);
+	//printf("cmd->cmd_type = %d\n", data.cmd_lst->cmd_type);
 	if (data.cmd_lst->cmd_type == 1)
 	{
 		make_path(envp, &data);
@@ -86,7 +86,7 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 {
 	pid_t	pid;
 
-	printf("---IN_MAKE_CHILD\n");
+	//printf("---IN_MAKE_CHILD\n");
 	/*printf("cmd = %s\n", cmd->cmd);
 	printf("input_type = %d && input = %s\n", cmd->input_type, cmd->input);
 	printf("out_type = %d && output = %s\n", cmd->output_type, cmd->output);
@@ -109,15 +109,15 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 		//printf("cmd_type = %d\n", cmd->cmd_type);
 		//printf("file_type = %d\n", cmd->file_type);
 		//printf("pipe_tye = %d\n", cmd->pipe_type);
-		if (cmd->input_type != -1 || cmd->output_type != -1)
+		if (cmd->next->input_type != -1 || cmd->next->output_type != -1)
 		{
-			printf("--- cmd->input_type = %d | cmd->output_type = %d\n", cmd->input_type, cmd->output_type);
-			make_all_redirections(cmd, prev_pipe, pipefd);
+			//printf("--- cmd->input_type = %d | cmd->output_type = %d\n", cmd->next->input_type, cmd->next->output_type);
+			make_all_redirections(cmd->next, prev_pipe, pipefd);
 		}
 		if (cmd->cmd_type == 1)
 		{
-			printf("cmd->cmd_type = %d\n", cmd->cmd_type);
-			printf("using cmd : %s\n", cmd->args[0]);
+			//printf("cmd->cmd_type = %d\n", cmd->cmd_type);
+			//printf("using cmd : %s\n", cmd->args[0]);
 			exec_command(cmd, envp);
 		}
 		//else if (cmd->cmd_type == 1)
@@ -128,7 +128,7 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 	{
 		int status;
 		waitpid(pid, &status, 0);
-		printf("in parent process\n");
+		//printf("in parent process\n");
 	}
 	/*if (cmd->next && cmd->next->pipe_type == 1)
 		close(pipefd[WRITE_END]);

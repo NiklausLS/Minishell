@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/04 19:22:20 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:46:28 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	make_output(t_commands *cmd)
 			exit(EXIT_FAILURE);
 		}
 		close(fd);
-		printf("output have been redirected\n");
+		//printf("output have been redirected\n");
 	}
 	else if (cmd->output_type == 3)
 	{
