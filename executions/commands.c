@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 18:45:31 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 19:02:59 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,11 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 		}
 		print_node(cmd);
 		open_all(cmd);
-		/*if (cmd->next->input_type != -1 || cmd->next->output_type != -1)
-		{
-			//printf("--- cmd->input_type = %d | cmd->output_type = %d\n", cmd->next->input_type, cmd->next->output_type);
-			//make_all_redirections(cmd->next, prev_pipe, pipefd);
-			//print_error(1, cmd->next->cmd);
-		}*/
+
 		if (cmd->cmd_type == 1 && cmd->file_type != 1 && cmd->exec_fail != 1)
 		{
-			//printf("cmd->cmd_type = %d\n", cmd->cmd_type);
-			//printf("using cmd : %s\n", cmd->args[0]);
+			printf("cmd->cmd_type = %d\n", cmd->cmd_type);
+			printf("using cmd : %s\n", cmd->args[0]);
 			exec_command(cmd, envp);
 		}
 		exit(EXIT_FAILURE);

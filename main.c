@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 18:46:48 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 19:24:37 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	exec_all(t_commands *cmd, char **envp)
 		//printf("wait for child process\n");
 	}
 	//while (wait(NULL) > 0);
-	printf("end of exec_all\n");
+	//printf("end of exec_all\n");
 }
 
 /*static void	exec_redirect(t_commands *cmd)
@@ -93,14 +93,14 @@ int main(int argc, char **argv, char **envp)
 	//add_node(&data.cmd_lst, init_node("piapipa"));
 	//add_node(&data.cmd_lst, init_node("|"));
 	add_node(&data.cmd_lst, init_node("ls"));
-	add_node(&data.cmd_lst, init_node(">"));
+	add_node(&data.cmd_lst, init_node("<"));
 	//add_node(&data.cmd_lst, init_node("cat"));
 	add_node(&data.cmd_lst, init_node("f1.txt"));
-	add_node(&data.cmd_lst, init_node(">"));
+	add_node(&data.cmd_lst, init_node("<"));
 	//add_node(&data.cmd_lst, init_node("ls"));
 	add_node(&data.cmd_lst, init_node("f2.txt"));
 	//add_node(&data.cmd_lst, init_node("wc"));
-	add_node(&data.cmd_lst, init_node(">"));
+	add_node(&data.cmd_lst, init_node("<"));
 	add_node(&data.cmd_lst, init_node("f3.txt"));
 	//add_node(&data.cmd_lst, init_node("fichier.txt"));
 	//add_node(&data.cmd_lst, init_node("|"));

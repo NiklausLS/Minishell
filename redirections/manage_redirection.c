@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 19:01:17 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 19:21:43 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,21 @@ int	open_input(t_commands *cmd)
 
 	fd = -1;
 	current = cmd;
+	//printf("--- in open_input\n");
 	while (current)
 	{
-		if (cmd->input_type == 0)
+		if (current->input_type == 0)
 		{
-			fd = open(cmd->input, O_RDONLY, 0644);
+			//printf("-- before open fd = %d\n", fd);
+			fd = open(current->input, O_RDONLY, 0644);
+			//printf("- fd = %d\n", fd);
 			if (fd == -1)
 			{
-				print_error(1, cmd->input);
-				cmd->exec_fail = 1;
+				//printf("test input\n");
+				print_error(0, current->input);
+				current->exec_fail = 1;
+				exit(EXIT_FAILURE);
 			}
-			return (fd);
 		}
 		/*else if (cmd->input_type == 1)
 		{
@@ -38,6 +42,7 @@ int	open_input(t_commands *cmd)
 		}*/
 		current = current->next;
 	}
+	printf("end of open_input loop\n");
 	return (fd);
 }
 
@@ -66,8 +71,6 @@ int	open_output(t_commands *cmd)
 				current->exec_fail = 1;
 				current->error = 1;
 			}
-			//if (dup2(fd, STDOUT_FILENO) == -1)
-			//	ft_putstr_fd("Minishell: Error redirecting output\n", 2);
 		}
 		else if (current->output_type == 3)
 		{
@@ -80,7 +83,6 @@ int	open_output(t_commands *cmd)
 				current->exec_fail = 1;
 				current->error = 1;
 			}
-		//dup2(fd, STDOUT_FILENO);
 		}
 		current = current->next;
 		i++;
@@ -95,9 +97,9 @@ void	open_all(t_commands *cmd)
 	int	output_fd;
 
 	input_fd = open_input(cmd);
-	printf("final input fd is %d and his input is : %s\n", input_fd, cmd->input);
+	printf("final input fd is %d\n", input_fd);
 	output_fd = open_output(cmd);
-	printf("final output fd is %d and his output is : %s\n", output_fd, cmd->output);
+	printf("final output fd is %d \n", output_fd);
 	if (input_fd != -1)
 	{
 		dup2(input_fd, STDIN_FILENO);
@@ -110,7 +112,7 @@ void	open_all(t_commands *cmd)
 	}
 }
 
-void	make_all_redirections(t_commands *cmd, int prev_pipe, int pipefd[2])
+/*void	make_all_redirections(t_commands *cmd, int prev_pipe, int pipefd[2])
 {
 	printf("in make_all_redirections\n");
 	printf("input_type = %d\n", cmd->input_type);
@@ -138,4 +140,4 @@ void	make_all_redirections(t_commands *cmd, int prev_pipe, int pipefd[2])
 		printf(" * * cmd->output_type = %d et cmd->output = %s\n", cmd->output_type, cmd->output);
 		open_output(cmd);
 	}
-}
+}*/

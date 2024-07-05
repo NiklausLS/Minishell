@@ -76,7 +76,7 @@ int		check_pipe(char *str);
 int     open_input(t_commands *cmd);
 int     open_output(t_commands *cmd);
 //void	make_heredoc(int fd, char *delim);
-void	make_all_redirections(t_commands *cmd, int prev_pipe, int pipefd[2]);
+//void	make_all_redirections(t_commands *cmd, int prev_pipe, int pipefd[2]);
 int     make_one_redirection(t_redirection *redir);
 int     make_redirections_lst(t_commands *cmd);
 void	open_all(t_commands *cmd);
