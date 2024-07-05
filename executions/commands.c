@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 17:03:44 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:45:31 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	exec_command(t_commands *cmd, char **envp)
 	}
 	//printf("cmd = %s\n", data.cmd_lst->cmd);
 	//printf("cmd->cmd_type = %d\n", data.cmd_lst->cmd_type);
-	if (data.cmd_lst->cmd_type == 1 && data.cmd_lst->exec_type == -1)
+	if (data.cmd_lst->cmd_type == 1 && data.cmd_lst->exec_fail == -1)
 	{
 		//get_builtin pas terminée
 		make_path(envp, &data);
@@ -52,6 +52,7 @@ static void	exec_command(t_commands *cmd, char **envp)
 void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 {
 	pid_t	pid;
+	
 
 	pid = fork();
 	if (pid == -1)
@@ -61,15 +62,26 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 	}
 	if (pid == 0)
 	{
+		if (prev_pipe != -1)
+		{
+			dup2(prev_pipe, STDIN_FILENO);
+			close(prev_pipe);
+		}
+		if (cmd->next && cmd->next->pipe_type == 1)
+		{
+			close(pipefd[READ_END]);
+			dup2(pipefd[WRITE_END], STDOUT_FILENO);
+			close(pipefd[WRITE_END]);
+		}
 		print_node(cmd);
-		if (cmd->next->input_type != -1 || cmd->next->output_type != -1)
+		open_all(cmd);
+		/*if (cmd->next->input_type != -1 || cmd->next->output_type != -1)
 		{
 			//printf("--- cmd->input_type = %d | cmd->output_type = %d\n", cmd->next->input_type, cmd->next->output_type);
-			make_all_redirections(cmd->next, prev_pipe, pipefd);
-			if (cmd->next->file_type != 1)
-				printf("test after wrong open\n");
-		}
-		if (cmd->cmd_type == 1 && cmd->file_type != 1 && cmd->exec_type != 1)
+			//make_all_redirections(cmd->next, prev_pipe, pipefd);
+			//print_error(1, cmd->next->cmd);
+		}*/
+		if (cmd->cmd_type == 1 && cmd->file_type != 1 && cmd->exec_fail != 1)
 		{
 			//printf("cmd->cmd_type = %d\n", cmd->cmd_type);
 			//printf("using cmd : %s\n", cmd->args[0]);

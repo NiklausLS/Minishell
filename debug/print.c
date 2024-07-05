@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 07:21:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 15:17:49 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:46:11 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,7 @@ void	print_node(t_commands *cmd)
 		printf("file_type = %d\n", cmd->file_type);
 	if (cmd->pipe_type != -1)
 		printf("pipe_type = %d\n", cmd->pipe_type);
+	if (cmd->exec_fail != 1)
+		printf("exec_type = %d\n", cmd->exec_fail);
 	printf("---child end---\n");
 }

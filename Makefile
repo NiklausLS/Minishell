@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/07/05 11:29:42 by nileempo         ###   ########.fr        #
+#    Updated: 2024/07/05 18:30:07 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ SRCS = main.c \
 		./redirections/check_redirections.c \
 		./redirections/manage_redirection.c \
 		./redirections/redirection_errors.c \
+		./redirections/heredoc_redir.c \
 		./protected_functions/protected_open.c \
 		./builtin/built_in.c \
 		./builtin/cd.c \

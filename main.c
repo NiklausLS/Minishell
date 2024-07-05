@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 15:34:54 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:46:48 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int main(int argc, char **argv, char **envp)
     t_data data;
 
 	data.cmd_lst = NULL;
-	data.redir_lst = NULL;
+	//data.redir_lst = NULL;
 	//printf("lanching the program\n");
     if (argc == 0)
 	{
@@ -95,14 +95,16 @@ int main(int argc, char **argv, char **envp)
 	add_node(&data.cmd_lst, init_node("ls"));
 	add_node(&data.cmd_lst, init_node(">"));
 	//add_node(&data.cmd_lst, init_node("cat"));
-	add_node(&data.cmd_lst, init_node("fichier.txt"));
-	//add_node(&data.cmd_lst, init_node("|"));
+	add_node(&data.cmd_lst, init_node("f1.txt"));
+	add_node(&data.cmd_lst, init_node(">"));
 	//add_node(&data.cmd_lst, init_node("ls"));
+	add_node(&data.cmd_lst, init_node("f2.txt"));
 	//add_node(&data.cmd_lst, init_node("wc"));
-	add_node(&data.cmd_lst, init_node("<"));
+	add_node(&data.cmd_lst, init_node(">"));
+	add_node(&data.cmd_lst, init_node("f3.txt"));
 	//add_node(&data.cmd_lst, init_node("fichier.txt"));
 	//add_node(&data.cmd_lst, init_node("|"));
-	add_node(&data.cmd_lst, init_node("wc"));
+	//add_node(&data.cmd_lst, init_node("wc"));
 	
 	check_lst(&data);
 

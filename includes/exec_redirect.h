@@ -35,10 +35,11 @@ typedef struct s_commands
     char    *heredoc_delim;
     int     file_type;
     int     cmd_type;
-    int     exec_type;
+    int     exec_fail;
     struct  s_commands *prev;
     struct  s_commands *next;
     t_redirection *redirections;
+    int     error;
 } t_commands;
 
 typedef struct s_data {
@@ -72,12 +73,13 @@ int     check_redirection(char *str);
 int		check_pipe(char *str);
 //int     check_before_after(char *str, t_data *data);
 
-int     make_input(t_commands *cmd);
-int     make_output(t_commands *cmd);
-void	make_heredoc(int fd, char *delim);
+int     open_input(t_commands *cmd);
+int     open_output(t_commands *cmd);
+//void	make_heredoc(int fd, char *delim);
 void	make_all_redirections(t_commands *cmd, int prev_pipe, int pipefd[2]);
 int     make_one_redirection(t_redirection *redir);
 int     make_redirections_lst(t_commands *cmd);
+void	open_all(t_commands *cmd);
 
 t_commands  *parse_input(char *input);
 
