@@ -80,11 +80,13 @@ int     open_output(t_commands *cmd);
 int     make_one_redirection(t_redirection *redir);
 int     make_redirections_lst(t_commands *cmd);
 void	open_all(t_commands *cmd);
+void    make_pipe(t_commands *cmd, int *prev_pipe, int pipefd[2]);
+void    close_pipe(t_commands *cmd, int *prev_pipe, int pipefd[2]);
 
 t_commands  *parse_input(char *input);
 
 //PROTECTED functions to make other functions shorter
-int		protected_open(char *file, int flags);
+//int		protected_open(char *file, int flags);
 void    protected_pipe(int pipefd[2]);
 
 //PARSING commands, path, envp
@@ -92,7 +94,7 @@ void    protected_pipe(int pipefd[2]);
 void    get_args(char **argv, t_data *data);
 
 //modified functions for chained list
-void add_node(t_commands **head, t_commands *new_node);
+void    add_node(t_commands **head, t_commands *new_node);
 t_commands *init_node(char *cmd);
 void    check_lst(t_data *data);
 void    add_redirection_node(t_commands *cmd, char *file, int type);

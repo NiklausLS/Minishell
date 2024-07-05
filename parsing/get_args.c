@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:02:33 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 15:08:57 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 22:52:39 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,38 +23,46 @@ static void parse_redirection(t_commands *current)
 
     //printf("*** IN_PARSE_redirection\n");
     redir_type = check_redirection(current->cmd);
-    printf("- IN_PARSE_redirection\n");
-    printf("-- redir_type = %d\n", redir_type);
+    //printf("- IN_PARSE_redirection\n");
+    //printf("-- redir_type = %d\n", redir_type);
     //if (current->next->file_type != 1)
     //   print_error(1, current->next->cmd);
     if (redir_type == 0 || redir_type == 1)
     {
         current->input_type = redir_type;
         current->input = ft_strdup(current->next->cmd);
-        printf("--- current->input = %s\n", current->input);
+        //printf("--- current->input = %s\n", current->input);
         current->next->cmd_type = -1;
         current->next->file_type = 1;
-        printf("--- current->input_type = %d\n", current->input_type);
+        //printf("--- current->input_type = %d\n", current->input_type);
     }
     else if (redir_type == 2 || redir_type == 3)
     {
         current->output_type = redir_type;
         current->output = ft_strdup(current->next->cmd);
-        printf("--- current->output = %s\n", current->output);
+        //printf("--- current->output = %s\n", current->output);
         current->next->cmd_type = -1;
         current->next->file_type = 1;
         current->cmd_type = -1;
-        printf("--- current->output_type = %d\n\n", current->output_type);
+        //printf("--- current->output_type = %d\n\n", current->output_type);
     }
-    current->cmd = NULL;
+    //current->cmd = NULL;
 }
 
 static void parse_pipe(t_commands *current)
 { 
-    if (current->cmd)
+    //printf("in parse_pipe\n");
+    int res_pipe;
+
+    res_pipe = check_pipe(current->cmd);
+    //printf("res_pipe = %d\n", res_pipe);
+    //printf("in parse_pipe\n");
+    //printf("cmd = %s\n", current->args[0]);
+    if (res_pipe == 0)
     {
         current->pipe_type = 1;
-        printf("%s is a pipe\n", current->cmd);
+        current->cmd_type = -1;
+        //printf("%s is a pipe\n", current->cmd);
     }
 }
 
@@ -70,80 +78,29 @@ void    check_lst(t_data *data)
     i = 0;
     while (current)
     {
-        printf("IN check_lst %d : %s\n", i, current->cmd);
+        //printf("IN check_lst %d : %s\n", i, current->cmd);
         //if (check_redirection(current->cmd) != -1)
         parse_redirection(current);
-        if (check_pipe(current->cmd) == 0)
-            parse_pipe(current);
-        else
-        {
-            if (current->file_type == -1 && current->input_type == -1
-                && current->output_type == -1)
+        //printf("before parse_pipe : current = %s", current->cmd);
+        parse_pipe(current);
+        parse_redirection(current);
+        if (current->file_type == -1 && current->input_type == -1
+                && current->output_type == -1 && current->pipe_type == -1)
                 current->cmd_type = 1;
-        }
         /*printf("cmd = %s\n", current->args[0]);
 		printf("input_type = %d && input = %s\n", current->input_type, current->input);
 		printf("out_type = %d && output = %s\n", current->output_type, current->output);
 		printf("cmd_type = %d\n", current->cmd_type);
 		printf("file_type = %d\n", current->file_type);
-		printf("pipe_tye = %d\n", current->pipe_type);*/
+		printf("pipe_type = %d\n", current->pipe_type);*/
         current = current->next;
         i++;
-        printf("        ----\n");
+        //printf("        ----\n");
     }
     while (current_errors)
     {
         pipe_errors(current_errors);
         current_errors = current_errors->next;
     }
-    printf("----------------------\n");
+    //printf("----------------------\n");
 }
-
-/*t_commands  *parse_input(char *input)
-{
-    t_data  *data;
-    char        **tokens;
-    t_commands  *cmd;
-
-    data = (t_data *)malloc(sizeof(t_data));
-    if (!data)
-        return (NULL);
-    data->cmd_lst = NULL;
-    data->redir_lst = NULL;
-    tokens = ft_split(input, ' ');
-    if (!tokens)
-        return (NULL);
- 
-    parse_cmd(tokens, cmd);
-    return (cmd);
-}*/
-
-/*void	parse_cmd(char **tokens, t_commands *cmd)
-{
-    int	i;
-
-	i = 0;
-	while (tokens[i])
-	{
-		if (ft_strcmp(tokens[i], "<" == 0) && tokens[i + 1])
-		{
-			add_redirection_node(cmd, tokens[i + 1], 0);
-			i++;
-		}
-		else if (ft_strcmp(tokens[i], "<<" == 0) && tokens[i + 1])
-		{
-			add_redirection_node(cmd, tokens[i + 1], 1);
-			i++;
-		}
-		else if (ft_strcmp(tokens[i], ">" == 0) && tokens[i + 1])
-		{
-			add_redirection_node(cmd, tokens[i + 1], 2);
-			i++;
-		}
-		else if (ft_strcmp(tokens[i], ">>" == 0) && tokens[i + 1])
-		{
-			add_redirection_node(cmd, tokens[i + 1], 3);
-			i++;
-		}
-	}
-}*/

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 19:27:49 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 22:49:05 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	open_input(t_commands *cmd)
 		}*/
 		current = current->next;
 	}
-	printf("end of open_input loop\n");
+	//printf("end of open_input loop\n");
 	return (fd);
 }
 
@@ -51,31 +51,31 @@ int	open_output(t_commands *cmd)
 	int	fd;
 	t_commands *current;
 
-	printf("---IN MAKE OUTPUT\n");
+	//printf("---IN MAKE OUTPUT\n");
 	fd = -1;
 	current = cmd;
 	int i = 1;
 	while (current)
 	{
-		printf("open_output nbr %d\n", i);
+		//printf("open_output nbr %d\n", i);
 		if (current->output_type == 2)
 		{
 			fd = open(current->output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			printf("- fd = %d\n", fd);
-			printf("- output = %s\n", current->output);
+			//printf("- fd = %d\n", fd);
+			//printf("- output = %s\n", current->output);
 			if (fd == -1)
 			{
-				printf("blabla\n");
+				//printf("blabla\n");
 				print_error(1, current->output);
-				printf("blabla\n");
+				//printf("blabla\n");
 				current->exec_fail = 1;
 				current->error = 1;
 			}
 		}
 		else if (current->output_type == 3)
 		{
-			printf(" - cmd->output_type = 3\n");
-			printf(" - cmd->output = %s\n", cmd->output);
+			//printf(" - cmd->output_type = 3\n");
+			//printf(" - cmd->output = %s\n", cmd->output);
 			fd = open(current->output, O_RDWR | O_APPEND, 0644);
 			if (fd == -1)
 			{
@@ -87,7 +87,7 @@ int	open_output(t_commands *cmd)
 		current = current->next;
 		i++;
 	}
-	printf("enf of open_output loop\n");
+	//printf("enf of open_output loop\n");
 	return (fd);
 }
 
@@ -97,9 +97,9 @@ void	open_all(t_commands *cmd)
 	int	output_fd;
 
 	output_fd = open_output(cmd);
-	printf("final output fd is %d \n", output_fd);
+	//printf("final output fd is %d \n", output_fd);
 	input_fd = open_input(cmd);
-	printf("final input fd is %d\n", input_fd);
+	//printf("final input fd is %d\n", input_fd);
 	if (input_fd != -1)
 	{
 		dup2(input_fd, STDIN_FILENO);

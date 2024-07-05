@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 19:28:27 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 22:47:25 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,59 +23,38 @@ static void	exec_all(t_commands *cmd, char **envp)
 	//printf("---IN_EXEC_ALL\n");
 	while (cmd)
 	{
-		if (cmd->args && cmd->args[0] && cmd->cmd_type == 1)
+		if (cmd->cmd_type == 1)
 		{
-			//exec_redirect(cmd);
-			//make_child(cmd, prev_pipe, pipefd, envp);
 			//printf("cmd = %s\n", cmd->args[0]);
 			//printf("cmd->next->pipe_type = %d\n", cmd->next->pipe_type);
-			//if (cmd->next && cmd->next->pipe_type == 1)
-			//	protected_pipe(pipefd);
-			//else
-			//	pipefd[WRITE_END] = STDOUT_FILENO;
+			if (cmd->next && cmd->next->pipe_type == 1)
+				protected_pipe(pipefd);
+			else
+				pipefd[WRITE_END] = STDOUT_FILENO;
+			
+			//make_pipe(cmd, &prev_pipe, pipefd);
+			
 			make_child(cmd, prev_pipe, pipefd, envp);
 
-			//if (prev_pipe != -1)
-			//		close(prev_pipe);
-			//if (cmd->next && cmd->next->pipe_type == 1)
-			//{
-			//	close(pipefd[WRITE_END]);
-			//	prev_pipe = pipefd[READ_END];
-			//}
-			//else
-			//	prev_pipe = -1;
+			//close_pipe(cmd, &prev_pipe, pipefd);
+
+			if (prev_pipe != -1)
+					close(prev_pipe);
+			if (cmd->next && cmd->next->pipe_type == 1)
+			{
+				close(pipefd[WRITE_END]);
+				prev_pipe = pipefd[READ_END];
+			}
+			else
+				prev_pipe = -1;
 			//printf("***\nIN EXEC_ALL : cmd = %s\n", cmd->cmd);
 		}
 		cmd = cmd->next;
 		//printf("wait for child process\n");
 	}
-	//while (wait(NULL) > 0);
+	while (wait(NULL) > 0);
 	//printf("end of exec_all\n");
 }
-
-/*static void	exec_redirect(t_commands *cmd)
-{
-	t_commands *current;
-
-	current = cmd;
-	while (current->next && current->next->cmd_type == -1)
-	{
-		if (current->next->input_type != -1 && current->next->output_type != -1)
-		{
-			if (current->next->input_type != -1)
-			{
-				cmd->input = current->next->input;
-				cmd->input_type = current->next->input_type;
-			}
-			else if (current->next->output_type != -1)
-			{
-				cmd->output = current->next->output;
-				cmd->output_type = current->next->output_type;
-			}
-		}
-		current = current->next;
-	}
-}*/
 
 int main(int argc, char **argv, char **envp)
 {
@@ -93,15 +72,19 @@ int main(int argc, char **argv, char **envp)
 	//add_node(&data.cmd_lst, init_node("piapipa"));
 	//add_node(&data.cmd_lst, init_node("|"));
 	add_node(&data.cmd_lst, init_node("ls"));
-	add_node(&data.cmd_lst, init_node(">"));
+	add_node(&data.cmd_lst, init_node("|"));
+	//add_node(&data.cmd_lst, init_node(">"));
+	add_node(&data.cmd_lst, init_node("piapipa"));
 	//add_node(&data.cmd_lst, init_node("cat"));
-	add_node(&data.cmd_lst, init_node("f1.txt"));
-	add_node(&data.cmd_lst, init_node(">"));
-	//add_node(&data.cmd_lst, init_node("ls"));
-	add_node(&data.cmd_lst, init_node("f2.txt"));
-	//add_node(&data.cmd_lst, init_node("wc"));
-	add_node(&data.cmd_lst, init_node("<"));
-	add_node(&data.cmd_lst, init_node("f3.txt"));
+	//add_node(&data.cmd_lst, init_node("f1.txt"));
+	//add_node(&data.cmd_lst, init_node(">"));
+	add_node(&data.cmd_lst, init_node("|"));
+	add_node(&data.cmd_lst, init_node("ls"));
+	add_node(&data.cmd_lst, init_node("|"));
+	//add_node(&data.cmd_lst, init_node("f2.txt"));
+	add_node(&data.cmd_lst, init_node("wc"));
+	//add_node(&data.cmd_lst, init_node("<"));
+	//add_node(&data.cmd_lst, init_node("f3.txt"));
 	//add_node(&data.cmd_lst, init_node("fichier.txt"));
 	//add_node(&data.cmd_lst, init_node("|"));
 	//add_node(&data.cmd_lst, init_node("wc"));
@@ -125,7 +108,6 @@ int main(int argc, char **argv, char **envp)
 			free(tmp->output);
 		free(tmp);
 	}
-
     return (0);
 }
 

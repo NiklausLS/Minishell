@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 19:02:59 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 22:49:31 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,12 @@ static void	exec_command(t_commands *cmd, char **envp)
         	exit(EXIT_FAILURE);
     	}
 	}
-	else
-	{
-		printf("nothing to execute in exec_command\n");
-		exit(EXIT_FAILURE);
-	}
 }
 
 void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 {
 	pid_t	pid;
-	
+	//int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -73,21 +68,24 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 			dup2(pipefd[WRITE_END], STDOUT_FILENO);
 			close(pipefd[WRITE_END]);
 		}
-		print_node(cmd);
+		
+		//print_node(cmd);
 		open_all(cmd);
-
 		if (cmd->cmd_type == 1 && cmd->file_type != 1 && cmd->exec_fail != 1)
 		{
-			printf("cmd->cmd_type = %d\n", cmd->cmd_type);
-			printf("using cmd : %s\n", cmd->args[0]);
+			//printf("cmd->cmd_type = %d\n", cmd->cmd_type);
+			//printf("using cmd : %s\n", cmd->args[0]);
 			exec_command(cmd, envp);
 		}
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
-		int status;
-		waitpid(pid, &status, 0);
+		if (cmd->next && cmd->next->pipe_type == 1)
+			close(pipefd[WRITE_END]);
+		if (prev_pipe != -1)
+			close(prev_pipe);
+		//waitpid(pid, &status, 0);
 		//printf("in parent process\n");
 	}
 }
