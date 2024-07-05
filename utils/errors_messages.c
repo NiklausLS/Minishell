@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:23:16 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 11:29:59 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:00:57 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void    print_error(int error, char *cmd)
     {
         ft_putstr_fd("Minishell:", 2);
         ft_putstr_fd(cmd, 2);
-        ft_putstr_fd(": No sur file or directory\n", 2);
+        ft_putstr_fd(": No such file or directory\n", 2);
     }
     else if (error == 1)
     {

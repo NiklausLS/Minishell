@@ -15,6 +15,12 @@
 #define READ_END 0
 #define WRITE_END 1
 
+typedef struct s_redirection {
+    char    *file;
+    int     type;
+    struct s_redirection *next;
+} t_redirection;
+
 typedef struct s_commands
 {
     char    **args;
@@ -32,10 +38,12 @@ typedef struct s_commands
     int     file_type;
     int     cmd_type;
     struct  s_commands *next;
+    t_redirection *redirections;
 } t_commands;
 
 typedef struct s_data {
-    t_commands *cmd_lst;
+    t_commands      *cmd_lst;
+    t_redirection   *redir_lst;
 } t_data;
 
 //Initialise my structures
@@ -61,10 +69,14 @@ int     check_redirection(char *str);
 int		check_pipe(char *str);
 //int     check_before_after(char *str, t_data *data);
 
-void    make_input(t_commands *cmd);
-void	make_output(t_commands *cmd);
+int     make_input(t_commands *cmd);
+int     make_output(t_commands *cmd);
 void	make_heredoc(int fd, char *delim);
 void	make_all_redirections(t_commands *cmd, int prev_pipe, int pipefd[2]);
+int     make_one_redirection(t_redirection *redir);
+int     make_redirections_lst(t_commands *cmd);
+
+t_commands  *parse_input(char *input);
 
 //PROTECTED functions to make other functions shorter
 int		protected_open(char *file, int flags);
@@ -78,6 +90,8 @@ void    get_args(char **argv, t_data *data);
 void add_node(t_commands **head, t_commands *new_node);
 t_commands *init_node(char *cmd);
 void    check_lst(t_data *data);
+void    add_redirection_node(t_commands *cmd, char *file, int type);
+void    init_redirections_lst(t_data *data);
 
 //errors functions
 void    pipe_errors(t_commands *cmd);
@@ -86,5 +100,6 @@ void    print_error(int error, char *cmd);
 //functions to help debug and improve my projet
 void	print_array(char **array);
 void	print_linked_list(t_data *head);
+void	print_node(t_commands *cmd);
 
 #endif

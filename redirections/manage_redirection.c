@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 11:22:34 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:19:33 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ static void	make_input_heredoc(char *input)
 	close(pipefd[READ_END]);
 }
 
-void	make_input(t_commands *cmd)
+int	make_input(t_commands *cmd)
 {
 	int	fd;
 
 	printf("---IN_MAKE_INPUT\n");
+	fd = 0;
 	if (cmd->input_type == 0)
 	{
 		printf("OPEN = %s\n", cmd->input);
@@ -42,33 +43,31 @@ void	make_input(t_commands *cmd)
 			ft_putstr_fd("Minishell: ", 2);
 			ft_putstr_fd(cmd->input, 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
-			exit(EXIT_FAILURE);
 		}
-		close(fd);
+		return (fd);
 	}
 	else if (cmd->input_type == 1)
+	{
 		make_input_heredoc(cmd->input);
+		return (fd);
+	}
+	return (fd);
 }
 
-void	make_output(t_commands *cmd)
+int	make_output(t_commands *cmd)
 {
 	int	fd;
 
 	printf("---IN MAKE OUTPUT\n");
+	fd = -1;
 	if (cmd->output_type == 2)
 	{
 		fd = open(cmd->output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
-		{
-			ft_putstr_fd("Error : open\n", 2);
-			exit(EXIT_FAILURE);
-		}
+			ft_putstr_fd("Error : open make_output\n", 2);
 		if (dup2(fd, STDOUT_FILENO) == -1)
-		{
 			ft_putstr_fd("Minishell: Error redirecting output\n", 2);
-			exit(EXIT_FAILURE);
-		}
-		close(fd);
+		return (fd);
 	}
 	else if (cmd->output_type == 3)
 	{
@@ -78,11 +77,12 @@ void	make_output(t_commands *cmd)
 		if (fd == -1)
 		{
 			ft_putstr_fd("Error : open\n", 2);
-			exit(EXIT_FAILURE);
+			return (fd);
 		}
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
+		//dup2(fd, STDOUT_FILENO);
+		return (fd);
 	}
+	return (fd);
 }
 
 //A REVOIR

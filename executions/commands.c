@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/04 22:04:17 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:20:10 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,18 +103,21 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 	{
 		//if (cmd->cmd_type == 1)
 		//	exec_command(cmd, envp);
-		//printf("cmd = %s\n", cmd->cmd);
-		//printf("input_type = %d && input = %s\n", cmd->input_type, cmd->input);
-		//printf("out_type = %d && output = %s\n", cmd->output_type, cmd->output);
-		//printf("cmd_type = %d\n", cmd->cmd_type);
-		//printf("file_type = %d\n", cmd->file_type);
-		//printf("pipe_tye = %d\n", cmd->pipe_type);
+		print_node(cmd);
+		/*printf("---child---\n");
+		printf("cmd = %s\n", cmd->args[0]);
+		printf("input_type = %d && input = %s\n", cmd->input_type, cmd->input);
+		printf("out_type = %d && output = %s\n", cmd->output_type, cmd->output);
+		printf("cmd_type = %d\n", cmd->cmd_type);
+		printf("file_type = %d\n", cmd->file_type);
+		printf("pipe_tye = %d\n", cmd->pipe_type);
+		printf("---child end---\n");*/
 		if (cmd->next->input_type != -1 || cmd->next->output_type != -1)
 		{
 			//printf("--- cmd->input_type = %d | cmd->output_type = %d\n", cmd->next->input_type, cmd->next->output_type);
 			make_all_redirections(cmd->next, prev_pipe, pipefd);
 		}
-		if (cmd->cmd_type == 1)
+		if (cmd->cmd_type == 1 && cmd->file_type != 1)
 		{
 			//printf("cmd->cmd_type = %d\n", cmd->cmd_type);
 			//printf("using cmd : %s\n", cmd->args[0]);
