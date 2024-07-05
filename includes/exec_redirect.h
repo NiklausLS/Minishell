@@ -24,8 +24,6 @@ typedef struct s_redirection {
 typedef struct s_commands
 {
     char    **args;
-    int     input_fd;
-    int     output_fd;
     char    *path;
     char    **env;
     char    *cmd;
@@ -37,13 +35,18 @@ typedef struct s_commands
     char    *heredoc_delim;
     int     file_type;
     int     cmd_type;
+    int     exec_type;
+    struct  s_commands *prev;
     struct  s_commands *next;
     t_redirection *redirections;
 } t_commands;
 
 typedef struct s_data {
     t_commands      *cmd_lst;
-    t_redirection   *redir_lst;
+    //int             can_exec;
+
+    //char            **env;
+    //t_redirection   *redir_lst;
 } t_data;
 
 //Initialise my structures

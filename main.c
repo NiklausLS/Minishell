@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 14:50:20 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:34:54 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,32 +90,6 @@ int main(int argc, char **argv, char **envp)
 		printf("argv[0 = %s\n]", argv[0]);
 	}
 
-	//char intput[] = "ls > fichier.txt < ls";
-	/*t_commands *cmd;
-	t_redirection *redir = cmd->redirections;
-
-	cmd = parse_input(input);
-	if (!cmd)
-	{
-		printf("Error: no input available\n");
-		return (1);
-	}
-
-	printf("Command is : %s\n", cmd->cmd);
-	printf("Args :\n");
-	int i = 0;
-	while (cmd->args[i])
-	{
-		printf("[%d] = %s", i, cmd->args[i]);
-		i++;
-	}
-	printf("Redirections :\n");
-	while (redir)
-	{
-		printf("type = %d and file = %s\n", redir->type, redir->file);
-		redir = redir->next;
-	}*/
-
 	//add_node(&data.cmd_lst, init_node("piapipa"));
 	//add_node(&data.cmd_lst, init_node("|"));
 	add_node(&data.cmd_lst, init_node("ls"));
@@ -133,7 +107,7 @@ int main(int argc, char **argv, char **envp)
 	check_lst(&data);
 
 	//init_redirections_lst(&data);
-	print_linked_list(&data);
+	//print_linked_list(&data);
 	exec_all(data.cmd_lst, envp);
 
 	t_commands *current = data.cmd_lst;

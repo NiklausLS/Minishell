@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 15:19:33 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 17:37:50 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,16 @@ int	make_input(t_commands *cmd)
 		fd = open(cmd->input, O_RDONLY, 0644);
 		if (fd == -1)
 		{
-			ft_putstr_fd("Minishell: ", 2);
-			ft_putstr_fd(cmd->input, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
+			print_error(1, cmd->input);
+			cmd->exec_type = 1;
 		}
 		return (fd);
 	}
-	else if (cmd->input_type == 1)
+	/*else if (cmd->input_type == 1)
 	{
 		make_input_heredoc(cmd->input);
 		return (fd);
-	}
+	}*/
 	return (fd);
 }
 
@@ -64,7 +63,10 @@ int	make_output(t_commands *cmd)
 	{
 		fd = open(cmd->output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
-			ft_putstr_fd("Error : open make_output\n", 2);
+		{
+			print_error(1, cmd->output);
+			cmd->exec_type = 1;
+		}
 		if (dup2(fd, STDOUT_FILENO) == -1)
 			ft_putstr_fd("Minishell: Error redirecting output\n", 2);
 		return (fd);
@@ -76,7 +78,8 @@ int	make_output(t_commands *cmd)
 		fd = open(cmd->output, O_RDWR | O_APPEND, 0644);
 		if (fd == -1)
 		{
-			ft_putstr_fd("Error : open\n", 2);
+			print_error(1, cmd->output);
+			cmd->exec_type = 1;
 			return (fd);
 		}
 		//dup2(fd, STDOUT_FILENO);

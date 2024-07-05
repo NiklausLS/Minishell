@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 14:54:42 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 17:04:26 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ t_commands *init_node(char *cmd)
         printf("create node : %s\n", new_node->args[i]);
         i++;
     }*/
-    new_node->input_fd = -1;
-    new_node->output_fd = -1;
     new_node->path = NULL;
     new_node->env = NULL;
     new_node->input_type = -1;
@@ -41,6 +39,7 @@ t_commands *init_node(char *cmd)
     new_node->pipe_type = -1;
     new_node->file_type = -1;
     new_node->cmd_type = -1;
+    new_node->exec_type = -1;
     return (new_node);
 }
 
