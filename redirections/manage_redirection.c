@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/04 22:12:46 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 11:22:34 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	make_input_heredoc(char *input)
 	printf("---IN_MAKE_INPUT_HEREDOC\n");
 	if (pipe(pipefd) == -1)
 	{
-		ft_putstr_fd("heredoc pipe failed\n", 2);
+		ft_putstr_fd("Minishell: heredoc pipe failed\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	make_heredoc(pipefd[WRITE_END], input);
@@ -35,8 +35,6 @@ void	make_input(t_commands *cmd)
 	printf("---IN_MAKE_INPUT\n");
 	if (cmd->input_type == 0)
 	{
-		//cmd->input = ft_strdup(cmd->cmd);
-		//cmd->next->input = ft_strdup(cmd->next->cmd);
 		printf("OPEN = %s\n", cmd->input);
 		fd = open(cmd->input, O_RDONLY, 0644);
 		if (fd == -1)
@@ -47,7 +45,6 @@ void	make_input(t_commands *cmd)
 			exit(EXIT_FAILURE);
 		}
 		close(fd);
-		//printf("input have been redirected\n");
 	}
 	else if (cmd->input_type == 1)
 		make_input_heredoc(cmd->input);
@@ -60,34 +57,23 @@ void	make_output(t_commands *cmd)
 	printf("---IN MAKE OUTPUT\n");
 	if (cmd->output_type == 2)
 	{
-		//printf("cmd->output_type = 2\n");
-		//cmd->output = ft_strdup(cmd->output);
-		//printf("cmd->output = %s\n", cmd->output);
-		//cmd->output = ft_strdup(cmd->output);
-		//cmd->next->cmd = NULL;
-		//cmd->cmd = NULL;
 		fd = open(cmd->output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
 		{
 			ft_putstr_fd("Error : open\n", 2);
 			exit(EXIT_FAILURE);
 		}
-		//printf("%s have been opened\n", cmd->output);
-		//printf("redirecting output\n");
 		if (dup2(fd, STDOUT_FILENO) == -1)
 		{
 			ft_putstr_fd("Minishell: Error redirecting output\n", 2);
 			exit(EXIT_FAILURE);
 		}
 		close(fd);
-		//printf("output have been redirected\n");
 	}
 	else if (cmd->output_type == 3)
 	{
 		printf("cmd->output_type = 3\n");
-		//cmd->output = ft_strdup(cmd->output);
 		printf("cmd->output = %s\n", cmd->output);
-		//cmd->output = ft_strdup(cmd->output);
 		fd = open(cmd->output, O_RDWR | O_APPEND, 0644);
 		if (fd == -1)
 		{

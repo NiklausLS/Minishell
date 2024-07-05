@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/07/01 17:20:05 by nileempo         ###   ########.fr        #
+#    Updated: 2024/07/05 11:29:42 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS = main.c \
 		./debug/print.c \
 		./parsing/get_args.c \
 		./utils/ft_lstnew.c \
+		./utils/errors_messages.c \
 
 NAME = minishell
 CC = gcc
