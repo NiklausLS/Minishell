@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/06 19:51:24 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/06 19:54:40 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	open_output(t_commands *cmd)
 		{
 			//printf(" - cmd->output_type = 3\n");
 			//printf(" - cmd->output = %s\n", cmd->output);
-			fd = open(current->output, O_RDWR | O_CREAT | O_APPEND, 0644);
+			fd = open(current->output, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (fd == -1)
 			{
 				print_error(1, current->output);
