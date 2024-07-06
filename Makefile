@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/07/06 19:44:02 by nileempo         ###   ########.fr        #
+#    Updated: 2024/07/06 19:47:51 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ SRCS = main.c \
 		./builtin/exit.c \
 		./executions/commands.c \
 		./executions/check_path.c \
-		./executions/start_is_redirection.c \
 		./debug/print.c \
 		./parsing/get_args.c \
 		./utils/ft_lstnew.c \
