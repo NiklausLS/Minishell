@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 17:19:33 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/02 13:25:23 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/06 08:05:08 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,20 @@ void	pipe_errors(t_commands *cmd)
 		{
 			ft_putstr_fd("Minishell: syntax error", 2);
 			ft_putstr_fd(" near unexpected token `|'\n", 2);
+			exit(EXIT_FAILURE);
+		}
+	}
+}
+
+void	redirection_errors(t_commands *cmd)
+{
+	printf("in redirection_errors\n");
+	print_node(cmd);
+	if (cmd->input_type == 1 || cmd->output_type)
+	{
+		if (cmd->next == NULL)
+		{
+			print_error(2, "");
 			exit(EXIT_FAILURE);
 		}
 	}

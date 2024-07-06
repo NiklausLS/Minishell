@@ -103,6 +103,7 @@ void    init_redirections_lst(t_data *data);
 //errors functions
 void    pipe_errors(t_commands *cmd);
 void    print_error(int error, char *cmd);
+void	redirection_errors(t_commands *cmd);
 
 //functions to help debug and improve my projet
 void	print_array(char **array);
