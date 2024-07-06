@@ -6,16 +6,11 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:02:33 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/06 08:03:26 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/06 19:08:32 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec_redirect.h"
-
-/*void    get_args(char *test, t_data *data)
-{
-    data->args = ft_split(*argv, ' ');
-}*/
 
 static void parse_redirection(t_commands *current)
 {
@@ -83,12 +78,14 @@ void    check_lst(t_data *data)
     }
     while (current)
     {
+        //print_node(current);
         parse_redirection(current);
         parse_pipe(current);
         parse_redirection(current);
         if (current->file_type == -1 && current->input_type == -1
                 && current->output_type == -1 && current->pipe_type == -1)
                 current->cmd_type = 1;
+        print_node(current);
         current = current->next;
         i++;
     }

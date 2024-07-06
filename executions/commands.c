@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 22:49:31 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/06 19:38:06 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,20 @@ static void	exec_command(t_commands *cmd, char **envp)
 {
     t_data data;
 	
-	//printf("***---IN_EXEC_COMMAND\n");
+	printf("***---IN_EXEC_COMMAND\n");
 	data.cmd_lst = cmd;
 	if (!cmd->args[0])
 	{
 		ft_putstr_fd("Minishell: Command not found\n", 2);
 		exit(EXIT_FAILURE);
 	}
+	//print_node(data.cmd_lst->cmd);
+	//if (get_builtin(data.cmd_lst->cmd) == 0)
+		
 	//printf("cmd = %s\n", data.cmd_lst->cmd);
 	//printf("cmd->cmd_type = %d\n", data.cmd_lst->cmd_type);
-	if (data.cmd_lst->cmd_type == 1 && data.cmd_lst->exec_fail == -1)
+	//if (data.cmd_lst->cmd_type == 1 && data.cmd_lst->exec_fail == -1)
+	if (data.cmd_lst->input_type != -1 || data.cmd_lst->output_type != -1)
 	{
 		//get_builtin pas terminée
 		make_path(envp, &data);
@@ -49,6 +53,7 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 	pid_t	pid;
 	//int		status;
 
+	printf("in make child\n");
 	pid = fork();
 	if (pid == -1)
 	{
@@ -69,11 +74,11 @@ void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp)
 			close(pipefd[WRITE_END]);
 		}
 		
-		//print_node(cmd);
+		print_node(cmd);
 		open_all(cmd);
 		if (cmd->cmd_type == 1 && cmd->file_type != 1 && cmd->exec_fail != 1)
 		{
-			//printf("cmd->cmd_type = %d\n", cmd->cmd_type);
+			//printf("cmd = %s\n", cmd->args[0]);
 			//printf("using cmd : %s\n", cmd->args[0]);
 			exec_command(cmd, envp);
 		}

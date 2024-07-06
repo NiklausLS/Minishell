@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 22:49:05 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/06 17:17:47 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ void	open_all(t_commands *cmd)
 	int	output_fd;
 
 	output_fd = open_output(cmd);
-	//printf("final output fd is %d \n", output_fd);
+	printf("final output fd is %d \n", output_fd);
 	input_fd = open_input(cmd);
-	//printf("final input fd is %d\n", input_fd);
+	printf("final input fd is %d\n", input_fd);
 	if (input_fd != -1)
 	{
 		dup2(input_fd, STDIN_FILENO);

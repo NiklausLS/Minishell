@@ -54,7 +54,7 @@ typedef struct s_data {
 //void	init_struc(t_data *data);
 
 //BUILDIN
-int     get_builtin(t_data *data, char **envp);
+int     get_builtin(t_data *data, char **argv, char **envp);
 int		make_cd(char **argv);
 int     make_env(char **envp);
 int     make_exit(void);
