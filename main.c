@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 22:47:25 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/05 22:57:20 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,19 @@ int main(int argc, char **argv, char **envp)
 	//add_node(&data.cmd_lst, init_node("piapipa"));
 	//add_node(&data.cmd_lst, init_node("|"));
 	add_node(&data.cmd_lst, init_node("ls"));
-	add_node(&data.cmd_lst, init_node("|"));
+	//add_node(&data.cmd_lst, init_node("|"));
 	//add_node(&data.cmd_lst, init_node(">"));
-	add_node(&data.cmd_lst, init_node("piapipa"));
+	//add_node(&data.cmd_lst, init_node("piapipa"));
 	//add_node(&data.cmd_lst, init_node("cat"));
-	//add_node(&data.cmd_lst, init_node("f1.txt"));
-	//add_node(&data.cmd_lst, init_node(">"));
+	add_node(&data.cmd_lst, init_node(">"));
+	add_node(&data.cmd_lst, init_node("f1.txt"));
 	add_node(&data.cmd_lst, init_node("|"));
-	add_node(&data.cmd_lst, init_node("ls"));
-	add_node(&data.cmd_lst, init_node("|"));
+	add_node(&data.cmd_lst, init_node("piapia"));
+	add_node(&data.cmd_lst, init_node(">"));
+	add_node(&data.cmd_lst, init_node("f2.txt"));
+	//add_node(&data.cmd_lst, init_node("|"));
 	//add_node(&data.cmd_lst, init_node("f2.txt"));
-	add_node(&data.cmd_lst, init_node("wc"));
+	//add_node(&data.cmd_lst, init_node("wc"));
 	//add_node(&data.cmd_lst, init_node("<"));
 	//add_node(&data.cmd_lst, init_node("f3.txt"));
 	//add_node(&data.cmd_lst, init_node("fichier.txt"));

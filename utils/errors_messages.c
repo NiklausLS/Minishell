@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:23:16 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 19:22:21 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/06 07:55:10 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,10 @@ void    print_error(int error, char *cmd)
         ft_putstr_fd("Minishell: ", 2);
         ft_putstr_fd(cmd, 2);
         ft_putstr_fd(": command not found\n", 2);
+    }
+    else if (error == 2)
+    {
+        ft_putstr_fd("Minishell: ", 2);
+        ft_putstr_fd(": syntax error near unexpected token `newline'\n", 2);
     }
 }
