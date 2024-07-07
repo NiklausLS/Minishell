@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:02:33 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/06 19:08:32 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/07 00:59:46 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void    check_lst(t_data *data)
         if (current->file_type == -1 && current->input_type == -1
                 && current->output_type == -1 && current->pipe_type == -1)
                 current->cmd_type = 1;
-        print_node(current);
+        //print_node(current);
         current = current->next;
         i++;
     }

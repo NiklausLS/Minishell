@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/06 19:54:40 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/07 01:34:19 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	open_input(t_commands *cmd)
 	fd = -1;
 	current = cmd;
 	//printf("--- in open_input\n");
-	while (current)
-	{
+	//while (current)
+	//{
 		if (current->input_type == 0)
 		{
 			//printf("-- before open fd = %d\n", fd);
@@ -40,8 +40,8 @@ int	open_input(t_commands *cmd)
 			make_input_heredoc(cmd->input);
 			return (fd);
 		}*/
-		current = current->next;
-	}
+		//current = current->next;
+	//}
 	//printf("end of open_input loop\n");
 	return (fd);
 }
@@ -54,9 +54,9 @@ int	open_output(t_commands *cmd)
 	//printf("---IN MAKE OUTPUT\n");
 	fd = -1;
 	current = cmd;
-	int i = 1;
-	while (current)
-	{
+	//int i = 1;
+	//while (current)
+	//{
 		//printf("open_output nbr %d\n", i);
 		if (current->output_type == 2)
 		{
@@ -84,9 +84,9 @@ int	open_output(t_commands *cmd)
 				current->error = 1;
 			}
 		}
-		current = current->next;
-		i++;
-	}
+		//current = current->next;
+		//i++;
+	//}
 	//printf("enf of open_output loop\n");
 	return (fd);
 }
@@ -97,9 +97,9 @@ void	open_all(t_commands *cmd)
 	int	output_fd;
 
 	output_fd = open_output(cmd);
-	printf("final output fd is %d \n", output_fd);
+	//printf("final output fd is %d \n", output_fd);
 	input_fd = open_input(cmd);
-	printf("final input fd is %d\n", input_fd);
+	//printf("final input fd is %d\n", input_fd);
 	if (input_fd != -1)
 	{
 		dup2(input_fd, STDIN_FILENO);
@@ -112,32 +112,63 @@ void	open_all(t_commands *cmd)
 	}
 }
 
-/*void	make_all_redirections(t_commands *cmd, int prev_pipe, int pipefd[2])
+void	make_all_redirections(t_commands *start, t_commands *end)
 {
-	printf("in make_all_redirections\n");
-	printf("input_type = %d\n", cmd->input_type);
-	printf("output_type = %d\n", cmd->output_type);
-	if (prev_pipe != -1)
+	//printf("in make_all_redirections\n");
+	t_commands	*current;
+	t_commands	*last_output_cmd;
+	//t_commands	*last_input_cmd;
+	int			last_input;
+	int			last_output;		
+	
+	current = start;
+	last_input = -1;
+	last_output = -1;
+	last_output_cmd = NULL;
+	//last_input_cmd = NULL;
+	while (current && current != end)
 	{
-		dup2(prev_pipe, STDIN_FILENO);
-		close(prev_pipe);
+		if (current->input_type != -1)
+		{
+			//printf(" * unsing make_input in make all redirections\n");
+			//printf(" * * cmd->input_type = %d et cmd->input = %s\n", current->input_type, current->input);
+			if (last_input != -1)
+				close(last_input);
+			last_input = open_input(current);
+			if (last_input == -1)
+				return ;
+		}
+		if (current->output_type != -1)
+		{
+			//printf(" * unsign make_output in make all redirections\n");
+			//printf(" * * cmd->output_type = %d et cmd->output = %s\n", current->output_type, current->output);
+			//if (last_output != -1)
+			//	close(last_output);
+			last_output = open_output(current);
+			if (last_output != -1)
+				close(last_output);
+			last_output_cmd = current;
+		}
+		current = current->next;
 	}
-	if (cmd->next && cmd->next->pipe_type == 1)
+	if (last_input != -1)
 	{
-		close(pipefd[READ_END]);
-		dup2(pipefd[WRITE_END], STDOUT_FILENO);
-		close(pipefd[WRITE_END]);
+		//last_input = open_input(last_input_cmd);
+		//printf("last input = %d\n", last_input);
+		dup2(last_input, STDIN_FILENO);
+		close(last_input);
 	}
-	if (cmd->input_type == 0 || cmd->input_type == 1)
+	//if (last_input != -1)
+	//	dup2(last_input, STDIN_FILENO);
+	if (last_output_cmd)
 	{
-		printf(" * unsing make_input in make all redirections\n");
-		printf(" * * cmd->input_type = %d et cmd->input = %s\n", cmd->input_type, cmd->input);
-		open_input(cmd);
+		last_output = open_output(last_output_cmd);
+		if (last_output != -1)
+		{
+			//printf("last output = %d\n", last_output);
+			dup2(last_output, STDOUT_FILENO);
+			close(last_output);
+		}
 	}
-	else if (cmd->output_type == 2 || cmd->output_type == 3)
-	{
-		printf(" * unsign make_output in make all redirections\n");
-		printf(" * * cmd->output_type = %d et cmd->output = %s\n", cmd->output_type, cmd->output);
-		open_output(cmd);
-	}
-}*/
+	//printf("end of make_all_redirections\n");
+}

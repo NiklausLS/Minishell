@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/06 08:57:19 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/06 23:15:34 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //to do list
 //CD
 
-int get_builtin(t_data *data, char **argv, char **envp)
+int get_builtin(t_data *data, char **argv, t_exec *ex)
 {
 	if (ft_strcmp(data->cmd_lst->cmd, "cd") == 0)
 	{
@@ -25,7 +25,7 @@ int get_builtin(t_data *data, char **argv, char **envp)
     if (ft_strcmp(data->cmd_lst->cmd, "env") == 0)
 	{
 		printf("ENV USED\n");
-		make_env(envp);
+		make_env(ex->env);
         return (0);
 	}
 	else if (ft_strcmp(data->cmd_lst->cmd, "exit") == 0)

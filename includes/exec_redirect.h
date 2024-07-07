@@ -42,6 +42,12 @@ typedef struct s_commands
     int     error;
 } t_commands;
 
+typedef struct s_exec {
+    int     pipefd[2];
+    int     prev_pipe;
+    char    **env;
+} t_exec;
+
 typedef struct s_data {
     t_commands      *cmd_lst;
     //int             can_exec;
@@ -52,19 +58,24 @@ typedef struct s_data {
 
 //Initialise my structures
 //void	init_struc(t_data *data);
+void    init_exec_structure(t_exec *ex, char **envp);
+
+//Free everything inside my structure
+void    free_exec_structure(t_exec *ex);
 
 //BUILDIN
-int     get_builtin(t_data *data, char **argv, char **envp);
+int     get_builtin(t_data *data, char **argv, t_exec *ex);
 int		make_cd(char **argv);
 int     make_env(char **envp);
 int     make_exit(void);
 
 //EXECUTION functions
-void	make_path(char **envp, t_data *data);
+void	make_path(t_exec *ex, t_data *data);
 //void    make_child(t_data *data, char **env);
-//void	exec_command_lst(t_commands *cmd, char **envp);
+//void	exec_command_lst(t_commands *cmd, t_exec *ex);
 //void	exec_only_cmd(t_data *data);
-void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], char **envp);
+//void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], t_exec *ex);
+void    make_child(t_commands *start, t_commands *end, t_exec *ex);
 
 //OPERATOR checkers and managers
 void    split_redirection(char *str, t_data *data);
@@ -76,7 +87,7 @@ int		check_pipe(char *str);
 int     open_input(t_commands *cmd);
 int     open_output(t_commands *cmd);
 //void	make_heredoc(int fd, char *delim);
-//void	make_all_redirections(t_commands *cmd, int prev_pipe, int pipefd[2]);
+void	make_all_redirections(t_commands *start, t_commands *end);
 int     make_one_redirection(t_redirection *redir);
 int     make_redirections_lst(t_commands *cmd);
 void	open_all(t_commands *cmd);
@@ -89,8 +100,8 @@ t_commands  *parse_input(char *input);
 //int		protected_open(char *file, int flags);
 void    protected_pipe(int pipefd[2]);
 
-//PARSING commands, path, envp
-//void	split_path(char **envp, t_data *data);
+//PARSING commands, path, ex->env
+//void	split_path(t_exec *ex, t_data *data);
 void    get_args(char **argv, t_data *data);
 
 //modified functions for chained list
