@@ -6,10 +6,15 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:26:09 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/07 13:34:37 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/07 18:46:49 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/exec_redirect.h"
 
-int 
+/*int make_unset(t_commands *cmd, t_exec *ex)
+{
+
+
+    return (0);
+}*/

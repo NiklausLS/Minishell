@@ -25,7 +25,7 @@ typedef struct s_commands
 {
     char    **args;
     char    *path;
-    char    **env;
+    //char    **env;
     char    *cmd;
     int     input_type;
     char    *input;
@@ -36,9 +36,7 @@ typedef struct s_commands
     int     file_type;
     int     cmd_type;
     int     exec_fail;
-    struct  s_commands *prev;
     struct  s_commands *next;
-    t_redirection *redirections;
     int     error;
 } t_commands;
 

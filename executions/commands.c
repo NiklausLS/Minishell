@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/07 14:00:27 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/07 20:39:51 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	exec_command(t_commands *cmd, t_exec *ex)
 			exit(127);
 		}
 		//printf("before execve : cmd = %s\n", cmd->cmd);
-		if (execve(data.cmd_lst->path, cmd->args, cmd->env) == -1)
+		if (execve(data.cmd_lst->path, cmd->args, ex->env) == -1)
 		{
         	write (2, "Error : execve\n", 16);
         	exit(127);
