@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/07 20:44:52 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/07 22:28:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ int main(int argc, char **argv, char **envp)
 		printf("argv[0 = %s\n]", argv[0]);
 	}
 	
-	add_node(&data.cmd_lst, init_node("export"));
-	add_node(&data.cmd_lst, init_node("NEWVAR=TESTDELAFONCTION"));
-	//add_node(&data.cmd_lst, init_node("cat"));
-	//add_node(&data.cmd_lst, init_node("|"));
+	//add_node(&data.cmd_lst, init_node("export"));
+	//add_node(&data.cmd_lst, init_node("NEWVAR=TESTDELAFONCTION"));
 	//add_node(&data.cmd_lst, init_node("ls"));
-	//add_node(&data.cmd_lst, init_node("pr"));
-	//add_node(&data.cmd_lst, init_node("|"));
+	//add_node(&data.cmd_lst, init_node("f1"));
+	//add_node(&data.cmd_lst, init_node(">"));
+	//add_node(&data.cmd_lst, init_node("f2"));
+	//add_node(&data.cmd_lst, init_node("f3"));
 	//add_node(&data.cmd_lst, init_node("head"));
 	//add_node(&data.cmd_lst, init_node("5"));
 	//add_node(&data.cmd_lst, init_node("|"));
