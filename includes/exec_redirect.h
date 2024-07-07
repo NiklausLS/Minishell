@@ -119,5 +119,6 @@ void	redirection_errors(t_commands *cmd);
 void	print_array(char **array);
 void	print_linked_list(t_data *head);
 void	print_node(t_commands *cmd);
+void	print_env(t_exec *ex);
 
 #endif

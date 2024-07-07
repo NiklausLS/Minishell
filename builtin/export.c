@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:25:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/07 22:23:21 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/07 22:32:54 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,18 +121,5 @@ int make_export(t_commands *cmd, t_exec *ex)
 			make_update_env(ex, cmd->next->cmd);
 		cmd = cmd->next;
 	}
-
-	
-	/*int	i;
-
-	i = 0;
-	while (ex->env[i])
-	{
-		if (ft_strchr(ex->env[i], '='))
-			printf("%s\n", envp[i]);
-		i++;
-	}
-	return (0);
-}*/
 	return (0);
 }

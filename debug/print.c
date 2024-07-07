@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 07:21:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/06 19:07:58 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/07 22:30:48 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,16 @@ void	print_node(t_commands *cmd)
 	//if (cmd->exec_fail != 1)
 		printf("exec_fail = %d\n", cmd->exec_fail);
 	printf("---child end---\n");
+}
+
+void	print_env(t_exec *ex)
+{
+	int	i;
+
+	i = 0;
+	while (ex->env[i])
+	{
+		printf("%s\n", ex->env[i]);
+		i++;
+	}
 }
