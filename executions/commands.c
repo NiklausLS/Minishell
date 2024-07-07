@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/07 01:35:13 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/07 11:54:38 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void	exec_command(t_commands *cmd, t_exec *ex)
 	data.cmd_lst = cmd;
 	if (!cmd->args || !cmd->args[0])
 	{
-		ft_putstr_fd("Minishell: Command not found\n", 2);
-		exit(EXIT_FAILURE);
+		ft_putstr_fd("Minishell: command not found\n", 2);
+		exit(127);
 	}
 	//print_node(data.cmd_lst);
 	//if (get_builtin(data.cmd_lst->cmd) == 0)
@@ -37,14 +37,14 @@ static void	exec_command(t_commands *cmd, t_exec *ex)
 		{
 			ft_putstr_fd("Minishell: ", 2);
 			ft_putstr_fd(cmd->cmd, 2);
-			ft_putstr_fd(": Command not found\n", 2);
-			exit(EXIT_FAILURE);
+			ft_putstr_fd(": command not found\n", 2);
+			exit(127);
 		}
 		//printf("before execve : cmd = %s\n", cmd->cmd);
 		if (execve(data.cmd_lst->path, cmd->args, cmd->env) == -1)
 		{
         	write (2, "Error : execve\n", 16);
-        	exit(EXIT_FAILURE);
+        	exit(127);
     	}
 	}
 }
