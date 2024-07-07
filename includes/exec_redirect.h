@@ -64,10 +64,11 @@ void    init_exec_structure(t_exec *ex, char **envp);
 void    free_exec_structure(t_exec *ex);
 
 //BUILDIN
-int     get_builtin(t_data *data, char **argv, t_exec *ex);
+int     get_builtin(t_commands *cmd, t_exec *ex);
 int		make_cd(char **argv);
 int     make_env(char **envp);
 int     make_exit(void);
+int     make_export(t_commands *cmd, t_exec *ex);
 
 //EXECUTION functions
 void	make_path(t_exec *ex, t_data *data);

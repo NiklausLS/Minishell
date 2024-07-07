@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/07 11:54:38 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:00:27 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	exec_command(t_commands *cmd, t_exec *ex)
 	if (data.cmd_lst->cmd_type == 1 && data.cmd_lst->exec_fail == -1)
 	//if (data.cmd_lst->input_type != -1 || data.cmd_lst->output_type != -1)
 	{
+		if (get_builtin(cmd, ex) == 0)
+			exit(EXIT_SUCCESS);
 		//get_builtin pas terminée
 		make_path(ex, &data);
 		if (data.cmd_lst->path == NULL)
