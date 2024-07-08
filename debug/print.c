@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 07:21:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 08:03:55 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 10:27:44 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	print_env(t_exec *ex)
 	i = 0;
 	while (ex->env[i])
 	{
-		printf("%s\n", ex->env[i]);
+		printf("ex->env[%d] = %s\n", i, ex->env[i]);
 		i++;
 	}
 }

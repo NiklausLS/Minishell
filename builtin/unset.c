@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:26:09 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 09:26:51 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 10:36:22 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,39 @@
 static int get_index(t_exec *ex, char *var)
 {
     int i;
+    int size;
 
     i = 0;
-    printf("-- in get_index\n");
+    size = ft_strlen(var);
+    printf("- * in get_index\n");
+    printf("- * var = %s\n", var);
+
     while (ex->env[i])
     {
-        if (ft_strcmp(ex->env[i], var) == 0)
+        if (ft_strncmp(ex->env[i], var, size) == 0)
         {
-            printf("var found at : %d", i);
+            printf("- * var found at : %d\n", i);
             return (i);
         }
         i++;
     }
-    printf("-- var not found\n");
+    printf("- * var not found\n");
     return (-1);
+}
+
+static void delete_var(t_exec *ex, int index)
+{
+    printf("- - * in delete_var\n");
+    printf("- - * deleting %s\n", ex->env[index]);
+    free(ex->env[index]);
+    ex->env[index] = NULL;
+    while (ex->env[index + 1])
+    {
+        ex->env[index] = ex->env[index + 1];
+        index++;
+    }
+    ex->env[index] = NULL;
+    printf("- - * ex->env[%d] = %s\n", index, ex->env[index]);
 }
 
 int make_unset(t_commands *cmd, t_exec *ex)
@@ -44,11 +63,17 @@ int make_unset(t_commands *cmd, t_exec *ex)
 
     if (cmd->next == NULL)
     {
-        printf("not enought argument to use unset\n");
+        printf("- not enought argument to use unset\n");
         return (-1);
     }
     printf("- in make_unset\n");
+    printf("- env before\n");
+    print_env(ex);
     index = get_index(ex, cmd->next->cmd);
     printf("- index = %d\n", index);
+    if (index != -1)
+        delete_var(ex, index);
+    printf("- env after\n");
+    print_env(ex);
     return (0);
 }
