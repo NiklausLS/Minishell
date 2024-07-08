@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 07:21:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/07 22:30:48 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 08:03:55 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ void	print_array(char **array)
 void	print_linked_list(t_data *data)
 {
 	t_commands	*current;
-	int		i;
+	//int		i;
 
 	current = data->cmd_lst;
 	while (current)
 	{
-		i = 0;
+		//i = 0;
 		//printf ("cmd = ");
-		if (current->args)
+		/*if (current->args)
 		{
 			while (current->args[i])
 			{
@@ -42,10 +42,10 @@ void	print_linked_list(t_data *data)
 				printf("current->args[%d] = %s\n", i, current->args[i]);
 				i++;
 			}
-		}
-		else
-			printf("%s", current->cmd);
-		printf("\n");
+		}*/
+		//else
+		printf("cmd = %s\n", current->cmd);
+		printf("	---\n");
 		current = current->next;
 	}
 }

@@ -49,7 +49,6 @@ typedef struct s_exec {
 typedef struct s_data {
     t_commands      *cmd_lst;
     //int             can_exec;
-
     //char            **env;
     //t_redirection   *redir_lst;
 } t_data;
@@ -107,8 +106,8 @@ void    get_args(char **argv, t_data *data);
 void    add_node(t_commands **head, t_commands *new_node);
 t_commands *init_node(char *cmd);
 void    check_lst(t_data *data);
-void    add_redirection_node(t_commands *cmd, char *file, int type);
-void    init_redirections_lst(t_data *data);
+//void    add_redirection_node(t_commands *cmd, char *file, int type);
+//void    init_redirections_lst(t_data *data);
 
 //errors functions
 void    pipe_errors(t_commands *cmd);

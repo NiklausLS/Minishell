@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/07/07 13:47:39 by nileempo         ###   ########.fr        #
+#    Updated: 2024/07/08 08:00:54 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ OBJS = $(SRCS:.c=.o)
 	$(CC) $(CFLAGS) -c $< -o $@ -I$(INC_PATH)
 
 $(NAME): $(OBJS)
-	MAKE -C ./LIBFT
+	make -C ./LIBFT
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) LIBFT/libft.a
 
 all: $(NAME)
