@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/07 13:58:36 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 09:26:11 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ int get_builtin(t_commands *cmd, t_exec *ex)
         make_export(cmd, ex);
         return (0);
     }
-    /*else if (ft_strcmp(data->cmd, "unset") == 0)
+    else if (ft_strcmp(cmd->cmd, "unset") == 0)
     {
         printf("UNSET USED\n");
-    }*/
+        make_unset(cmd, ex);
+        return (0);
+    }
     return (-1);
 }

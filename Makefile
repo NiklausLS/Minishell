@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/07/08 08:00:54 by nileempo         ###   ########.fr        #
+#    Updated: 2024/07/08 09:14:45 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS = main.c \
 		./builtin/env.c \
 		./builtin/exit.c \
 		./builtin/export.c \
+		./builtin/unset.c \
 		./executions/commands.c \
 		./executions/check_path.c \
 		./debug/print.c \

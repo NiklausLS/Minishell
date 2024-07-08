@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 08:51:46 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 09:28:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ int main(int argc, char **argv, char **envp)
 		printf("argv[0 = %s\n]", argv[0]);
 	}
 	
-	//add_node(&data.cmd_lst, init_node("export"));
-	//add_node(&data.cmd_lst, init_node("NEW_VAR=ZZZZZ"));
+	printf("--- ENV BEFORE ---\n");
+	//print_env(&ex);
+	add_node(&data.cmd_lst, init_node("unset"));
+	//add_node(&data.cmd_lst, init_node("PATH"));
 	//add_node(&data.cmd_lst, init_node("PATH"));
 	//add_node(&data.cmd_lst, init_node("f1"));
 	//add_node(&data.cmd_lst, init_node(">"));
@@ -99,7 +101,7 @@ int main(int argc, char **argv, char **envp)
 	print_linked_list(&data);
 	exec_all(data.cmd_lst, &ex);
 	
-	printf("\n--- END ---\n");
+	printf("\n--- ENV AFTER ---\n");
 	//print_env(&ex);
 	t_commands *current = data.cmd_lst;
 	while (current)

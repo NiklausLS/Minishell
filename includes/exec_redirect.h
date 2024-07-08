@@ -65,7 +65,10 @@ int     get_builtin(t_commands *cmd, t_exec *ex);
 int		make_cd(char **argv);
 int     make_env(char **envp);
 int     make_exit(void);
+//int     get_index(t_exec *ex, char *var);
 int     make_export(t_commands *cmd, t_exec *ex);
+int     make_unset(t_commands *cmd, t_exec *ex);
+
 
 //EXECUTION functions
 void	make_path(t_exec *ex, t_data *data);
