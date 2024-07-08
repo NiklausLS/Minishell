@@ -6,13 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 15:26:49 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 23:10:11 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/exec_redirect.h"
+#include "../includes/minishell.h"
 
-static void	exec_command(t_commands *cmd, t_exec *ex)
+static void	exec_command(t_input_data *cmd, t_exec *ex)
 {
     t_data data;
 	
@@ -27,7 +27,7 @@ static void	exec_command(t_commands *cmd, t_exec *ex)
 	//if (get_builtin(data.cmd_lst->cmd) == 0)
 		
 	//printf("cmd = %s\n", data.cmd_lst->cmd);
-	//printf("cmd->cmd_type = %d\n", data.cmd_lst->cmd_type);
+	//printf("cmd->data_type = %d\n", data.cmd_lst->cmd_type);
 	if (data.cmd_lst->cmd_type == 1 && data.cmd_lst->exec_fail == -1)
 	//if (data.cmd_lst->input_type != -1 || data.cmd_lst->output_type != -1)
 	{
@@ -38,11 +38,11 @@ static void	exec_command(t_commands *cmd, t_exec *ex)
 		if (data.cmd_lst->path == NULL)
 		{
 			ft_putstr_fd("Minishell: ", 2);
-			ft_putstr_fd(cmd->cmd, 2);
+			ft_putstr_fd(cmd->data, 2);
 			ft_putstr_fd(": command not found\n", 2);
 			exit(127);
 		}
-		//printf("before execve : cmd = %s\n", cmd->cmd);
+		//printf("before execve : cmd = %s\n", cmd->data);
 		if (execve(data.cmd_lst->path, cmd->args, ex->env) == -1)
 		{
         	write (2, "Error : execve\n", 16);
@@ -51,7 +51,7 @@ static void	exec_command(t_commands *cmd, t_exec *ex)
 	}
 }
 
-/*void   make_child(t_commands *cmd, int prev_pipe, int pipefd[2], t_exec *ex)
+/*void   make_child(t_input_data *cmd, int prev_pipe, int pipefd[2], t_exec *ex)
 {
 	pid_t	pid;
 	//int		status;
@@ -79,7 +79,7 @@ static void	exec_command(t_commands *cmd, t_exec *ex)
 		
 		print_node(cmd);
 		open_all(cmd);
-		if (cmd->cmd_type == 1 && cmd->file_type != 1 && cmd->exec_fail != 1)
+		if (cmd->data_type == 1 && cmd->file_type != 1 && cmd->exec_fail != 1)
 		{
 			//printf("cmd = %s\n", cmd->args[0]);
 			//printf("using cmd : %s\n", cmd->args[0]);
@@ -98,7 +98,7 @@ static void	exec_command(t_commands *cmd, t_exec *ex)
 	}
 }*/
 
-/*static void open_redirections(t_commands *cmd)
+/*static void open_redirections(t_input_data *cmd)
 {
     if (cmd->output_type != -1)
     {
@@ -131,23 +131,23 @@ static void	exec_command(t_commands *cmd, t_exec *ex)
     }
 }*/
 
-/*static void	exec_all_command(t_commands *start, t_commands *end, t_exec *ex)
+/*static void	exec_all_command(t_input_data *start, t_input_data *end, t_exec *ex)
 {
-	t_commands	*cmd;
-	t_commands	*last_redirect;
+	t_input_data	*cmd;
+	t_input_data	*last_redirect;
 
 	cmd = start;
 	last_redirect = NULL;
 	while (cmd != end)
 	{
-		printf("cmd = %s\n", cmd->cmd);
-		//printf("exec_all_command : cmd = %s\n", cmd->cmd);
+		printf("cmd = %s\n", cmd->data);
+		//printf("exec_all_command : cmd = %s\n", cmd->data);
 		if (cmd->input_type != -1 || cmd->output_type != -1)
 		{
 			printf("redirection founded\n");
 			last_redirect = cmd;
 		}
-		else if (cmd->cmd_type == 1)
+		else if (cmd->data_type == 1)
 		{
 			printf("command founded\n");
 			if (last_redirect)
@@ -167,16 +167,17 @@ static void	exec_command(t_commands *cmd, t_exec *ex)
 		open_redirections(last_redirect);
 }*/
 
-void	make_child(t_commands *start, t_commands *end, t_exec *ex)
+void	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 {
-	pid_t	pid;
+	pid_t			pid;
+	t_input_data	*cmd;
 
 	printf("--- IN MAKE CHILD\n");
-	printf("cmd start = %s\n", start->cmd);
-	if (end)
-		printf("cmd end = %s\n", end->cmd);
+	printf("cmd start = %s\n", start->data);
+	/*if (end)
+		printf("cmd end = %s\n", end->data);
 	else
-		printf("cmd end = NULL\n");
+		printf("cmd end = NULL\n");*/
 	printf("		-----\n");
 	pid = fork();
 	if (pid == -1)
@@ -202,12 +203,12 @@ void	make_child(t_commands *start, t_commands *end, t_exec *ex)
 		//printf("BEFORE EXEC_ALL_COMMAND\n");
 		//exec_all_command(start, end, ex);
 		//printf("BEFORE EXEC_COMMAND\n");
-		t_commands *cmd = start;
+		t_input_data *cmd = start;
 		while (cmd && cmd != end)
 		{
 			if (cmd->cmd_type == 1)
 			{
-				printf("executing cmd : %s\n", cmd->cmd);
+				printf("executing cmd : %s\n", cmd->data);
 				exec_command(cmd, ex);
 				break;
 			}

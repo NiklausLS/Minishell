@@ -6,13 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:02:33 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 15:22:45 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/exec_redirect.h"
+#include "../includes/minishell.h"
 
-static void parse_redirection(t_commands *current)
+static void parse_redirection(t_input_data *current)
 {
     int redir_type;
 
@@ -46,7 +46,7 @@ static void parse_redirection(t_commands *current)
     //current->cmd = NULL;
 }
 
-static void parse_pipe(t_commands *current)
+static void parse_pipe(t_input_data *current)
 { 
     //printf("in parse_pipe\n");
     int res_pipe;
@@ -66,9 +66,9 @@ static void parse_pipe(t_commands *current)
 
 void    check_lst(t_data *data)
 {
-    t_commands  *current;
-    t_commands  *current_errors;
-    //t_commands  *prev;
+    t_input_data  *current;
+    t_input_data  *current_errors;
+    //t_input_data  *prev;
     int         i;
 
     current = data->cmd_lst;

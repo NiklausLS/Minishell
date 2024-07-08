@@ -6,13 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 21:26:18 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 22:05:46 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/exec_redirect.h"
+#include "../includes/minishell.h"
 
-void    make_pipe(t_commands *cmd, int *prev_pipe, int pipefd[2])
+void    make_pipe(t_input_data *cmd, int *prev_pipe, int pipefd[2])
 {
     if (*prev_pipe != -1)
     {
@@ -27,10 +27,12 @@ void    make_pipe(t_commands *cmd, int *prev_pipe, int pipefd[2])
     }
 }
 
-void    close_pipe(t_commands *cmd, int *prev_pipe, int pipefd[2])
+void    close_pipe(t_input_data *cmd, int *prev_pipe, int pipefd[2])
 {
     if (*prev_pipe != -1)
+    {
         close(*prev_pipe);
+    }
 	if (cmd->next && cmd->next->pipe_type == 1)
 	{
 		close(pipefd[WRITE_END]);

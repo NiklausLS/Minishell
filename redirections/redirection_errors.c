@@ -6,13 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 17:19:33 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/06 15:11:11 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/exec_redirect.h"
+#include "../includes/minishell.h"
 
-void	pipe_errors(t_commands *cmd)
+void	pipe_errors(t_input_data *cmd)
 {
 	if (cmd->pipe_type == 1)
 	{
@@ -34,7 +34,7 @@ void	pipe_errors(t_commands *cmd)
 	}
 }
 
-void	redirection_errors(t_commands *cmd)
+void	redirection_errors(t_input_data *cmd)
 {
 	//printf("in redirection_errors\n");
 	//print_node(cmd);

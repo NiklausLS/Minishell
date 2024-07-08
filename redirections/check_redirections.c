@@ -6,11 +6,11 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:56:31 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/05 22:48:23 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/exec_redirect.h"
+#include "../includes/minishell.h"
 
 //to do list
 //check if operator
@@ -119,7 +119,7 @@ int	check_pipe(char *str)
 }
 
 //return 1 if a redirection fail
-int	make_redirections_lst(t_commands *cmd)
+int	make_redirections_lst(t_input_data *cmd)
 {
 	t_redirection *redir;
 

@@ -6,11 +6,11 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 11:25:12 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/06 23:23:11 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/exec_redirect.h"
+#include "../includes/minishell.h"
 
 int	make_env(char **envp)
 {

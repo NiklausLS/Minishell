@@ -6,20 +6,20 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 19:27:09 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/06 23:31:27 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:35:59 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/exec_redirect.h"
+#include "../includes/minishell.h"
 
-/*t_commands *init_cmd(void)
+/*t_input_data *init_cmd(void)
 {
-    t_commands *cmd;
+    t_input_data *cmd;
 
-    cmd = (t_commands *)malloc(sizeof(t_commands));
+    cmd = (t_input_data *)malloc(sizeof(t_input_data));
     if (!cmd)
         return (NULL);
-    cmd->cmd = NULL;
+    cmd->data = NULL;
     cmd->args = (char **)malloc(sizeof(char *) * )
 }*/
 

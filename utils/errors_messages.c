@@ -6,11 +6,11 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:23:16 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/07 11:45:31 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/exec_redirect.h"
+#include "../includes/minishell.h"
 
 void    print_error(int error, char *cmd)
 {
@@ -39,7 +39,7 @@ void    print_error(int error, char *cmd)
     }
 }
 
-/*void    echo_test(t_commands *commands)
+/*void    echo_test(t_input_data *commands)
 {
     if (ft)
 }*/

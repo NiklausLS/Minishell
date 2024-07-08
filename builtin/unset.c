@@ -6,11 +6,11 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:26:09 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 14:15:12 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/exec_redirect.h"
+#include "../includes/minishell.h"
 
 //undefine a variable including function
 
@@ -57,7 +57,7 @@ static void delete_var(t_exec *ex, int index)
     printf("- - * ex->env[%d] = %s\n", index, ex->env[index]);
 }
 
-int make_unset(t_commands *cmd, t_exec *ex)
+int make_unset(t_input_data *cmd, t_exec *ex)
 {
     int index;
 

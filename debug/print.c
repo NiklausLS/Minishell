@@ -6,11 +6,11 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 07:21:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 15:14:06 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/exec_redirect.h"
+#include "../includes/minishell.h"
 
 void	print_array(char **array)
 {
@@ -26,7 +26,7 @@ void	print_array(char **array)
 
 void	print_linked_list(t_data *data)
 {
-	t_commands	*current;
+	t_input_data	*current;
 	//int		i;
 
 	current = data->cmd_lst;
@@ -50,7 +50,7 @@ void	print_linked_list(t_data *data)
 	}
 }
 
-void	print_node(t_commands *cmd)
+void	print_node(t_input_data *cmd)
 {
 	int	i;
 

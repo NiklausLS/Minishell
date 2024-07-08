@@ -6,19 +6,19 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 15:19:23 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/exec_redirect.h"
+#include "../includes/minishell.h"
 
 //Pour tester en attendant d'avoir le code du mate
 
-t_commands *init_node(char *cmd)
+t_input_data *init_node(char *cmd)
 {
-    t_commands *new_node;
+    t_input_data *new_node;
     
-    new_node = (t_commands *)malloc(sizeof(t_commands));
+    new_node = (t_input_data *)malloc(sizeof(t_input_data));
     new_node->cmd = ft_strdup(cmd);
     //printf("init_node = cmd = %s\n", cmd);
     new_node->args = ft_split(cmd, ' ');
@@ -46,9 +46,9 @@ t_commands *init_node(char *cmd)
 }
 
 // Fonction pour ajouter une node à la fin de la liste
-void add_node(t_commands **head, t_commands *new_node)
+void add_node(t_input_data **head, t_input_data *new_node)
 {
-    t_commands *current;
+    t_input_data *current;
     if (*head == NULL) {
         *head = new_node;
         return;

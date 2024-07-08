@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = main.c \
+SRCS = main2.c \
 		./inits/init_struc.c \
 		./redirections/check_redirections.c \
 		./redirections/manage_redirection.c \
@@ -30,6 +30,18 @@ SRCS = main.c \
 		./parsing/get_args.c \
 		./utils/ft_lstnew.c \
 		./utils/errors_messages.c \
+		./inits/add_data_structure.c \
+		./utils/clean.c \
+		./parsing/dollar.c \
+		./inits/init_minishell_launch.c \
+		./inits/init_split.c \
+		./main1.c \
+		./inits/malloc_structure.c \
+		./inits/signals.c \
+		./parsing/split_1_4.c \
+		./parsing/split_5_6.c \
+		./debug/test.c \
+		./builtin/echo.c
 
 NAME = minishell
 CC = gcc
@@ -43,7 +55,7 @@ OBJS = $(SRCS:.c=.o)
 
 $(NAME): $(OBJS)
 	make -C ./LIBFT
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) LIBFT/libft.a
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) LIBFT/libft.a -lreadline
 
 all: $(NAME)
 

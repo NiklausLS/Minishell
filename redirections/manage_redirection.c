@@ -6,16 +6,16 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/07 01:34:19 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/exec_redirect.h"
+#include "../includes/minishell.h"
 
-int	open_input(t_commands *cmd)
+int	open_input(t_input_data *cmd)
 {
 	int	fd;
-	t_commands *current;
+	t_input_data *current;
 
 	fd = -1;
 	current = cmd;
@@ -46,10 +46,10 @@ int	open_input(t_commands *cmd)
 	return (fd);
 }
 
-int	open_output(t_commands *cmd)
+int	open_output(t_input_data *cmd)
 {
 	int	fd;
-	t_commands *current;
+	t_input_data *current;
 
 	//printf("---IN MAKE OUTPUT\n");
 	fd = -1;
@@ -91,7 +91,7 @@ int	open_output(t_commands *cmd)
 	return (fd);
 }
 
-void	open_all(t_commands *cmd)
+void	open_all(t_input_data *cmd)
 {
 	int	input_fd;
 	int	output_fd;
@@ -112,12 +112,12 @@ void	open_all(t_commands *cmd)
 	}
 }
 
-void	make_all_redirections(t_commands *start, t_commands *end)
+void	make_all_redirections(t_input_data *start, t_input_data *end)
 {
 	//printf("in make_all_redirections\n");
-	t_commands	*current;
-	t_commands	*last_output_cmd;
-	//t_commands	*last_input_cmd;
+	t_input_data	*current;
+	t_input_data	*last_output_cmd;
+	//t_input_data	*last_input_cmd;
 	int			last_input;
 	int			last_output;		
 	

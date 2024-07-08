@@ -6,18 +6,18 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:12:42 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/07 02:09:16 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/exec_redirect.h"
+#include "../includes/minishell.h"
 
 /*
  * Get path from the ex->env
  */
 /*static void	get_path(t_exec *ex, t_data *data)
 {
-	//t_commands *current;
+	//t_input_data *current;
 	int		i;
 	char	*path;
 
@@ -190,7 +190,7 @@ static char *find_command(char **paths, char *cmd)
     return (NULL);
 }
 
-static void check_and_set_path(t_commands *cmd)
+static void check_and_set_path(t_input_data *cmd)
 {
     char **paths;
 	int	i;
@@ -216,7 +216,7 @@ static void check_and_set_path(t_commands *cmd)
 
 void make_path(t_exec *ex, t_data *data)
 {
-    t_commands *current;
+    t_input_data *current;
 	
 	current = data->cmd_lst;
     //printf("--- IN_MAKE_PATH\n");
