@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:26:09 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 10:36:22 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:15:12 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ int make_unset(t_commands *cmd, t_exec *ex)
     }
     printf("- in make_unset\n");
     printf("- env before\n");
-    print_env(ex);
+    //print_env(ex);
     index = get_index(ex, cmd->next->cmd);
     printf("- index = %d\n", index);
     if (index != -1)
         delete_var(ex, index);
     printf("- env after\n");
-    print_env(ex);
+    //print_env(ex);
     return (0);
 }

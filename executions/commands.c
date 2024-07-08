@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/07 20:39:51 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:26:49 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void	make_child(t_commands *start, t_commands *end, t_exec *ex)
 		{
 			if (cmd->cmd_type == 1)
 			{
-				//printf("executing cmd : %s\n", cmd->cmd);
+				printf("executing cmd : %s\n", cmd->cmd);
 				exec_command(cmd, ex);
 				break;
 			}

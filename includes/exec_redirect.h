@@ -38,6 +38,7 @@ typedef struct s_commands
     int     exec_fail;
     struct  s_commands *next;
     int     error;
+    int     arg_type;
 } t_commands;
 
 typedef struct s_exec {
