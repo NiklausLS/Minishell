@@ -134,9 +134,9 @@ int     open_input(t_input_data *cmd);
 int     open_output(t_input_data *cmd);
 //void	make_heredoc(int fd, char *delim);
 void	make_all_redirections(t_input_data *start, t_input_data *end);
-int     make_one_redirection(t_redirection *redir);
-int     make_redirections_lst(t_input_data *cmd);
-void	open_all(t_input_data *cmd);
+//int     make_one_redirection(t_redirection *redir);
+//int     make_redirections_lst(t_input_data *cmd);
+//void	open_all(t_input_data *cmd);
 void    make_pipe(t_input_data *cmd, int *prev_pipe, int pipefd[2]);
 void    close_pipe(t_input_data *cmd, int *prev_pipe, int pipefd[2]);
 void	exec_all(t_input_data *cmd, t_exec *ex);
@@ -172,7 +172,6 @@ void	print_env(t_exec *ex);
 
 int structure_builtins_echo(t_input_data *structure);
 //int structure_builtins_echo2(t_input_data *structure, t_input_data **temp, int *no_newline);
-
 
 int init_tests_minishell(int *argc, char *argv[]);
 int init_signals_minishell();
