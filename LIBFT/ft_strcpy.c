@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/11 07:43:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/09 13:54:04 by nileempo         ###   ########.fr       */
+/*   Created: 2024/07/09 13:49:42 by nileempo          #+#    #+#             */
+/*   Updated: 2024/07/09 13:55:02 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-int	ft_strcmp(char *s1, char *s2)
+char	*ft_strcpy(char *s1, char *s2)
 {
-	while (*s1 && *s2)
+	int	i;
+
+	i = 0;
+	while (s2[i])
 	{
-		if (*s1 != *s2)
-			return (*s1 - *s2);
-		s1++;
-		s2++;
+		s1[i] = s2[i];
+		i++;
 	}
-	return (*s1 - *s2);
+	s1[i] = '\0';
+	return (s1);
 }
