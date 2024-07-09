@@ -87,6 +87,7 @@ typedef struct s_input_data
     char	*data;
     struct	s_input_data *next_data_same_command_id;
     struct	s_input_data *next_command_id;
+    struct  s_input_data *next;
 }   t_input_data;
 
 typedef struct s_data {
@@ -110,6 +111,7 @@ int     make_env(char **envp);
 int     make_exit(void);
 //int     get_index(t_exec *ex, char *var);
 int     make_export(t_input_data *cmd, t_exec *ex);
+char    add_quotes(char *var);
 int     make_unset(t_input_data *cmd, t_exec *ex);
 
 

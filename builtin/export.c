@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:25:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/09 13:17:52 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:45:10 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,35 @@
 //should return 0 if succes
 //anything else if error
 
-static void without_args(t_exec *ex)
+static void	without_args(t_exec *ex)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (ex->env[i])
-    {
-        printf("declare -x %s\n", ex->env[i]);
-        i++;
-    }
+	i = 0;
+	while (ex->env[i])
+	{
+		printf("declare -x %s\n", ex->env[i]);
+		i++;
+	}
 }
 
-static int  get_index(t_exec *ex, char *var)
+static int	get_index(t_exec *ex, char *var)
 {
-    int     i;
-    size_t  len;
-    char    *check_sign;
+	int			i;
+	size_t		len;
+	char		*check_sign;
 
-    i = 0;
-    check_sign = ft_strchr(var, '=');
+	i = 0;
+	check_sign = ft_strchr(var, '=');
 	printf("var = %s\n", var);
 	printf("check_sign = %s\n", check_sign);
-    printf("var = %s\n", var);
-    if (check_sign)
+	printf("var = %s\n", var);
+	if (check_sign)
 	{
-        len = check_sign - var;
+		len = check_sign - var;
 		printf("len = %zu\n", len);
 	}
-    else
+	else
 	{
 		len = ft_strlen(var);
 		printf("else : len = %zu\n", len);
@@ -68,7 +68,6 @@ static int  get_index(t_exec *ex, char *var)
 		}
 		i++;
 	}
-	printf("var not found\n");
 	return (-1);
 }
 
@@ -76,41 +75,31 @@ static void	update_env(t_exec *ex, int index, char *var)
 {
 	int		i;
 	char	**up_env;
-	int		j;
+	char	*quote_var;
 
 	printf("*** in update_env\n");
 	i = 0;
-	j = 0;
+	quote_var = add_quotes(var);
+	if (!quote_var)
+		return ;
 	if (index != -1)
 	{
 		free(ex->env[index]);
 		printf("** freeing enx->env[%d] : %s\n", index, ex->env[index]);
 		ex->env[index] = ft_strdup(var);
 		printf("** copy var %s\n", var);
-
 	}
-	else if (index == -1)
+	else
 	{
-		printf("** index == -1\n");
+		printf("** var not found so index == -1\n");
+		i = 0;
 		while (ex->env[i])
 			i++;
 		up_env = (char **)malloc(sizeof(char *) * (i + 2));
 		if (up_env)
-		{
-			while (j < i)
-			{
-				up_env[j] = ex->env[j];
-				//printf("ex->env[%d] = %s\n", j, ex->env[j]);
-				//printf("up_env[%d] = %s\n", j, up_env[j]);
-				j++;
-			}
-			up_env[i] = ft_strdup(var);
-			//printf("ex->env[%d] = %s\n", j, ex->env[j]);
-			printf("up_env[%d] = %s\n", i, up_env[i]);
-			up_env[i + 1] = NULL;
-			free(ex->env);
-			ex->env = up_env;
-		}
+			update_env_loop(ex, up_env, quote_var, i);
+		else
+			free(quote_var);
 	}
 }
 
@@ -118,7 +107,6 @@ static void	make_update_env(t_exec *ex, char *var)
 {
 	int	index;
 
-	index = 0;
 	printf("--- in make_update_env\n");
 	printf("-- adding %s\n", var);
 	index = get_index(ex, var);
@@ -127,21 +115,21 @@ static void	make_update_env(t_exec *ex, char *var)
 	update_env(ex, index, var);
 }
 
-int make_export(t_input_data *data, t_exec *ex)
+int	make_export(t_input_data *data, t_exec *ex)
 {
-    if (!data->next_data_same_command_id)
+	if (!data->next)
 	{
-        without_args(ex);
+		without_args(ex);
 		return (0);
 	}
-	printf("cmd->data = %s\n", data->data);
-	printf("cmd->next->cmd = %s\n", data->next_data_same_command_id);
-	while (data->next_data_same_command_id)
+	printf("cmd->cmd = %s\n", data->data);
+	while (data->next)
 	{
-		printf("checking arg = %s\n", data->next_data_same_command_id->data);
-		if (ft_strchr(data->next_data_same_command_id->data, '=') || get_index(ex, data->next_data_same_command_id->data) != -1)
-			make_update_env(ex, data->next_data_same_command_id->data);
-		data = data->next_data_same_command_id;
+		printf("checking arg = %s\n", data->next->data);
+		if (ft_strchr(data->next->data, '=')
+			|| get_index(ex, data->next->data) != -1)
+			make_update_env(ex, data->next->data);
+		data = data->next;
 	}
 	return (0);
 }
