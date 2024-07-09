@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/09 17:42:56 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/09 22:04:31 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 //Pour tester en attendant d'avoir le code du mate
 
-t_commands *init_node(char *cmd)
+t_input_data*init_node(char *cmd)
 {
-    t_commands *new_node;
+    t_input_data*new_node;
     
-    new_node = (t_commands *)malloc(sizeof(t_commands));
-    new_node->cmd = ft_strdup(cmd);
+    new_node = (t_input_data*)malloc(sizeof(t_input_data));
+    new_node->data = ft_strdup(cmd);
     //printf("init_node = cmd = %s\n", cmd);
     new_node->args = ft_split(cmd, ' ');
     //printf("--- create node args[0] = %s\n", new_node->args[0]);
@@ -47,32 +47,32 @@ t_commands *init_node(char *cmd)
 }
 
 // Fonction pour ajouter une node à la fin de la liste
-void add_node(t_commands **head, t_commands *new_node)
+void add_node(t_input_data **head, t_input_data *new_node)
 {
-    t_data *data;
+    t_input_data *data;
     if (*head == NULL) {
         *head = new_node;
         return;
     }
-    current = *head;
-    while (current->next != NULL) {
-        current = current->next;
+    data = *head;
+    while (data->next != NULL) {
+        data = data->next;
     }
-    current->next = new_node;
+    data->next = new_node;
 }
 
 //ajoute à une node commande des arguments
-void	add_arg(t_data *data)
+void	add_arg(t_input_data *data)
 {
-	t_commands	*current;
-	t_commands	*last;
+	t_input_data	*current;
+	t_input_data	*last;
 	int			i;
 
     printf("-- in add_arg\n");
 	/*if (!data || data->cmd_lst)
 		return ;*/
 	last = NULL;
-    current = data->cmd_lst;
+    current = data;
 	while (current)
 	{
         printf("in current loop\n");
@@ -84,10 +84,10 @@ void	add_arg(t_data *data)
 		if (current->arg_type == 1 && current != last)
 		{
 			i = 0;
-            printf("-- %s is an arg\n", current->cmd);
+            printf("-- %s is an arg\n", current->data);
 			while (last->args[i])
 				i++;
-			last->args[i] =  ft_strdup(current->cmd);
+			last->args[i] =  ft_strdup(current->data);
 			last->args[i + 1] = NULL;
  		}
 		current = current->next;

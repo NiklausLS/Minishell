@@ -85,8 +85,8 @@ typedef struct s_input_data
     int		between_single_quotes;
     int		next_structure_without_space;
     char	*data;
-    struct	s_input_data *next_data_same_command_id;
-    struct	s_input_data *next_command_id;
+    //struct	s_input_data *next_data_same_command_id;
+    //struct	s_input_data *next_command_id;
     struct  s_input_data *next;
 }   t_input_data;
 
