@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:23:38 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_input_data *init_node(char *cmd)
     t_input_data *new_node;
     
     new_node = (t_input_data *)malloc(sizeof(t_input_data));
-    new_node->cmd = ft_strdup(cmd);
+    new_node->data = ft_strdup(cmd);
     //printf("init_node = cmd = %s\n", cmd);
     new_node->args = ft_split(cmd, ' ');
     /*int i = 0;
@@ -35,7 +35,7 @@ t_input_data *init_node(char *cmd)
     new_node->output_type = -1;
     new_node->output = NULL;
     new_node->heredoc_delim = NULL;
-    new_node->next = NULL;
+    new_node->next_data_same_command_id = NULL;
     new_node->pipe_type = -1;
     new_node->file_type = -1;
     new_node->cmd_type = -1;
@@ -54,8 +54,8 @@ void add_node(t_input_data **head, t_input_data *new_node)
         return;
     }
     current = *head;
-    while (current->next != NULL) {
-        current = current->next;
+    while (current->next_data_same_command_id != NULL) {
+        current = current->next_data_same_command_id;
     }
-    current->next = new_node;
+    current->next_data_same_command_id = new_node;
 }

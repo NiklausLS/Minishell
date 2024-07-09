@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:26:09 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:18:25 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ static void delete_var(t_exec *ex, int index)
     printf("- - * ex->env[%d] = %s\n", index, ex->env[index]);
 }
 
-int make_unset(t_input_data *cmd, t_exec *ex)
+int make_unset(t_input_data *data, t_exec *ex)
 {
     int index;
 
-    if (cmd->next == NULL)
+    if (data->next_data_same_command_id == NULL)
     {
         printf("- not enought argument to use unset\n");
         return (-1);
@@ -69,7 +69,7 @@ int make_unset(t_input_data *cmd, t_exec *ex)
     printf("- in make_unset\n");
     printf("- env before\n");
     //print_env(ex);
-    index = get_index(ex, cmd->next->cmd);
+    index = get_index(ex, data->next_data_same_command_id->data);
     printf("- index = %d\n", index);
     if (index != -1)
         delete_var(ex, index);

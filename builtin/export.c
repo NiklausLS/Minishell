@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:25:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 22:38:59 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:17:52 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,21 +127,21 @@ static void	make_update_env(t_exec *ex, char *var)
 	update_env(ex, index, var);
 }
 
-int make_export(t_input_data *cmd, t_exec *ex)
+int make_export(t_input_data *data, t_exec *ex)
 {
-    if (!cmd->next)
+    if (!data->next_data_same_command_id)
 	{
         without_args(ex);
 		return (0);
 	}
-	printf("cmd->data = %s\n", cmd->data);
-	printf("cmd->next->cmd = %s\n", cmd->next->cmd);
-	while (cmd->next)
+	printf("cmd->data = %s\n", data->data);
+	printf("cmd->next->cmd = %s\n", data->next_data_same_command_id);
+	while (data->next_data_same_command_id)
 	{
-		printf("checking arg = %s\n", cmd->next->cmd);
-		if (ft_strchr(cmd->next->cmd, '=') || get_index(ex, cmd->next->cmd) != -1)
-			make_update_env(ex, cmd->next->cmd);
-		cmd = cmd->next;
+		printf("checking arg = %s\n", data->next_data_same_command_id->data);
+		if (ft_strchr(data->next_data_same_command_id->data, '=') || get_index(ex, data->next_data_same_command_id->data) != -1)
+			make_update_env(ex, data->next_data_same_command_id->data);
+		data = data->next_data_same_command_id;
 	}
 	return (0);
 }

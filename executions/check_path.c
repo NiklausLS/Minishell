@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:12:42 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:11:17 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ static void	check_cmd(char *cmd)
 	return (data->cmd_lst->path);
 }*/
 
-static void get_path(t_exec *ex, t_data *data)
+static void get_path(t_exec *ex, t_input_data *data)
 {
     char *path = NULL;
     int i = 0;
@@ -149,7 +149,7 @@ static void get_path(t_exec *ex, t_data *data)
         }
         i++;
     }
-    data->cmd_lst->path = path;
+    data->path = path;
     //printf("PATH found: %s\n", path ? path : "Not found");
 }
 
@@ -190,18 +190,18 @@ static char *find_command(char **paths, char *cmd)
     return (NULL);
 }
 
-static void check_and_set_path(t_input_data *cmd)
+static void check_and_set_path(t_input_data *data)
 {
     char **paths;
 	int	i;
 
-	if (!cmd->path)
+	if (!data->path)
         return;
-	paths = split_path(cmd->path);
+	paths = split_path(data->path);
 	i = 0;
     if (paths)
     {
-        cmd->path = find_command(paths, cmd->args[0]);
+        data->path = find_command(paths, data->args[0]);
 		while (paths[i])
 		{
             free(paths[i]);
@@ -209,23 +209,23 @@ static void check_and_set_path(t_input_data *cmd)
 		}
         free(paths);
     }
-    if (!cmd->path && access(cmd->args[0], F_OK | X_OK) == 0)
-        cmd->path = ft_strdup(cmd->args[0]);
+    if (!data->path && access(data->args[0], F_OK | X_OK) == 0)
+        data->path = ft_strdup(data->args[0]);
     //printf("Command: %s, Path: %s\n", cmd->args[0], cmd->path ? cmd->path : "Not found");
 }
 
-void make_path(t_exec *ex, t_data *data)
+void make_path(t_exec *ex, t_input_data *data)
 {
     t_input_data *current;
 	
-	current = data->cmd_lst;
+	current = data;
     //printf("--- IN_MAKE_PATH\n");
     get_path(ex, data);
     while (current)
     {
         if (current->cmd_type == 1)
             check_and_set_path(current);
-        current = current->next;
+        current = current->next_data_same_command_id;
     }
 }
 

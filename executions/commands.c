@@ -6,19 +6,16 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 06:52:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 23:10:11 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:14:15 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	exec_command(t_input_data *cmd, t_exec *ex)
+static void	exec_command(t_input_data *data, t_exec *ex)
 {
-    t_data data;
-	
 	//printf("***---IN_EXEC_COMMAND\n");
-	data.cmd_lst = cmd;
-	if (!cmd->args || !cmd->args[0])
+	if (!data->args || !data->args[0])
 	{
 		ft_putstr_fd("Minishell: command not found\n", 2);
 		exit(127);
@@ -28,22 +25,22 @@ static void	exec_command(t_input_data *cmd, t_exec *ex)
 		
 	//printf("cmd = %s\n", data.cmd_lst->cmd);
 	//printf("cmd->data_type = %d\n", data.cmd_lst->cmd_type);
-	if (data.cmd_lst->cmd_type == 1 && data.cmd_lst->exec_fail == -1)
+	if (data->cmd_type == 1 && data->exec_fail == -1)
 	//if (data.cmd_lst->input_type != -1 || data.cmd_lst->output_type != -1)
 	{
-		if (get_builtin(cmd, ex) == 0)
+		if (get_builtin(data, ex) == 0)
 			exit(EXIT_SUCCESS);
 		//get_builtin pas terminée
 		make_path(ex, &data);
-		if (data.cmd_lst->path == NULL)
+		if (data->path == NULL)
 		{
 			ft_putstr_fd("Minishell: ", 2);
-			ft_putstr_fd(cmd->data, 2);
+			ft_putstr_fd(data->data, 2);
 			ft_putstr_fd(": command not found\n", 2);
 			exit(127);
 		}
 		//printf("before execve : cmd = %s\n", cmd->data);
-		if (execve(data.cmd_lst->path, cmd->args, ex->env) == -1)
+		if (execve(data->path, data->args, ex->env) == -1)
 		{
         	write (2, "Error : execve\n", 16);
         	exit(127);
@@ -203,7 +200,7 @@ void	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 		//printf("BEFORE EXEC_ALL_COMMAND\n");
 		//exec_all_command(start, end, ex);
 		//printf("BEFORE EXEC_COMMAND\n");
-		t_input_data *cmd = start;
+		cmd = start;
 		while (cmd && cmd != end)
 		{
 			if (cmd->cmd_type == 1)
@@ -212,7 +209,7 @@ void	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 				exec_command(cmd, ex);
 				break;
 			}
-			cmd = cmd->next;
+			cmd = cmd->next_data_same_command_id;
 		}
 		//printf("no command found or execution is finished\n");
 		//exit(EXIT_FAILURE);

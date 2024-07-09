@@ -6,20 +6,20 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 21:26:18 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:21:29 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    make_pipe(t_input_data *cmd, int *prev_pipe, int pipefd[2])
+void    make_pipe(t_input_data *data, int *prev_pipe, int pipefd[2])
 {
     if (*prev_pipe != -1)
     {
         dup2(*prev_pipe, STDIN_FILENO);
         close(*prev_pipe);
     }
-    if (cmd->next && cmd->next->pipe_type == 1)
+    if (data->next_data_same_command_id && data->next_data_same_command_id->pipe_type == 1)
     {
         close(pipefd[READ_END]);
         dup2(pipefd[WRITE_END], STDOUT_FILENO);
@@ -27,13 +27,13 @@ void    make_pipe(t_input_data *cmd, int *prev_pipe, int pipefd[2])
     }
 }
 
-void    close_pipe(t_input_data *cmd, int *prev_pipe, int pipefd[2])
+void    close_pipe(t_input_data *data, int *prev_pipe, int pipefd[2])
 {
     if (*prev_pipe != -1)
     {
         close(*prev_pipe);
     }
-	if (cmd->next && cmd->next->pipe_type == 1)
+	if (data->next_data_same_command_id && data->next_data_same_command_id->pipe_type == 1)
 	{
 		close(pipefd[WRITE_END]);
 		*prev_pipe = pipefd[READ_END];

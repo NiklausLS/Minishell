@@ -78,7 +78,7 @@ typedef struct s_input_data
     int		file_type;
     int		cmd_type;
     int		exec_fail;
-    struct	s_commands *next;
+    //struct	s_commands *next;
     int		error;
     int		arg_type;
     int		between_double_quotes;

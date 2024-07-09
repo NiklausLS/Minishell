@@ -6,19 +6,19 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 21:17:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/08 22:29:00 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:20:10 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	open_input(t_input_data *cmd)
+int	open_input(t_input_data *data)
 {
 	int	fd;
 	t_input_data *current;
 
 	fd = -1;
-	current = cmd;
+	current = data;
 	//printf("--- in open_input\n");
 	//while (current)
 	//{
@@ -46,14 +46,14 @@ int	open_input(t_input_data *cmd)
 	return (fd);
 }
 
-int	open_output(t_input_data *cmd)
+int	open_output(t_input_data *data)
 {
 	int	fd;
 	t_input_data *current;
 
 	//printf("---IN MAKE OUTPUT\n");
 	fd = -1;
-	current = cmd;
+	current = data;
 	//int i = 1;
 	//while (current)
 	//{
@@ -91,14 +91,14 @@ int	open_output(t_input_data *cmd)
 	return (fd);
 }
 
-void	open_all(t_input_data *cmd)
+void	open_all(t_input_data *data)
 {
 	int	input_fd;
 	int	output_fd;
 
-	output_fd = open_output(cmd);
+	output_fd = open_output(data);
 	//printf("final output fd is %d \n", output_fd);
-	input_fd = open_input(cmd);
+	input_fd = open_input(data);
 	//printf("final input fd is %d\n", input_fd);
 	if (input_fd != -1)
 	{
@@ -149,7 +149,7 @@ void	make_all_redirections(t_input_data *start, t_input_data *end)
 				close(last_output);
 			last_output_cmd = current;
 		}
-		current = current->next;
+		current = current->next_data_same_command_id;
 	}
 	if (last_input != -1)
 	{
