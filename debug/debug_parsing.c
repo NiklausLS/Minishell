@@ -2,8 +2,6 @@
 
 #include "../includes/minishell.h"
 
-//normalement pas push
-
 void    print_input_data(t_input_data   *input_data)
 {
     t_input_data    *temp_input;

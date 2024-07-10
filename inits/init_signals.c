@@ -30,7 +30,7 @@ void    signal_handler_input(int signal)
         global_signal_received = SIGINT;
         write(1, "\n", 1);
         rl_on_new_line();
-        rl_replace_line("", 0);
+        //rl_replace_line("", 0);
         rl_redisplay();
     }
     else if (signal == SIGQUIT) 
@@ -41,3 +41,31 @@ void    signal_handler_input(int signal)
     }
 }
 
+int handle_eof()//à utiliser en fork pendant l'execution pour detecter si appuie sur ctrl-d
+{
+    char    *buffer;
+    ssize_t bytes_read;
+
+    buffer = malloc(sizeof(char) * 1);
+    if (!buffer)
+        printf("Error malloc buffer\n");
+    if (!buffer)
+        return (2);
+    bytes_read = read(STDIN_FILENO, buffer, 1);//0 il me semble write(1, X, Xnb) ici c'est 0 au lieu de 1 et read au lieu de write
+    if (bytes_read == 0)
+    {
+        printf("Exiting because Ctrl-D pressed\n");
+        global_signal_received = 1;
+        return (1);
+    }
+    if (bytes_read < 0)
+    {
+        printf("Error reading STDIN_FILENO\n");
+        if (buffer)
+            free(buffer);
+        return (2);
+    }
+    if (buffer)
+        free(buffer);
+    return (0);
+}

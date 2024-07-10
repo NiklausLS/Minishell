@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/09 22:04:31 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/09 17:42:56 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 //Pour tester en attendant d'avoir le code du mate
 
-t_input_data*init_node(char *cmd)
+t_input_data *init_node(char *data)
 {
-    t_input_data*new_node;
+    t_input_data *new_node;
     
-    new_node = (t_input_data*)malloc(sizeof(t_input_data));
-    new_node->data = ft_strdup(cmd);
-    //printf("init_node = cmd = %s\n", cmd);
-    new_node->args = ft_split(cmd, ' ');
+    new_node = (t_input_data *)malloc(sizeof(t_input_data));
+    new_node->data = ft_strdup(data);
+    //printf("init_node = data = %s\n", data);
+    new_node->args = ft_split(data, ' ');
     //printf("--- create node args[0] = %s\n", new_node->args[0]);
     /*int i = 1;
     while (new_node->args[i])
@@ -49,16 +49,16 @@ t_input_data*init_node(char *cmd)
 // Fonction pour ajouter une node à la fin de la liste
 void add_node(t_input_data **head, t_input_data *new_node)
 {
-    t_input_data *data;
+    t_input_data *current;
     if (*head == NULL) {
         *head = new_node;
         return;
     }
-    data = *head;
-    while (data->next != NULL) {
-        data = data->next;
+    current = *head;
+    while (current->next != NULL) {
+        current = current->next;
     }
-    data->next = new_node;
+    current->next = new_node;
 }
 
 //ajoute à une node commande des arguments

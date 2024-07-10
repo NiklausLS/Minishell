@@ -1,5 +1,5 @@
 //header de 42
-#include "Header/minishell.h"
+#include "../includes/minishell.h"
 /*
 int ft_strcmp(char *s1, char *s2)
 {
@@ -22,7 +22,7 @@ int     ft_len(char *string_input, char end_char)
         len++;
     return (len);
 }
-//**string != NULL
+
 char    *add_char_to_string(char **string, char new_char)
 {
     char    *new_malloc;

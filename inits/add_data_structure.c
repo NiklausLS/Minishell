@@ -96,15 +96,3 @@ int add_string_to_string(char *data, char **line)
     *line = temp;
     return (0);
 }
-
-int     ft_len(char *string_input, char end_char)
-{
-    int len;
-
-    len = 0;
-    if (!string_input)
-        return (-1);
-    while (string_input[len] != end_char && string_input[len] != '\0')
-        len++;
-    return (len);
-}

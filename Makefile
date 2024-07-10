@@ -10,39 +10,34 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = main2.c \
-		./inits/init_struc.c \
-		./redirections/check_redirections.c \
-		./redirections/manage_redirection.c \
-		./redirections/redirection_errors.c \
-		./redirections/heredoc_redir.c \
-		./redirections/pipes_redirection.c \
-		./protected_functions/protected_open.c \
-		./builtin/built_in.c \
-		./builtin/cd.c \
-		./builtin/env.c \
-		./builtin/exit.c \
-		./builtin/export.c \
-		./builtin/export2.c \
-		./builtin/unset.c \
-		./executions/commands.c \
-		./executions/check_path.c \
-		./debug/print.c \
-		./parsing/get_args.c \
-		./utils/ft_lstnew.c \
-		./utils/errors_messages.c \
+SRCS = main.c \
+		./builtins/echo.c \
+		./builtins/exit.c \
+		./builtins/export.c \
+		./builtins/export2.c \
+		./builtins/pwd.c \
+		./builtins/unset.c \
+		./cleans/cleans_parsing.c \
+		./debug/debug_parsing.c \
+		./debug/errors_messages.c \
 		./inits/add_data_structure.c \
-		./utils/clean.c \
+		./inits/init_execution.c \
+		./inits/init_parsing_1.c \
+		./inits/init_signals.c \
+		./inits/inits_tests_parsing.c \
+		./mallocs/malloc_parsing.c \
 		./parsing/dollar.c \
-		./inits/init_minishell_launch.c \
-		./inits/init_split.c \
-		./main1.c \
-		./inits/malloc_structure.c \
-		./inits/signals.c \
 		./parsing/split_1_4.c \
 		./parsing/split_5_6.c \
-		./debug/test.c \
-		./builtin/echo.c
+		./redirections/check_redirections.c \
+		./redirections/heredoc.c \
+		./redirections/parsing_redirections.c \
+		./redirections/redirections_errors.c \
+		./redirections/redirections_exec.c \
+		./redirections/redirections_makechild.c \
+		./utils/ft_lstnew.c \
+		./utils/utils_parsing.c 
+		
 
 NAME = minishell
 CC = gcc
