@@ -174,6 +174,7 @@ int    protected_pipe(int pipefd[2]);
 //void	split_path(t_exec *ex, t_data *data);
 char **split_path(char *path);
 void    get_args(char **argv, t_input_data *data);
+int	parse_args(t_input_data *data);
 
 //modified functions for chained list
 void    add_node(t_input_data **head, t_input_data *new_node);

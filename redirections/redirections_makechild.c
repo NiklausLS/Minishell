@@ -98,8 +98,8 @@ int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 int	exec_command(t_input_data *data, t_exec *ex)
 {
 	printf("***---IN_EXEC_COMMAND\n");
-	printf("cmd = %s\n", data->data);
-	printf("cmd->args= %s\n", data->args[0]);
+	//printf("cmd = %s\n", data->data);
+	//printf("cmd->args= %s\n", data->args[0]);
 	/*if (!data->args || !data->args[0])
 	{
 		ft_putstr_fd("Minishell: command not found\n", 2);

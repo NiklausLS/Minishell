@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/07/11 09:11:13 by nileempo         ###   ########.fr        #
+#    Updated: 2024/07/11 22:44:18 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS = main.c \
 		./parsing/dollar.c \
 		./parsing/split_1_4.c \
 		./parsing/split_5_6.c \
+		./parsing/parse_args.c \
 		./redirections/check_redirections.c \
 		./redirections/heredoc.c \
 		./redirections/parsing_redirections.c \
