@@ -8,7 +8,7 @@ int	parse_redirection(t_input_data *current)
 
     //printf("*** IN_PARSE_redirection\n");
 	redir_type = -1;
-    if (!current || !current->next)
+    if (!current)
     {
         printf("PARSE_REDIRECTION ERROR\n");
         return (-1);
@@ -24,24 +24,32 @@ int	parse_redirection(t_input_data *current)
     if (redir_type == 0 || redir_type == 1)
     {
         current->input_type = redir_type;
-        current->input = ft_strdup(current->next->data);
-        //printf("--- current->input = %s\n", current->input);
-        current->next->cmd_type = -1;
-        current->next->file_type = 1;
-        current->next->arg_type = -1;
-        current->next->next->arg_type = 1;
+        if (current && current->next)
+        {
+            current->input = ft_strdup(current->next->data);
+            //printf("--- current->input = %s\n", current->input);
+            current->next->cmd_type = -1;
+            current->next->file_type = 1;
+            current->next->arg_type = -1;
+            if (current && current->next && current->next->next)
+                current->next->next->arg_type = 1;
+        }
         //printf("--- current->input_type = %d\n", current->input_type);
     }
     else if (redir_type == 2 || redir_type == 3)
     {
         current->output_type = redir_type;
-        current->output = ft_strdup(current->next->data);
-        //printf("--- current->output = %s\n", current->output);
-        current->next->cmd_type = -1;
-        current->next->file_type = 1;
-        current->cmd_type = -1;
-        current->next->arg_type = -1;
-        current->next->next->arg_type = 1;
+        if (current && current->next)
+        {
+            current->output = ft_strdup(current->next->data);
+            //printf("--- current->output = %s\n", current->output);
+            current->next->cmd_type = -1;
+            current->next->file_type = 1;
+            current->cmd_type = -1;
+            current->next->arg_type = -1;
+            if (current && current->next && current->next->next)
+                current->next->next->arg_type = 1;
+        }
         //printf("--- current->output_type = %d\n\n", current->output_type);
     }
 	return (0);

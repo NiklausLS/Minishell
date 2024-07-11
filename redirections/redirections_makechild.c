@@ -9,19 +9,18 @@ int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 
 	printf("--- IN MAKE CHILD\n");
 	printf("cmd start = %s\n", start->data);
-	/*if (end)
-		printf("cmd end = %s\n", end->data);
-	else
-		printf("cmd end = NULL\n");*/
-	printf("		-----\n");
+	printf("-----\n");
 	pid = fork();
 	if (pid == -1)
 	{
 		ft_putstr_fd("Minishell: fork: creation failed\n", 2);
 		exit(EXIT_FAILURE);
 	}
+	if (pid != 0)
+		printf("pid different de 0\n");
 	if (pid == 0)
 	{
+		//printf("in child process");
 		if (ex->prev_pipe != -1)
 		{
             if (dup2(ex->prev_pipe, STDIN_FILENO) == -1)
@@ -60,12 +59,12 @@ int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
             }
 			//close(ex->pipefd[WRITE_END]);
 		}
-		//printf("BEFORE MAKE_ALL_REDIRECTION\n");
-		if (make_all_redirections(start, end) == 1)
-            return (1);
+		printf("BEFORE MAKE_ALL_REDIRECTION\n");
+		make_all_redirections(start, end);
+            //return (1);
 		//printf("BEFORE EXEC_ALL_COMMAND\n");
 		//exec_all_command(start, end, ex);
-		//printf("BEFORE EXEC_COMMAND\n");
+		printf("BEFORE EXEC_COMMAND\n");
 		cmd = start;
 		while (cmd && cmd != end)
 		{
@@ -78,7 +77,7 @@ int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 			}
 			cmd = cmd->next;//next_data_same_command_id
 		}
-		//printf("no command found or execution is finished\n");
+		printf("no command found or execution is finished\n");
 		//exit(EXIT_FAILURE);
 	}
 	else
@@ -293,7 +292,7 @@ int get_builtin(t_input_data *data, t_exec *ex)
 
 int	make_all_redirections(t_input_data *start, t_input_data *end)
 {
-	//printf("in make_all_redirections\n");
+	printf("in make_all_redirections\n");
 	t_input_data	*current;
 	t_input_data	*last_output_cmd;
 	//t_input_data	*last_input_cmd;
@@ -307,6 +306,7 @@ int	make_all_redirections(t_input_data *start, t_input_data *end)
 	//last_input_cmd = NULL;
 	while (current && current != end)
 	{
+		printf("--- current loop\n");
 		if (current->input_type != -1)
 		{
 			//printf(" * unsing make_input in make all redirections\n");
@@ -316,14 +316,14 @@ int	make_all_redirections(t_input_data *start, t_input_data *end)
                 if (close(last_input) == -1)
                 {
                     perror("open");
-                    exit(EXIT_FAILURE);
+                    return (1);
                 }
-				//close(last_input);
             }
 			last_input = open_input(current);
 			if (last_input == -1)
 				return (1);
 		}
+		printf("--- after input type\n");
 		if (current->output_type != -1)
 		{
 			//printf(" * unsign make_output in make all redirections\n");
@@ -337,15 +337,17 @@ int	make_all_redirections(t_input_data *start, t_input_data *end)
                 if (close(last_output) == -1)
                 {
                     perror("open");
-                    exit(EXIT_FAILURE);
+                    return (1);
                 }
             }
-            else
-                return (1);
+            /*else
+                exit(EXIT_FAILURE);*/
 			last_output_cmd = current;
 		}
 		current = current->next;//next_data_same_command_id
 	}
+
+	printf("--- after output type\n");
 	if (last_input != -1)//inutile normalement car aurait finis la fct
 	{
 		//last_input = open_input(last_input_cmd);
@@ -354,19 +356,19 @@ int	make_all_redirections(t_input_data *start, t_input_data *end)
         {
             perror("dup2");
             //close(fd);
-            exit(EXIT_FAILURE);
+            return (1);
         }
 		//dup2(last_input, STDIN_FILENO);
         if (close(last_input) == -1)
         {
             perror("open");
-            exit(EXIT_FAILURE);
+            return (1);
         }
 		//close(last_input);
 	}
 	//if (last_input != -1)
 	//	dup2(last_input, STDIN_FILENO);
-	if (last_output_cmd)
+	if (last_output_cmd != NULL)
 	{
 		last_output = open_output(last_output_cmd);
 		if (last_output != -1)
@@ -376,21 +378,20 @@ int	make_all_redirections(t_input_data *start, t_input_data *end)
             {
                 perror("dup2");
                 //close(fd);
-                exit(EXIT_FAILURE);
+                return (1);
             }
 			//dup2(last_output, STDOUT_FILENO);
             if (close(last_output) == -1)
             {
                 perror("open");
-                exit(EXIT_FAILURE);
+                return (1);
             }
 			//close(last_output);
+		return (0);
 		}
-        else
-            return (1);
 	}
-	//printf("end of make_all_redirections\n");
-    return (1);
+	printf("end of make_all_redirections\n");
+    return (0);
 }
 
 int	open_input(t_input_data *data)
