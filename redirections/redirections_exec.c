@@ -10,9 +10,9 @@ int	exec_all(t_input_data *cmd, t_exec *ex)
 
 	start = cmd;
 	current = cmd;
-	printf("data->cmd = %s\n", current->data);
+	//printf("data->cmd = %s\n", current->data);
 	//printf("---IN_EXEC_ALL\n");
-	while (current)
+	while (current != NULL)
 	{
 		next = current->next;//next_command_id
 		if (next && next->pipe_type == 1)

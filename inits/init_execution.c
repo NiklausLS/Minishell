@@ -35,35 +35,51 @@ int	check_lst(t_input_data *data)
 {
 	t_input_data	*current;
 	t_input_data	*current_errors;
-	int				i;
+	int				first_cmd;
 
 	current = data;
 	current_errors = data;
-	i = 0;
+    first_cmd = 1;
+    printf("IN CHECK LST\n");
 	while (current_errors)
 	{
 		if (pipe_errors(current_errors) == 1)
             return (1);
-		if (redirection_errors(current_errors) == 1)
-            return (1);
+		/*if (redirection_errors(current_errors) == 1)
+            return (1);*/
 		current_errors = current_errors->next;
 	}
+    //printf("après current_error\n");
     while (current)
 	{
-		//print_node(current);
-		parse_redirection(current);//a faire les return ???
-		parse_pipe(current);//a faire les returns ??? 
-		//parse_redirection(current);//pourquoi 2 fois ??????
-        //parse_arg(current);
-		if (current->file_type == -1 && current->input_type == -1 && current->output_type == -1 && current->pipe_type == -1 && current->arg_type == -1)
+        printf("current = %s\n", current->data);
+        if (first_cmd == 1)
         {
             current->cmd_type = 1;
-            /*if (current->next)
-                current->next->arg_type = 1;*/
+            first_cmd = 0;
         }
+        else
+        {
+		    //print_node(current);
+            if (parse_redirection(current) == 1)
+                return (1);
+		    if (parse_pipe(current) == 1)
+                return (1); 
+        }
+        if (current->file_type == -1 && current->input_type == -1
+                && current->output_type == -1 && current->pipe_type == -1
+                    && current->cmd_type == -1)
+            current->arg_type = 1;
 		//print_node(current);
+
+        /*printf("- cmd = %s\n", current->data);
+        printf("- input type = %d\n", current->input_type);
+        printf("- output type = %d\n", current->output_type);
+        printf("- cmd type = %d\n", current->cmd_type);
+        printf("- file type = %d\n", current->file_type);
+        printf("- arg type = %d\n", current->arg_type);*/
+        //if (current->next)
 		current = current->next;//next_data_same_command_id
-		i++;
 	}
     return (0);
 }

@@ -20,7 +20,7 @@ int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 		printf("pid different de 0\n");
 	if (pid == 0)
 	{
-		//printf("in child process");
+		printf("\nin child process\n");
 		if (ex->prev_pipe != -1)
 		{
             if (dup2(ex->prev_pipe, STDIN_FILENO) == -1)
@@ -66,9 +66,19 @@ int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 		//exec_all_command(start, end, ex);
 		printf("BEFORE EXEC_COMMAND\n");
 		cmd = start;
-		while (cmd && cmd != end)
+		//printf("--- cmd = %s\n", cmd->data);
+		//printf("--- cmd_type is %d\n", cmd->cmd_type);
+		while (cmd)
 		{
-			if (cmd->cmd_type == 1)
+			printf("- cmd = %s\n", cmd->data);
+        	printf("- input type = %d\n", cmd->input_type);
+        	printf("- output type = %d\n", cmd->output_type);
+        	printf("- cmd type = %d\n", cmd->cmd_type);
+        	printf("- file type = %d\n", cmd->file_type);
+        	printf("- arg type = %d\n", cmd->arg_type);
+			//printf("--- cmd = %s\n", cmd->data);
+			//printf("--- cmd_type is %d\n", cmd->cmd_type);
+			if (cmd && cmd->cmd_type == 1)
 			{
 				printf("executing cmd : %s\n", cmd->data);
 				if (exec_command(cmd, ex) != 0)
@@ -78,7 +88,7 @@ int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 			cmd = cmd->next;//next_data_same_command_id
 		}
 		printf("no command found or execution is finished\n");
-		//exit(EXIT_FAILURE);
+		return (0);
 	}
 	else
 		printf("in parent process : child pid is %d\n", pid);

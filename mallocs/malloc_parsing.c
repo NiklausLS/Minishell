@@ -21,6 +21,21 @@ int malloc_inputdata(t_input_data **input_data)
     (*input_data)->data = NULL;
     (*input_data)->next_data_same_command_id = NULL;
     (*input_data)->next_command_id = NULL;
+    (*input_data)->next = NULL;
+    (*input_data)->args = NULL;
+    (*input_data)->path = NULL;
+
+    (*input_data)->input_type = -1;
+    (*input_data)->input = NULL;
+    (*input_data)->output_type = -1;
+    (*input_data)->output = NULL;
+    (*input_data)->pipe_type = -1;
+    (*input_data)->heredoc_delim = NULL;
+    (*input_data)->file_type = -1;
+    (*input_data)->cmd_type = -1;
+    (*input_data)->exec_fail = -1;
+    (*input_data)->error = 0,
+    (*input_data)->arg_type = -1;
     return (0);
 }
 

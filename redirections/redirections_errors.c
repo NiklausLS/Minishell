@@ -11,7 +11,7 @@ int	pipe_errors(t_input_data *data)
 	}
 	if (!data->next)
 	{
-		ft_putstr_fd("No data->next\n", 2);
+		//ft_putstr_fd("No data->next\n", 2);
 		return (0);
 	}
 	if (data->pipe_type == 1)
@@ -36,19 +36,19 @@ int	pipe_errors(t_input_data *data)
 }
 
 //inutile
-int	redirection_errors(t_input_data *data)
+/*int	redirection_errors(t_input_data *data)
 {
 	//printf("in redirection_errors\n");
 	//print_node(cmd);
 	if (data->input_type == 1 || data->output_type)//check quotes == 0 si verifie redirections
 	{
-		/*if (cmd->next == )
+		if (cmd->next == )
 		{
 			printf("test\n");
 			print_error(2, "");
 			exit(EXIT_FAILURE);
-		}*/
+		}
 		//printf("should work\n");
 	}
     return (0);
-}
+}*/

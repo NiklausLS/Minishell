@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/11 08:39:27 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/11 20:39:18 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_input_data *init_node(char *data)
     new_node->exec_fail = -1;
     new_node->error = 0;
     new_node->arg_type = -1;
+    printf("MAKING A NEW NODE\n");
     return (new_node);
 }
 
