@@ -2,17 +2,21 @@
 
 #include "../includes/minishell.h"
 
-void parse_redirection(t_input_data *current)
+int	parse_redirection(t_input_data *current)
 {
     int redir_type;
 
     //printf("*** IN_PARSE_redirection\n");
+	redir_type = -1;
     if (!current || !current->next)
     {
         printf("PARSE_REDIRECTION ERROR\n");
-        return;
+        return (-1);
     }
-    redir_type = check_redirection(current->data);//manque
+    if (current->quotes == 0)
+        redir_type = check_redirection(current->data);//manque
+    else
+        return (-1);
     //printf("- IN_PARSE_redirection\n");
     //printf("-- redir_type = %d\n", redir_type);
     //if (current->next->file_type != 1)
@@ -40,20 +44,22 @@ void parse_redirection(t_input_data *current)
         current->next->next->arg_type = 1;
         //printf("--- current->output_type = %d\n\n", current->output_type);
     }
-    //current->cmd = NULL;
+	return (0);
 }
 
-void parse_pipe(t_input_data *current)
+int	parse_pipe(t_input_data *current)
 { 
     //printf("in parse_pipe\n");
     int res_pipe;
 
+    res_pipe = -1;
     if (!current)
     {
         ft_putstr_fd("ERROR : parse_pipe is empty\n", 2);
-        return;
+        return (-1);
     }
-    res_pipe = check_pipe(current->data); //manque
+    if (current->quotes == 0)
+        res_pipe = check_pipe(current->data); //manque
     //printf("res_pipe = %d\n", res_pipe);
     //printf("in parse_pipe\n");
     //printf("cmd = %s\n", current->args[0]);
@@ -64,4 +70,5 @@ void parse_pipe(t_input_data *current)
         current->arg_type = -1;
         //printf("%s is a pipe\n", current->cmd);
     }
+	return (res_pipe);
 }

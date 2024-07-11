@@ -105,8 +105,8 @@ int get_path(t_exec *ex, t_input_data *data);
 int check_and_set_path(t_input_data *data);
 
 
-void parse_redirection(t_input_data *current);
-void parse_pipe(t_input_data *current);
+int parse_redirection(t_input_data *current);
+int parse_pipe(t_input_data *current);
 
 //Initialise my structures
 //void	init_struc(t_data *data);
