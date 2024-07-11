@@ -7,7 +7,7 @@ void parse_redirection(t_input_data *current)
     int redir_type;
 
     //printf("*** IN_PARSE_redirection\n");
-    if (!current)
+    if (!current || !current->next)
     {
         printf("PARSE_REDIRECTION ERROR\n");
         return;

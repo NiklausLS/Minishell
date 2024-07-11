@@ -10,6 +10,7 @@ int	exec_all(t_input_data *cmd, t_exec *ex)
 
 	start = cmd;
 	current = cmd;
+	printf("data->cmd = %s\n", current->data);
 	//printf("---IN_EXEC_ALL\n");
 	while (current)
 	{

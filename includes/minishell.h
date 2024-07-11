@@ -79,7 +79,7 @@ typedef struct s_input_data
     char	*data;
     struct	s_input_data *next_data_same_command_id;
     struct	s_input_data *next_command_id;
-    struct  s_input_data *next;//
+    struct  s_input_data *next;
 }   t_input_data;
 
 typedef struct s_split_data
