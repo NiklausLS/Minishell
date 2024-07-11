@@ -2,7 +2,7 @@
 
 #include "../includes/minishell.h"
 
-int show_minishell(t_input_data **input_data)
+int show_minishell(t_input_data **input_data, t_exec *ex)
 {
     int launch;
 
@@ -12,7 +12,7 @@ int show_minishell(t_input_data **input_data)
         launch = parsing_minishell(input_data);
         if (launch == 0)
         {
-            if (execution_minishell(*input_data) != 0)//input_data
+            if (execution_minishell(*input_data, ex) != 0)//input_data
                 return (1);
             //retour de 2 ou autres valeurs ???? par exemple si entre exit ou ctrl-d etc qui doivent terminer le shell et pas que l execution ???? et aussi shell doit continuer a tourner si erreur d execution mais pas erreur entrainant la fermeture du shell
         }

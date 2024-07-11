@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/07/09 13:31:21 by nileempo         ###   ########.fr        #
+#    Updated: 2024/07/11 09:11:13 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS = main.c \
 		./builtins/pwd.c \
 		./builtins/unset.c \
 		./cleans/cleans_parsing.c \
+		./cleans/free_exec.c \
 		./debug/debug_parsing.c \
 		./debug/errors_messages.c \
 		./inits/add_data_structure.c \
@@ -36,12 +37,12 @@ SRCS = main.c \
 		./redirections/redirections_exec.c \
 		./redirections/redirections_makechild.c \
 		./utils/ft_lstnew.c \
-		./utils/utils_parsing.c 
+		./utils/utils_parsing.c \
 		
 
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 INC_PATH = ./includes
 
 OBJS = $(SRCS:.c=.o)

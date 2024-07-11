@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/09 17:42:56 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/11 08:39:27 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ t_input_data *init_node(char *data)
     new_node->data = ft_strdup(data);
     //printf("init_node = data = %s\n", data);
     new_node->args = ft_split(data, ' ');
-    //printf("--- create node args[0] = %s\n", new_node->args[0]);
-    /*int i = 1;
+    printf("--- create node args[0] = %s\n", new_node->args[0]);
+    int i = 1;
     while (new_node->args[i])
     {
         printf("--- create node args[%d] : %s\n", i, new_node->args[i]);
         i++;
-    }*/
+    }
     new_node->path = NULL;
     //new_node->env = NULL;
     new_node->input_type = -1;

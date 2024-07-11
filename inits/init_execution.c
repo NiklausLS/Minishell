@@ -90,20 +90,20 @@ int init_input_data(t_input_data *input_data)
     return (0);
 }
 
-int execution_minishell(t_input_data *input_data)
+int execution_minishell(t_input_data *input_data, t_exec *ex)
 {
-    t_exec  *ex;
+    //t_exec  *ex;
 
-    ex = malloc(sizeof(t_exec));
-    if (init_exec_structure(ex, *(input_data->env)) == 1)
-        return (1);
+    //ex = malloc(sizeof(t_exec));
+    /*if (init_exec_structure(ex, *(input_data->env)) == 1)
+        return (1);*/
     if (init_input_data(input_data) == 1)
         return (1);
     if (check_lst(input_data) == 1)
         return (1);
     if (exec_all(input_data, ex) == 1)
         return (1);
-    if (free_exec_structure(ex) == 1)
-        return (1);
+    /*if (free_exec_structure(ex) == 1)
+        return (1);*/
     return (0);
 }
