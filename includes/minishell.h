@@ -92,15 +92,12 @@ typedef struct s_split_data
     t_input_data	*temp_new_struct;
 }   t_split_data;
 
-typedef struct s_data {
+/*typedef struct s_data {
     t_input_data	*cmd_lst;
     //int             can_exec;
     //char            **env;
     //t_redirection   *redir_lst;
-} t_data;
-
-
-
+} t_data;*/
 
 int     make_env(char **envp);
 int get_path(t_exec *ex, t_input_data *data);
@@ -116,7 +113,9 @@ void parse_pipe(t_input_data *current);
 int    init_exec_structure(t_exec *ex, char **envp);
 
 //Free everything inside my structure
-int    free_exec_structure(t_exec *ex);
+int		free_exec_structure(t_exec *ex);
+void	free_array(char **array);
+int		free_input_data(t_input_data **input_data);
 
 //BUILDIN
 int     get_builtin(t_input_data *cmd, t_exec *ex);
@@ -140,7 +139,7 @@ int	exec_command_lst(t_input_data *cmd, t_exec *ex);
 int    make_child(t_input_data *start, t_input_data *end, t_exec *ex);
 
 //OPERATOR checkers and managers
-void    split_redirection(char *str, t_data *data);
+void    split_redirection(char *str, t_input_data *data);
 int     check_redirection(char *str);
 //void    make_redirection(char *str);
 int		check_pipe(char *str);
@@ -174,7 +173,7 @@ int    protected_pipe(int pipefd[2]);
 //PARSING commands, path, ex->env
 //void	split_path(t_exec *ex, t_data *data);
 char **split_path(char *path);
-void    get_args(char **argv, t_data *data);
+void    get_args(char **argv, t_input_data *data);
 
 //modified functions for chained list
 void    add_node(t_input_data **head, t_input_data *new_node);
@@ -190,7 +189,7 @@ int	redirection_errors(t_input_data *cmd);
 
 //functions to help debug and improve my projet
 void	print_array(char **array);
-void	print_linked_list(t_data *head);
+void	print_linked_list(t_input_data *head);
 void	print_node(t_input_data *cmd);
 void	print_env(t_exec *ex);
 

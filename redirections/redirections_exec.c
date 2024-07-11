@@ -54,20 +54,3 @@ int	protected_pipe(int pipefd[2])
 	}
     return (0);
 }
-
-int    free_exec_structure(t_exec *ex)
-{
-    int i;
-
-    i = 0;
-    if (ex->env != NULL)
-    {
-        while (ex->env[i])
-        {
-            free(ex->env[i]);
-            i++;
-        }
-        free(ex->env);
-    }
-    return (0);
-}

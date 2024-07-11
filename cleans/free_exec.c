@@ -1,0 +1,71 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_exec.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/11 08:05:19 by nileempo          #+#    #+#             */
+/*   Updated: 2024/07/11 08:27:37 by nileempo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/minishell.h"
+
+void	free_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	if (!array)
+		return;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
+
+int    free_exec_structure(t_exec *ex)
+{
+    int i;
+
+    i = 0;
+    if (ex->env != NULL)
+    {
+        while (ex->env[i])
+        {
+            free(ex->env[i]);
+            i++;
+        }
+        free(ex->env);
+    }
+    return (0);
+}
+
+int		free_input_data(t_input_data **input_data)
+{
+    t_input_data	*current;
+	
+	current = *input_data;
+	if (!input_data || !(*input_data))
+		return (-1);
+	while (current)
+	{
+		if (current->data)
+			free(current->data);
+		if (current->input)
+			free(current->input);
+		if (current->output)
+			free(current->output);
+		if (current->heredoc_delim)
+			free(current->heredoc_delim);
+		if (current->args)
+			free_array(current->args);
+		current = current->next;
+		free(current);
+	}
+	*input_data = NULL;
+	return (0);
+}
