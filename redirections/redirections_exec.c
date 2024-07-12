@@ -43,7 +43,8 @@ int	exec_all(t_input_data *cmd, t_exec *ex)
 		current = start;
 		//printf("wait for child process\n");
 	}
-	//while (wait(NULL) > 0);
+	while (wait(NULL) > 0)
+		;
 	//printf("end of exec_all\n");
     return (0);
 }

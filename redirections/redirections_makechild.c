@@ -71,10 +71,15 @@ int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 		while (cmd)
 		{
 			printf("- cmd = %s\n", cmd->data);
-        	printf("- input type = %d\n", cmd->input_type);
+			if (cmd->input_type != -1)
+        		printf("- input type = %d\n", cmd->input_type);
+			if (cmd->output_type != -1)
         	printf("- output type = %d\n", cmd->output_type);
+			if (cmd->cmd_type != -1)
         	printf("- cmd type = %d\n", cmd->cmd_type);
+			if (cmd->file_type != -1)
         	printf("- file type = %d\n", cmd->file_type);
+			if (cmd->arg_type != -1)
         	printf("- arg type = %d\n", cmd->arg_type);
 			//printf("--- cmd = %s\n", cmd->data);
 			//printf("--- cmd_type is %d\n", cmd->cmd_type);

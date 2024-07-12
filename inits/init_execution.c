@@ -120,9 +120,9 @@ int execution_minishell(t_input_data *input_data, t_exec *ex)
     if (parse_args(input_data) == 1)
         return (1);
     printf("ex = %s\n", ex->env[0]);
-    /*if (exec_all(input_data, ex) == 1)
-        return (1);*/
-    /*if (free_exec_structure(ex) == 1)
-        return (1);*/
+    if (exec_all(input_data, ex) == 1)
+        return (1);
+    if (free_exec_structure(ex) == 1)
+        return (1);
     return (0);
 }
