@@ -5,6 +5,7 @@
 int show_minishell(t_input_data **input_data, t_exec *ex)
 {
     int launch;
+    int execution;
 
     while (42)
     {
@@ -12,14 +13,18 @@ int show_minishell(t_input_data **input_data, t_exec *ex)
         launch = parsing_minishell(input_data);
         if (launch == 0)
         {
-            if (execution_minishell(*input_data, ex) != 0)//input_data
+            execution = execution_minishell(*input_data, ex); //input_data
+            printf("execution = %d\n", execution);
+            if (execution == 1)
                 return (1);
+            else if (execution == 2)
+                continue;
             //retour de 2 ou autres valeurs ???? par exemple si entre exit ou ctrl-d etc qui doivent terminer le shell et pas que l execution ???? et aussi shell doit continuer a tourner si erreur d execution mais pas erreur entrainant la fermeture du shell
         }
         if (launch == 1)
             return (1);
         printf("\n\n\n\n\n==============================  FINAL  ==========================\n");//
-        print_input_data(*input_data);//
+        //print_input_data(*input_data);//
         printf("==============================================================\n");//
         if (clean_input_data_reallocate(input_data, 0) == 1)
             return (1);

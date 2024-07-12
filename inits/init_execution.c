@@ -115,6 +115,11 @@ int execution_minishell(t_input_data *input_data, t_exec *ex)
         return (1);*/
     if (init_input_data(input_data) == 1)
         return (1);
+    if (!input_data->data)
+    {
+        ft_putstr_fd("nothing in data structure\n", 2); 
+        return (2);
+    }
     if (check_lst(input_data) == 1)
         return (1);
     if (parse_args(input_data) == 1)

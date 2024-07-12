@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/12 10:50:39 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:04:39 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	parse_args(t_input_data *data)
 
 	count = 0;
 	//current = NULL;
+	if (!data->data)
+		return (1);
 	current = data;
 	printf("in parse_args\n");
 	printf("cmd = %s\n", current->data);
