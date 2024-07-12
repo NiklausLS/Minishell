@@ -23,9 +23,9 @@ int show_minishell(t_input_data **input_data, t_exec *ex)
         }
         if (launch == 1)
             return (1);
-        printf("\n\n\n\n\n==============================  FINAL  ==========================\n");//
+        //printf("\n\n\n\n\n==============================  FINAL  ==========================\n");//
         //print_input_data(*input_data);//
-        printf("==============================================================\n");//
+        //printf("==============================================================\n");//
         if (clean_input_data_reallocate(input_data, 0) == 1)
             return (1);
     }

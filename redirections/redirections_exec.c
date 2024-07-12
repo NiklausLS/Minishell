@@ -11,6 +11,7 @@ int	exec_all(t_input_data *cmd, t_exec *ex)
 	start = cmd;
 	current = cmd;
 	
+	//printf("ex->env[0] = %s", ex->env[0]);
 	//cmd->args = ft_split(cmd->data, ' ');
 	//printf("data->cmd = %s\n", current->data);
 	//printf("---IN_EXEC_ALL\n");
@@ -54,7 +55,7 @@ int	protected_pipe(int pipefd[2])
 	if (pipe(pipefd) == -1)
 	{
 		ft_putstr_fd("Error : pipe/n", 2);
-		exit(EXIT_FAILURE);
+		return (1);
 	}
     return (0);
 }

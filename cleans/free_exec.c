@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 08:05:19 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/12 11:43:43 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:12:12 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		free_input_data(t_input_data **input_data)
 	
 	current = *input_data;
 	if (!input_data || !(*input_data))
-		return (-1);
+		return (1);
 	while (current)
 	{
 		if (current->data)
@@ -64,9 +64,11 @@ int		free_input_data(t_input_data **input_data)
 			free(current->heredoc_delim);
 		if (current->args)
 			free_array(current->args);
-		current = current->next;
-		free(current);
+		if (current->next)
+			current = current->next;
+		//free(current);
 	}
+	//free(current);
 	*input_data = NULL;
-	return (1);
+	return (0);
 }

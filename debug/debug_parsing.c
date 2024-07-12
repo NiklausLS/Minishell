@@ -33,3 +33,24 @@ void    print_input_data(t_input_data   *input_data)
     }
     printf("END Structure DATA\n");
 }
+
+void    print_node(t_input_data *data)
+{
+    t_input_data *current;
+
+    current = data;
+    printf("---print node---\n");
+    if (current->data)
+        printf("- cmd = %s\n", current->data);
+    if (current->input_type != -1)
+        printf("- input type = %d\n", current->input_type);
+    if (current->output_type != -1)
+        printf("- output type = %d\n", current->output_type);
+    if (current->cmd_type == 1)
+        printf("- cmd type = %d\n", current->cmd_type);
+    if (current->file_type ==1)
+        printf("- file type = %d\n", current->file_type);
+    if (current->arg_type == 1)
+        printf("- arg type = %d\n", current->arg_type);
+    printf("----------------\n");
+}

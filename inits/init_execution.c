@@ -34,63 +34,67 @@ int    init_exec_structure(t_exec *ex, char **envp)
 int	check_lst(t_input_data *data)
 {
 	t_input_data	*current;
-	t_input_data	*current_errors;
+	//t_input_data	*current_errors;
 	int				first_cmd;
-    int             check_red;
+    //int             check_red;
 
 	current = data;
-	current_errors = data;
+	//current_errors = data;
     first_cmd = 1;
-    //printf("IN CHECK LST\n");
-	while (current_errors)
+    printf("IN CHECK LST\n");
+	/*while (current_errors)
 	{
 		if (pipe_errors(current_errors) == 1)
             return (1);
-		/*if (redirection_errors(current_errors) == 1)
-            return (1);*/
+		if (redirection_errors(current_errors) == 1)
+            return (1);
 		current_errors = current_errors->next;
-	}
+	}*/
     //printf("après current_error\n");
-    while (current)
+    while (current != NULL)
 	{
-        printf("current = %s\n", current->data);
+        //printf("current = %s\n", current->data);
         if (first_cmd == 1)
         {
                 current->cmd_type = 1;
                 first_cmd = 0;
+                print_node(current);
         }
         else
         {
 		    //print_node(current);
             if (parse_redirection(current) == 1)
                 return (1);
-		    /*if (parse_pipe(current) == 1)
-                return (1);*/
-            printf("end of parse redirection and pipe\n");
-        }
-        if (current->file_type == -1 && current->input_type == -1
+		    if (parse_pipe(current) == 1)
+                return (1);
+            //printf("end of parse redirection and pipe\n");
+        
+            if (current->file_type == -1 && current->input_type == -1
                 && current->output_type == -1 && current->pipe_type == -1
                     && current->cmd_type == -1)
-            current->arg_type = 1;
-		//print_node(current);
+                current->arg_type = 1;
+            print_node(current);
+        }
 
+        /*printf("----\n");
         printf("- cmd = %s\n", current->data);
         printf("- input type = %d\n", current->input_type);
         printf("- output type = %d\n", current->output_type);
         printf("- cmd type = %d\n", current->cmd_type);
         printf("- file type = %d\n", current->file_type);
         printf("- arg type = %d\n", current->arg_type);
+        printf("----\n");*/
         //if (current->next)//next_data_same_command_id
-        check_red = check_redirection(data->data);
+        //check_red = check_redirection(data->data);
         //printf("check_red = %d\n", check_red);
-        if ((check_red != -1 || check_pipe(data->data) == 0) && !current->next)
+        /*if ((check_red != -1 || check_pipe(data->data) == 0) && !current->next)
         {
             current->cmd_type = -1;
             print_error (2, current->data);
             return (0);
-        }
-        current = current->next;
-	}
+        }*/
+        current = current->next;  
+    }
     return (0);
 }
 
@@ -123,6 +127,7 @@ int execution_minishell(t_input_data *input_data, t_exec *ex)
     //ex = malloc(sizeof(t_exec));
     /*if (init_exec_structure(ex, *(input_data->env)) == 1)
         return (1);*/
+    //ex->env = NULL;
     if (init_input_data(input_data) == 1)
         return (1);
     if (!input_data->data)
@@ -137,7 +142,10 @@ int execution_minishell(t_input_data *input_data, t_exec *ex)
     //printf("ex = %s\n", ex->env[0]);
     if (exec_all(input_data, ex) == 1)
         return (1);
+    /*if (free_input_data(&input_data) == 1)
+        return (1);*/
     /*if (free_exec_structure(ex) == 1)
         return (1);*/
+    ex->env = NULL;
     return (0);
 }
