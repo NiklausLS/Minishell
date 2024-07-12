@@ -82,7 +82,7 @@ int	check_lst(t_input_data *data)
         //if (current->next)//next_data_same_command_id
         check_red = check_redirection(data->data);
         //printf("check_red = %d\n", check_red);
-        if (check_red != -1 && !current->next)
+        if ((check_red != -1 || check_pipe(data->data) == 0) && !current->next)
         {
             current->cmd_type = -1;
             print_error (2, current->data);

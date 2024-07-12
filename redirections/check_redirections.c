@@ -42,12 +42,12 @@ int	check_pipe(char *str)
 	if (str == NULL)
 	{
 		//ft_putstr_fd("EMPTY STR IN CHECK_PIPE\n", 2);
-		return (-1);
+		return (1);
 	}
 	if (str && str[0] == '|')
 	{
 		//printf("str[0] = %c", str[0]);
 		return (0);
 	}
-	return (-1);
+	return (1);
 }
