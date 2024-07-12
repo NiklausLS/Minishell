@@ -2,130 +2,136 @@
 
 #include "../includes/minishell.h"
 
-int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
+/*int exec_pipe_commands(t_input_data *start, t_input_data *end, t_exec *ex)
+{
+    pid_t pid;
+    int status;
+
+	printf("executing pipe_commands : start = %s, end = %s\n", start->data, end->data);
+
+    if (pipe(ex->pipefd) == -1)
+	{
+        perror("pipe");
+        return (1);
+    }
+	printf("Pipe created. Read end = %d, Write end = %d\n", ex->pipefd[READ_END], ex->pipefd[WRITE_END]);
+    pid = fork();
+    if (pid == -1)
+	{
+        perror("fork");
+        return (1);
+	}
+	printf("TEST ENTRE PID\n");
+	if (pid == 0)
+	{
+		printf("new child process\n");
+        if (dup2(ex->pipefd[WRITE_END], STDOUT_FILENO) == -1)
+		{
+            perror("dup2");
+            return (1);
+		}
+		printf("ex->pipefd[WRITE_END] = %d\n", ex->pipefd[WRITE_END]);
+		printf("ex->pipefd[READ_END] = %d\n", ex->pipefd[READ_END]);
+		//close(STDOUT_FILENO);
+		dup2(ex->pipefd[WRITE_END], STDOUT_FILENO);
+		printf("redirecting stdout to pipe write end = %d\n", ex->pipefd[WRITE_END]);
+        //close(ex->pipefd[READ_END]);
+        //close(ex->pipefd[WRITE_END]);
+        exec_command(start, ex);
+		printf("fin du processus child\n");
+    }
+	else
+	{
+		printf("parent process created, child pid = %d\n", pid);
+        if (dup2(ex->pipefd[READ_END], STDIN_FILENO) == -1)
+		{
+            perror("dup2");
+            return (1);
+        }
+		printf("redirecting stdin to pipe read end: %d\n", ex->pipefd[READ_END]);
+        close(ex->pipefd[READ_END]);
+        close(ex->pipefd[WRITE_END]);
+
+        exec_command(end, ex);
+		printf("Parent process waiting for child\n");
+        waitpid(pid, &status, 0);
+		printf("Parent process finished waiting for child\n");
+
+    }
+	printf("fin de exec_pipe_command\n");
+    return (0);
+}*/
+
+int	make_child(t_input_data *cmd, t_exec *ex)
 {
 	pid_t			pid;
-	t_input_data	*cmd;
+	int				status;
 
-	printf("\nex->env[0] = %s\n", ex->env[0]);
-	//printf("--- IN MAKE CHILD\n");
-	//printf("cmd start = %s\n", start->data);
+	printf("cmd  = %s\n", cmd->data);
 	//printf("-----\n");
 	pid = fork();
 	if (pid == -1)
 	{
 		ft_putstr_fd("Minishell: fork: creation failed\n", 2);
-		exit(EXIT_FAILURE);
+		return (1);
 	}
 	if (pid == 0)
 	{
-		printf("- in child process\n");
-		if (make_all_redirections(start, end) == 1)
+		printf("child process created for command: %s\n", cmd->data);
+		if (make_all_redirections(cmd, NULL) == 1)
             return (1);
-		/*if (ex->prev_pipe != -1)
-		{
-            if (dup2(ex->prev_pipe, STDIN_FILENO) == -1)
-            {
-                perror("dup2");
-                //close(fd);
-                return (1);
-            }
-			//dup2(ex->prev_pipe, STDIN_FILENO);
-            if (close(ex->prev_pipe) == -1)
-            {
-                perror("open");
-                return (1);
-            }
-			//close(ex->prev_pipe);
-		}
-		if (end && end->pipe_type == 1)
-		{
-            if (close(ex->pipefd[READ_END]) == -1)
-            {
-                perror("open");
-                return (1);
-            }
-			//close(ex->pipefd[READ_END]);
-            if (dup2(ex->pipefd[WRITE_END], STDOUT_FILENO) == -1)
-            {
-                perror("dup2");
-                //close(fd);
-                return (1);
-            }
-			//dup2(ex->pipefd[WRITE_END], STDOUT_FILENO);
-            if (close(ex->pipefd[WRITE_END]) == -1)
-            {
-                perror("open");
-                exit(EXIT_FAILURE);
-            }
-			//close(ex->pipefd[WRITE_END]);
-		}*/
-
-
-		//print_node(cmd);
-		//printf("BEFORE MAKE_ALL_REDIRECTION\n");
-		/*if (make_all_redirections(start, end) == 1)
-            return (1);*/
-		//printf("BEFORE EXEC_ALL_COMMAND\n");
-		//exec_all_command(start, end, ex);
-		//printf("BEFORE EXEC_COMMAND\n");
-		cmd = start;
-		//printf("--- cmd = %s\n", cmd->data);
-		//printf("--- cmd_type is %d\n", cmd->cmd_type);
-		while (cmd)
-		{
-			/*printf("- cmd = %s\n", cmd->data);
-			if (cmd->input_type != -1)
-        		printf("- input type = %d\n", cmd->input_type);
-			if (cmd->output_type != -1)
-        	printf("- output type = %d\n", cmd->output_type);
-			if (cmd->cmd_type != -1)
-        	printf("- cmd type = %d\n", cmd->cmd_type);
-			if (cmd->file_type != -1)
-        	printf("- file type = %d\n", cmd->file_type);
-			if (cmd->arg_type != -1)
-        	printf("- arg type = %d\n", cmd->arg_type);
-			//printf("--- cmd = %s\n", cmd->data);
-			//printf("--- cmd_type is %d\n", cmd->cmd_type);*/
-			if (cmd && cmd->cmd_type == 1)
-			{
-				printf("--- executing cmd : %s\n", cmd->data);
-				exec_command(cmd, ex);
-                    //return (1);
-				break;
-			}
-			cmd = cmd->next;//next_data_same_command_id
-		}
-		//printf("no command found or execution is finished\n");
-		return (0);
+		printf("--- executing cmd : %s\n", cmd->data);
+		if (cmd->cmd_type == 1)
+			exec_command(cmd, ex);
 	}
-	/*else
-		printf("in parent process : child pid is %d\n", pid);*/
+	else
+	{
+		printf("in parent process : child pid is %d\n", pid);
+		waitpid(pid, &status, 0);
+	}
     return (0);
 }
 
-int	exec_command(t_input_data *data, t_exec *ex)
+/*int	exec_command(t_input_data *data, t_exec *ex)
 {
 	//printf("***---IN_EXEC_COMMAND\n");
-	//printf("cmd = %s\n", data->data);
+	printf("cmd = %s\n", data->data);
+	//printf("ex = %s\n", ex->env[0]);
+
+	printf("Executing command: %s\n", data->data);
+	printf("TEST EXEC_COMMAND\n");
+	if (data->pipe_type == 1)
+	{
+		printf("LEAVING pipe_type = %d\n", data->pipe_type);
+		return (0);
+	}
+    //printf("Command arguments:\n");
+    for (int i = 0; data->args[i]; i++) {
+        printf("  - %s\n", data->args[i]);
+    
+    printf("Command type: %d\n", data->cmd_type);
+    //printf("Exec fail flag: %d\n", data->exec_fail);
+	if (data->pipe_type == 1)
+	{
+		printf("LEAVING pipe_type = %d\n", data->pipe_type);
+		return (0);
+	}
 	//printf("cmd->args= %s\n", data->args[0]);
-	if (!data->args || !data->args[0])
+	if (!data->data || !data->args[0])
 	{
 		ft_putstr_fd("Minishell: command not found\n", 2);
 		exit(127);
 	}
+
 	//print_node(data.cmd_lst);
 	//if (get_builtin(data.cmd_lst->cmd) == 0)
 		
 	//printf("cmd = %s\n", data.cmd_lst->cmd);
 	//printf("cmd->data_type = %d\n", data.cmd_lst->cmd_type);
 	if (data->cmd_type == 1 && data->exec_fail == -1)
-	//if (data.cmd_lst->input_type != -1 || data.cmd_lst->output_type != -1)
 	{
-		if (get_builtin(data, ex) == 0)
-			return (0);
-		//get_builtin pas terminée
-		//if (make_path(ex, &data) == 1)
+		//if (get_builtin(data, ex) == 0)
+		//	return (0);
 		if (make_path(ex, data) == 1)
             return (1);
 		if (data->path == NULL)
@@ -143,126 +149,7 @@ int	exec_command(t_input_data *data, t_exec *ex)
     	}
 	}
     return (0);
-}
-
-int make_path(t_exec *ex, t_input_data *data)
-{
-    t_input_data *current;
-	
-	current = data;
-    //printf("--- IN_MAKE_PATH\n");
-    if (get_path(ex, data) == 1)
-        return (1);
-    while (current)
-    {
-        if (current->cmd_type == 1)
-        {
-            if (check_and_set_path(current) == 1)
-                return (1);
-        }
-        current = current->next;//next_data_same_command_id
-    }
-    return (0);
-}
-
-int check_and_set_path(t_input_data *data)
-{
-    char **paths;
-	int	i;
-
-	if (!data->path)
-        return (1);//return 1 car erreur ????
-	paths = split_path(data->path);
-	i = 0;
-    if (paths)
-    {
-        data->path = find_command(paths, data->args[0]);//check erreur
-		while (paths[i])
-		{
-            free(paths[i]);
-			i++;
-		}
-        free(paths);
-    }
-    if (!data->path && access(data->args[0], F_OK | X_OK) == 0)
-        data->path = ft_strdup(data->args[0]);
-    //printf("Command: %s, Path: %s\n", cmd->args[0], cmd->path ? cmd->path : "Not found");
-    return (0);
-}
-
-char *find_command(char **paths, char *cmd)
-{
-    int i = 0;
-    char *full_path;
-
-    while (paths[i])
-    {
-        full_path = ft_strjoin(paths[i], cmd);
-        if (access(full_path, F_OK | X_OK) == 0)//return erreur access
-            return full_path;
-        free(full_path);
-        i++;
-    }
-    return (NULL);
-}
-
-char **split_path(char *path)
-{
-    char **paths;
-	char *tmp;
-    int i;
-
-	paths = ft_split(path, ':');
-	tmp = NULL;
-	i = 0;
-    if (!paths)
-        return NULL;
-    while (paths[i])
-    {
-        tmp = paths[i];
-        paths[i] = ft_strjoin(tmp, "/");
-        free(tmp);
-        i++;
-    }
-    return (paths);
-}
-
-int get_path(t_exec *ex, t_input_data *data)
-{
-    char *path = NULL;
-    int i = 0;
-
-    //printf("--- IN GET PATH\n");
-    //printf("data->cmd_lst->cmd = %s\n", data->cmd_lst->cmd);
-    if (ex->env == NULL || *ex->env == NULL)
-        return (1);//1 pour erreur 
-    while (ex->env[i])
-    {
-        if (ft_strncmp(ex->env[i], "PATH=", 5) == 0)
-        {
-            path = ex->env[i] + 5;
-            break;
-        }
-        i++;
-    }
-    data->path = path;
-    //printf("PATH found: %s\n", path ? path : "Not found");
-    return (0);
-}
-
-int	make_env(char **envp)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strchr(envp[i], '='))
-			printf("%s\n", envp[i]);
-		i++;
-	}
-	return (0);
-}
+}*/
 
 int get_builtin(t_input_data *data, t_exec *ex)
 //int get_builtin(t_data *data, char **argv, t_exec *ex)
@@ -316,27 +203,27 @@ int	make_all_redirections(t_input_data *start, t_input_data *end)
 
 	//printf("-- start = %s\n", start->data);
 	//printf("-- end = %s\n", end->data);
-	//printf("-- in make_all_redirections\n");
+	//printf("$ in make_all_redirections\n");
 	//printf("--- current input = %d\n",  start->input_type);
 	//printf("--- current output = %d\n",  start->output_type);
 	t_input_data	*current;
 	t_input_data	*last_output_cmd;
 	//t_input_data	*last_input_cmd;
-	//int			last_input;
+	int			last_input;
 	int			last_output;		
 	
 	current = start;
-	//last_input = -1;
+	last_input = -1;
 	last_output = -1;
 	last_output_cmd = NULL;
 	//last_input_cmd = NULL;
 	//print_node(current);
-	while (current && current != end)
+	while (current && end)
 	{
-		printf("-- current command = %s\n", current->data);
-		//printf("-- current input = %d\n",  current->input_type);
-		printf("-- current output = %d\n",  current->output_type);
-		/*if (current->input_type != -1)
+		/*printf("- current command = %s\n", current->data);
+		printf("- current input = %d\n",  current->input_type);
+		printf("- current output = %d\n",  current->output_type);*/
+		if (current->input_type == 0)
 		{
 			printf("-- unsing make_input in make all redirections\n");
 			//printf(" * * cmd->input_type = %d et cmd->input = %s\n", current->input_type, current->input);
@@ -349,16 +236,16 @@ int	make_all_redirections(t_input_data *start, t_input_data *end)
                 }
             }
 			last_input = open_input(current);
-			//if (last_input == -1)
-			//	return (1);
+			if (last_input == -1)
+				return (1);
 			printf("-- last input = %d\n", last_input);
-		}*/
+		}
 		//printf("--- after input type\n");
-		if (current->output_type != -1)
+		if (current->output_type == 2 || current->output_type == 3)
 		{
-			printf("** unsign make_output in make all redirections\n");
+			//printf("-- unsign make_output in make all redirections\n");
 			last_output = open_output(current);
-			printf("** last output = %d\n", last_output);
+			//printf("-- last output = %d\n", last_output);
 			if (last_output != -1)
             {
 				//close(last_output);
@@ -369,12 +256,12 @@ int	make_all_redirections(t_input_data *start, t_input_data *end)
                 }
             }
 			last_output_cmd = current;
-			printf("last_output_cmd = %s", last_output_cmd->output);
+			//printf("-- last_output_cmd = %s\n", last_output_cmd->output);
 		}
 		current = current->next;//next_data_same_command_id
 	}
 
-	printf("--- after output type\n");
+	//printf("--- after output type\n");
 	/*if (last_input != -1)//inutile normalement car aurait finis la fct
 	{
 		//last_input = open_input(last_input_cmd);
@@ -397,29 +284,29 @@ int	make_all_redirections(t_input_data *start, t_input_data *end)
 	//	dup2(last_input, STDIN_FILENO);*/
 	if (last_output_cmd != NULL)
 	{
-		printf("last_output_cmd = %s", last_output_cmd->data);
+		//printf("--- last_output_cmd = %s\n", last_output_cmd->data);
 		last_output = open_output(last_output_cmd);
-		printf("last output = %d\n", last_output);
+		//printf("--- last output = %d\n", last_output);
 		if (last_output != -1)
 		{
-			printf("last output = %d\n", last_output);
+			//printf("--- last output = %d\n", last_output);
             if (dup2(last_output, STDOUT_FILENO) == -1)
             {
                 perror("dup2");
                 //close(fd);
                 return (1);
             }
-			dup2(last_output, STDOUT_FILENO);
+			//dup2(last_output, STDOUT_FILENO);
             if (close(last_output) == -1)
             {
                 perror("open");
                 return (1);
             }
-			close(last_output);
-			printf("redirection to %d\n", last_output);
+			//close(last_output);
+			//printf("--- output redirection to %s\n", last_output_cmd->output);
 		}
 	}
-	printf("end of make_all_redirections\n");
+	//printf("end of make_all_redirections\n");
     return (0);
 }
 
@@ -435,7 +322,6 @@ int	open_input(t_input_data *data)
 	//{
 		if (current->input_type == 0)
 		{
-			printf("-- before open fd = %d\n", fd);
 			fd = open(current->input, O_RDONLY, 0644);
 			printf("- fd = %d\n", fd);
 			if (fd == -1)
@@ -462,20 +348,22 @@ int	open_output(t_input_data *data)
 	int	fd;
 	t_input_data *current;
 
-	printf(" *** IN OPEN OUTPUT\n");
+	//printf("********************************\n");
+	//printf(" *** IN OPEN OUTPUT\n");
 	fd = -1;
 	current = data;
 	//int i = 1;
 	//while (current)
 	//{
-		//printf("open_output nbr %d\n", i);
+	
+	//printf("current->output_type = %d\n", current->output_type);
 	if (current->output_type == 2)
 	{
 		fd = open(current->output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		printf("- fd = %d\n", fd);
-		printf("- output = %s\n", current->output);
-		if (fd != -1)
-			printf("*** %s have been made\n", current->output);
+		//printf("- fd = %d\n", fd);
+		//printf("- output = %s\n", current->output);
+		//if (fd != -1)
+		//	printf("*** %s have been made\n", current->output);
 		if (fd == -1)
 		{
 			//printf("blabla\n");
@@ -489,10 +377,10 @@ int	open_output(t_input_data *data)
 	}
 	else if (current->output_type == 3)
 	{
-		printf(" - cmd->output_type = 3\n");
-		printf(" - cmd->output = %s\n", current->output);
+		//printf(" - cmd->output_type = 3\n");
+		//printf(" - cmd->output = %s\n", current->output);
 		fd = open(current->output, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		printf("*** %s have been created\n", current->output);
+		printf("FILE %s have been created\n", current->output);
 		if (fd == -1)
 		{
 			print_error(1, current->output);
@@ -504,6 +392,8 @@ int	open_output(t_input_data *data)
 		//current = current->next;
 		//i++;
 	//}
-	printf("enf of open_output loop\n");
-	return (fd);
+	//printf("enf of open_output loop\n");
+	//printf("*****************************\n");
+	return (0);
+	//return (fd);
 }

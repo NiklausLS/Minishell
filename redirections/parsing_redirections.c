@@ -15,7 +15,7 @@ int	parse_redirection(t_input_data *current)
     }
     //if (current->quotes == 0)
     redir_type = check_redirection(current->data);//manque
-    printf("redir type = %d\n", redir_type);
+    //printf("redir type = %d\n", redir_type);
     //else
     //    return (1);
     //printf("- IN_PARSE_redirection\n");
@@ -69,28 +69,32 @@ int	parse_pipe(t_input_data *current)
     //printf("in parse_pipe\n");
     int res_pipe;
 
-    res_pipe = 0;
+    res_pipe = -1;
     if (!current)
     {
         ft_putstr_fd("ERROR : parse_pipe is empty\n", 2);
         return (0);
     }
-    if (current->quotes == 0)
-        res_pipe = check_pipe(current->data); //manque
+    //if (current->quotes == 0)
+    res_pipe = check_pipe(current->data); //manque
     //printf("res_pipe = %d\n", res_pipe);
     //printf("in parse_pipe\n");
     //printf("cmd = %s\n", current->args[0]);
     if (res_pipe == 0)
     {
-        if (!current->next)
+        if (current->next)
         {
-            print_error (2, current->data);
-            return (0);
+            if (!current->next)
+            {
+                print_error (2, current->data);
+                return (0);
+            }
+            current->next->cmd_type = 1;
         }
         current->pipe_type = 1;
         current->cmd_type = -1;
         current->arg_type = -1;
-        //printf("%s is a pipe\n", current->cmd);
+        //printf("%s is a pipe\n", current->data);
     }
 	return (0);
 }

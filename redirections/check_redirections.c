@@ -38,16 +38,16 @@ int	check_redirection(char *str)
 
 int	check_pipe(char *str)
 {
-	//printf("---IN_CHECK_PIPE\n");
+	printf("---IN_CHECK_PIPE\n");
 	if (str == NULL)
 	{
 		//ft_putstr_fd("EMPTY STR IN CHECK_PIPE\n", 2);
-		return (1);
+		return (-1);
 	}
-	if (str && str[0] == '|')
+	if (str[0] == '|')
 	{
 		//printf("str[0] = %c", str[0]);
 		return (0);
 	}
-	return (1);
+	return (-1);
 }

@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/07/12 12:53:11 by nileempo         ###   ########.fr        #
+#    Updated: 2024/07/13 00:02:12 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRCS = main.c \
 		./redirections/redirections_makechild.c \
 		./utils/ft_lstnew.c \
 		./utils/utils_parsing.c \
+		./executions/path.c \
 		
 
 NAME = minishell

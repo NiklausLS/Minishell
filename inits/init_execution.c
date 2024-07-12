@@ -41,7 +41,7 @@ int	check_lst(t_input_data *data)
 	current = data;
 	//current_errors = data;
     first_cmd = 1;
-    printf("IN CHECK LST\n");
+    //printf("IN CHECK LST\n");
 	/*while (current_errors)
 	{
 		if (pipe_errors(current_errors) == 1)

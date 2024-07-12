@@ -100,10 +100,10 @@ typedef struct s_split_data
 } t_data;*/
 
 int     make_env(char **envp);
-int get_path(t_exec *ex, t_input_data *data);
+//int get_path(t_exec *ex, t_input_data *data);
+int make_path(t_exec *ex, t_input_data *data);
 //int get_path(t_exec ex, t_input_data data);
-int check_and_set_path(t_input_data *data);
-
+//int check_and_set_path(t_input_data *data);
 
 int parse_redirection(t_input_data *current);
 int parse_pipe(t_input_data *current);
@@ -136,7 +136,7 @@ int	make_path(t_exec *ex, t_input_data *data);
 int	exec_command_lst(t_input_data *cmd, t_exec *ex);
 //void	exec_only_cmd(t_data *data);
 //void   make_child(t_input_data *cmd, int prev_pipe, int pipefd[2], t_exec *ex);
-int    make_child(t_input_data *start, t_input_data *end, t_exec *ex);
+int    make_child(t_input_data *cmd, t_exec *ex);
 
 //OPERATOR checkers and managers
 void    split_redirection(char *str, t_input_data *data);
@@ -155,14 +155,12 @@ int	make_all_redirections(t_input_data *start, t_input_data *end);
 void    make_pipe(t_input_data *cmd, int *prev_pipe, int pipefd[2]);
 void    close_pipe(t_input_data *cmd, int *prev_pipe, int pipefd[2]);
 int	exec_all(t_input_data *cmd, t_exec *ex);
+int	exec_only_command(t_input_data *cmd, t_exec *ex);
+int exec_pipe_commands(t_input_data *start, t_input_data *end, t_exec *ex);
 
 t_input_data  *parse_input(char *input);
 
-
-
-
-
-char *find_command(char **paths, char *cmd);
+//char *find_command(char **paths, char *cmd);
 
 
 
@@ -172,7 +170,7 @@ int    protected_pipe(int pipefd[2]);
 
 //PARSING commands, path, ex->env
 //void	split_path(t_exec *ex, t_data *data);
-char **split_path(char *path);
+//char **split_path(char *path);
 void    get_args(char **argv, t_input_data *data);
 int	parse_args(t_input_data *data);
 

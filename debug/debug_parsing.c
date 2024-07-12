@@ -48,9 +48,11 @@ void    print_node(t_input_data *data)
         printf("- output type = %d\n", current->output_type);
     if (current->cmd_type == 1)
         printf("- cmd type = %d\n", current->cmd_type);
-    if (current->file_type ==1)
+    if (current->file_type == 1)
         printf("- file type = %d\n", current->file_type);
     if (current->arg_type == 1)
         printf("- arg type = %d\n", current->arg_type);
+    if (current->pipe_type == 1)
+        printf("- pipe type = %d\n", current->pipe_type);
     printf("----------------\n");
 }
