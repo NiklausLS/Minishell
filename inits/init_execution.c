@@ -53,7 +53,7 @@ int	check_lst(t_input_data *data)
     //printf("après current_error\n");
     while (current)
 	{
-        //printf("current = %s\n", current->data);
+        printf("current = %s\n", current->data);
         if (first_cmd == 1)
         {
                 current->cmd_type = 1;
@@ -64,8 +64,9 @@ int	check_lst(t_input_data *data)
 		    //print_node(current);
             if (parse_redirection(current) == 1)
                 return (1);
-		    if (parse_pipe(current) == 1)
-                return (1); 
+		    /*if (parse_pipe(current) == 1)
+                return (1);*/
+            printf("end of parse redirection and pipe\n");
         }
         if (current->file_type == -1 && current->input_type == -1
                 && current->output_type == -1 && current->pipe_type == -1
@@ -73,12 +74,12 @@ int	check_lst(t_input_data *data)
             current->arg_type = 1;
 		//print_node(current);
 
-        /*printf("- cmd = %s\n", current->data);
+        printf("- cmd = %s\n", current->data);
         printf("- input type = %d\n", current->input_type);
         printf("- output type = %d\n", current->output_type);
         printf("- cmd type = %d\n", current->cmd_type);
         printf("- file type = %d\n", current->file_type);
-        printf("- arg type = %d\n", current->arg_type);*/
+        printf("- arg type = %d\n", current->arg_type);
         //if (current->next)//next_data_same_command_id
         check_red = check_redirection(data->data);
         //printf("check_red = %d\n", check_red);

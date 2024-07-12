@@ -70,7 +70,7 @@ int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 		//printf("--- cmd_type is %d\n", cmd->cmd_type);
 		while (cmd)
 		{
-			/*printf("- cmd = %s\n", cmd->data);
+		printf("- cmd = %s\n", cmd->data);
 			if (cmd->input_type != -1)
         		printf("- input type = %d\n", cmd->input_type);
 			if (cmd->output_type != -1)
@@ -82,10 +82,10 @@ int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 			if (cmd->arg_type != -1)
         	printf("- arg type = %d\n", cmd->arg_type);
 			//printf("--- cmd = %s\n", cmd->data);
-			//printf("--- cmd_type is %d\n", cmd->cmd_type);*/
+			//printf("--- cmd_type is %d\n", cmd->cmd_type);
 			if (cmd && cmd->cmd_type == 1)
 			{
-				//printf("executing cmd : %s\n", cmd->data);
+				printf("executing cmd : %s\n", cmd->data);
 				if (exec_command(cmd, ex) != 0)
                     return (1);
 				break;
