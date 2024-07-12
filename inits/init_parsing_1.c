@@ -14,7 +14,7 @@ int show_minishell(t_input_data **input_data, t_exec *ex)
         if (launch == 0)
         {
             execution = execution_minishell(*input_data, ex); //input_data
-            printf("execution = %d\n", execution);
+            //printf("execution = %d\n", execution);
             if (execution == 1)
                 return (1);
             else if (execution == 2)

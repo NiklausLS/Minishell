@@ -36,11 +36,12 @@ int	check_lst(t_input_data *data)
 	t_input_data	*current;
 	t_input_data	*current_errors;
 	int				first_cmd;
+    int             check_red;
 
 	current = data;
 	current_errors = data;
     first_cmd = 1;
-    printf("IN CHECK LST\n");
+    //printf("IN CHECK LST\n");
 	while (current_errors)
 	{
 		if (pipe_errors(current_errors) == 1)
@@ -52,11 +53,11 @@ int	check_lst(t_input_data *data)
     //printf("après current_error\n");
     while (current)
 	{
-        printf("current = %s\n", current->data);
+        //printf("current = %s\n", current->data);
         if (first_cmd == 1)
         {
-            current->cmd_type = 1;
-            first_cmd = 0;
+                current->cmd_type = 1;
+                first_cmd = 0;
         }
         else
         {
@@ -78,8 +79,16 @@ int	check_lst(t_input_data *data)
         printf("- cmd type = %d\n", current->cmd_type);
         printf("- file type = %d\n", current->file_type);
         printf("- arg type = %d\n", current->arg_type);*/
-        //if (current->next)
-		current = current->next;//next_data_same_command_id
+        //if (current->next)//next_data_same_command_id
+        check_red = check_redirection(data->data);
+        //printf("check_red = %d\n", check_red);
+        if (check_red != -1 && !current->next)
+        {
+            current->cmd_type = -1;
+            print_error (2, current->data);
+            return (0);
+        }
+        current = current->next;
 	}
     return (0);
 }
@@ -124,10 +133,10 @@ int execution_minishell(t_input_data *input_data, t_exec *ex)
         return (1);
     if (parse_args(input_data) == 1)
         return (1);
-    printf("ex = %s\n", ex->env[0]);
+    //printf("ex = %s\n", ex->env[0]);
     if (exec_all(input_data, ex) == 1)
         return (1);
-    if (free_exec_structure(ex) == 1)
-        return (1);
+    /*if (free_exec_structure(ex) == 1)
+        return (1);*/
     return (0);
 }

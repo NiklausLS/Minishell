@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/12 11:04:39 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:35:54 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ int	parse_args(t_input_data *data)
 	if (!data->data)
 		return (1);
 	current = data;
-	printf("in parse_args\n");
-	printf("cmd = %s\n", current->data);
+	//printf("in parse_args\n");
+	//printf("cmd = %s\n", current->data);
 	data->args = ft_split(data->data, ' ');
-	printf("current args = %s\n", current->args[0]);
+	//printf("current args = %s\n", current->args[0]);
 	if (data->next)
 	{
 		current = data->next;
-		printf("next->cmd = %s\n", data->next->data);
+		//printf("next->cmd = %s\n", data->next->data);
 	}
 	while (current && current->arg_type == 1 && current->pipe_type == -1)
 	{
 		count++;
-		printf("%s is an arg_type\n", current->data);
+		//printf("%s is an arg_type\n", current->data);
 		current = current->next;
 	}
 	data->args = malloc(sizeof(char *) * (count + 2));
@@ -48,7 +48,7 @@ int	parse_args(t_input_data *data)
 	while (i <= count)
 	{
 		data->args[i] = ft_strdup(current->data);
-		printf("cmd->args[%d] = %s\n", i, data->args[i]);
+		//printf("cmd->args[%d] = %s\n", i, data->args[i]);
 		current = current->next;
 		i++;
 	}

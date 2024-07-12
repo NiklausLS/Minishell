@@ -10,7 +10,7 @@ int	check_redirection(char *str)
 	//printf("---IN_CHECK_REDIRECTION\n");
 	if (str == NULL)
 	{
-		ft_putstr_fd("EMPTY STR IN CHECK REDIRECTION\n", 2);
+		//ft_putstr_fd("EMPTY STR IN CHECK REDIRECTION\n", 2);
 		return (-1);
 	}
 	while (str && str[i])
@@ -41,8 +41,8 @@ int	check_pipe(char *str)
 	//printf("---IN_CHECK_PIPE\n");
 	if (str == NULL)
 	{
-		ft_putstr_fd("EMPTY STR IN CHECK_PIPE\n", 2);
-		exit(EXIT_FAILURE);
+		//ft_putstr_fd("EMPTY STR IN CHECK_PIPE\n", 2);
+		return (-1);
 	}
 	if (str && str[0] == '|')
 	{

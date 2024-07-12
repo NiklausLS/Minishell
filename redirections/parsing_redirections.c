@@ -10,7 +10,7 @@ int	parse_redirection(t_input_data *current)
 	redir_type = -1;
     if (!current)
     {
-        printf("PARSE_REDIRECTION ERROR\n");
+        //printf("PARSE_REDIRECTION ERROR\n");
         return (-1);
     }
     if (current->quotes == 0)
@@ -51,6 +51,11 @@ int	parse_redirection(t_input_data *current)
                 current->next->next->arg_type = 1;
         }
         //printf("--- current->output_type = %d\n\n", current->output_type);
+    }
+    if ((current->input_type != -1 || current->output_type != -1 ) && !current->next)
+    {
+        print_error (2, current->data);
+        return (-1);
     }
 	return (0);
 }

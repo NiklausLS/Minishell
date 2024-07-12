@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 08:05:19 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/11 09:22:49 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:43:43 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void	free_array(char **array)
 	free(array);
 }
 
-int    free_exec_structure(t_exec *ex)
+/*int    free_exec_structure(t_exec *ex)
 {
     int i;
 
     i = 0;
-	printf("ex->env[i] = %s\n", ex->env[i]);
-    /*if (ex->env != NULL)
+	//printf("ex->env[i] = %s\n", ex->env[i]);
+    if (ex->env != NULL)
     {
         while (ex->env[i])
         {
@@ -41,9 +41,9 @@ int    free_exec_structure(t_exec *ex)
             i++;
         }
         free(ex->env);
-    }*/
+    }
     return (0);
-}
+}*/
 
 int		free_input_data(t_input_data **input_data)
 {

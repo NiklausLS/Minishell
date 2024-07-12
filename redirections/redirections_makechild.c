@@ -7,20 +7,20 @@ int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 	pid_t			pid;
 	t_input_data	*cmd;
 
-	printf("--- IN MAKE CHILD\n");
-	printf("cmd start = %s\n", start->data);
-	printf("-----\n");
+	//printf("--- IN MAKE CHILD\n");
+	//printf("cmd start = %s\n", start->data);
+	//printf("-----\n");
 	pid = fork();
 	if (pid == -1)
 	{
 		ft_putstr_fd("Minishell: fork: creation failed\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	if (pid != 0)
-		printf("pid different de 0\n");
+	/*if (pid != 0)
+		printf("pid different de 0\n");*/
 	if (pid == 0)
 	{
-		printf("\nin child process\n");
+		//printf("\nin child process\n");
 		if (ex->prev_pipe != -1)
 		{
             if (dup2(ex->prev_pipe, STDIN_FILENO) == -1)
@@ -59,18 +59,18 @@ int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
             }
 			//close(ex->pipefd[WRITE_END]);
 		}
-		printf("BEFORE MAKE_ALL_REDIRECTION\n");
+		//printf("BEFORE MAKE_ALL_REDIRECTION\n");
 		make_all_redirections(start, end);
             //return (1);
 		//printf("BEFORE EXEC_ALL_COMMAND\n");
 		//exec_all_command(start, end, ex);
-		printf("BEFORE EXEC_COMMAND\n");
+		//printf("BEFORE EXEC_COMMAND\n");
 		cmd = start;
 		//printf("--- cmd = %s\n", cmd->data);
 		//printf("--- cmd_type is %d\n", cmd->cmd_type);
 		while (cmd)
 		{
-			printf("- cmd = %s\n", cmd->data);
+			/*printf("- cmd = %s\n", cmd->data);
 			if (cmd->input_type != -1)
         		printf("- input type = %d\n", cmd->input_type);
 			if (cmd->output_type != -1)
@@ -82,27 +82,27 @@ int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 			if (cmd->arg_type != -1)
         	printf("- arg type = %d\n", cmd->arg_type);
 			//printf("--- cmd = %s\n", cmd->data);
-			//printf("--- cmd_type is %d\n", cmd->cmd_type);
+			//printf("--- cmd_type is %d\n", cmd->cmd_type);*/
 			if (cmd && cmd->cmd_type == 1)
 			{
-				printf("executing cmd : %s\n", cmd->data);
+				//printf("executing cmd : %s\n", cmd->data);
 				if (exec_command(cmd, ex) != 0)
                     return (1);
 				break;
 			}
 			cmd = cmd->next;//next_data_same_command_id
 		}
-		printf("no command found or execution is finished\n");
+		//printf("no command found or execution is finished\n");
 		return (0);
 	}
-	else
-		printf("in parent process : child pid is %d\n", pid);
+	/*else
+		printf("in parent process : child pid is %d\n", pid);*/
     return (0);
 }
 
 int	exec_command(t_input_data *data, t_exec *ex)
 {
-	printf("***---IN_EXEC_COMMAND\n");
+	//printf("***---IN_EXEC_COMMAND\n");
 	//printf("cmd = %s\n", data->data);
 	//printf("cmd->args= %s\n", data->args[0]);
 	/*if (!data->args || !data->args[0])
@@ -309,7 +309,7 @@ int get_builtin(t_input_data *data, t_exec *ex)
 
 int	make_all_redirections(t_input_data *start, t_input_data *end)
 {
-	printf("in make_all_redirections\n");
+	//printf("in make_all_redirections\n");
 	t_input_data	*current;
 	t_input_data	*last_output_cmd;
 	//t_input_data	*last_input_cmd;
@@ -323,7 +323,7 @@ int	make_all_redirections(t_input_data *start, t_input_data *end)
 	//last_input_cmd = NULL;
 	while (current && current != end)
 	{
-		printf("--- current loop\n");
+		//printf("--- current loop\n");
 		if (current->input_type != -1)
 		{
 			//printf(" * unsing make_input in make all redirections\n");
@@ -340,7 +340,7 @@ int	make_all_redirections(t_input_data *start, t_input_data *end)
 			if (last_input == -1)
 				return (1);
 		}
-		printf("--- after input type\n");
+		//printf("--- after input type\n");
 		if (current->output_type != -1)
 		{
 			//printf(" * unsign make_output in make all redirections\n");
@@ -364,7 +364,7 @@ int	make_all_redirections(t_input_data *start, t_input_data *end)
 		current = current->next;//next_data_same_command_id
 	}
 
-	printf("--- after output type\n");
+	//printf("--- after output type\n");
 	if (last_input != -1)//inutile normalement car aurait finis la fct
 	{
 		//last_input = open_input(last_input_cmd);
@@ -407,7 +407,7 @@ int	make_all_redirections(t_input_data *start, t_input_data *end)
 		return (0);
 		}
 	}
-	printf("end of make_all_redirections\n");
+	//printf("end of make_all_redirections\n");
     return (0);
 }
 
