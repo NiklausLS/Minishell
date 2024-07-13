@@ -131,6 +131,16 @@ void	update_env_loop(t_exec *ex, char **up_env, char *quote_var, int i);
 int     make_unset(t_input_data *cmd, t_exec *ex);
 
 int	exec_command(t_input_data *data, t_exec *ex);
+int handle_piped_commands(t_input_data *current, t_exec *ex);
+int execute_piped_command(t_input_data *cmd, int in_fd, int out_fd, t_exec *ex);
+
+int setup_pipes(t_exec *ex);
+int setup_in_and_out(t_exec *ex);
+void    setup_pipe_end(t_exec *ex);
+
+
+int execute_pipeline(t_input_data *cmd_list, t_exec *ex);
+void wait_for_children(void);
 
 //EXECUTION functions
 int	make_path(t_exec *ex, t_input_data *data);
@@ -138,7 +148,7 @@ int	make_path(t_exec *ex, t_input_data *data);
 int	exec_command_lst(t_input_data *cmd, t_exec *ex);
 //void	exec_only_cmd(t_data *data);
 //void   make_child(t_input_data *cmd, int prev_pipe, int pipefd[2], t_exec *ex);
-int    make_child(t_input_data *cmd, t_exec *ex);
+//int    make_child(t_input_data *cmd, t_exec *ex);
 
 //OPERATOR checkers and managers
 void    split_redirection(char *str, t_input_data *data);
@@ -154,8 +164,8 @@ int	make_all_redirections(t_input_data *start, t_input_data *end);
 //int     make_one_redirection(t_redirection *redir);
 //int     make_redirections_lst(t_input_data *cmd);
 //void	open_all(t_input_data *cmd);
-void    make_pipe(t_input_data *cmd, int *prev_pipe, int pipefd[2]);
-void    close_pipe(t_input_data *cmd, int *prev_pipe, int pipefd[2]);
+//void    make_pipe(t_input_data *cmd, int *prev_pipe, int pipefd[2]);
+//void    close_pipe(t_input_data *cmd, int *prev_pipe, int pipefd[2]);
 int	exec_all(t_input_data *cmd, t_exec *ex);
 int	exec_only_command(t_input_data *cmd, t_exec *ex);
 int exec_pipe_commands(t_input_data *start, t_input_data *end, t_exec *ex);
@@ -197,7 +207,6 @@ void	print_env(t_exec *ex);
 
 int structure_builtins_echo(t_input_data *structure);
 //int structure_builtins_echo2(t_input_data *structure, t_input_data **temp, int *no_newline);
-
 
 int init_tests_minishell(int *argc, char *argv[]);
 int init_signals_minishell();
