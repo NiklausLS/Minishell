@@ -23,3 +23,17 @@ int     ft_len(char *string_input, char end_char)
         len++;
     return (len);
 }
+
+int	make_env(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strchr(envp[i], '='))
+			printf("%s\n", envp[i]);
+		i++;
+	}
+	return (0);
+}
