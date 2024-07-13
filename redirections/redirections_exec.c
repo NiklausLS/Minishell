@@ -160,6 +160,8 @@ static void wait_for_child(pid_t pid)
            pid, WEXITSTATUS(status));
 }
 
+
+//DEBUG
 static void wait_for_children()
 {
     int status;
@@ -231,25 +233,61 @@ int exec_command(t_input_data *data, t_exec *ex)
 {
     if (data->cmd_type != 1 || data->exec_fail != -1)
         return 0;
-
     /*if (is_builtin(data))
         return execute_builtin(data, ex);*/
-
+    
+    //if (data->path)
+    //    printf("path = %s\n", data->path);
+        //free(path);
     make_path(ex, data);
-    printf("IN EXEC COMMAND\n");
+    //printf("IN EXEC COMMAND\n");
     printf("path =  %s\n", data->path);
-    printf("Current PATH: %s\n", getenv("PATH"));
-    char *path = data->path;
-    if (path == NULL)
+    //printf("Current PATH: %s\n", getenv("PATH"));
+    //path = data->path;
+    /*if (data->path == NULL)
     {
         //print_command_not_found(data);
         exit(127);
+    }*/
+    printf("Command: %s\n", data->path);
+    if (!data->args)
+    {
+        data->args = ft_split(data->data, ' ');
+        int i = 0;
+        while (data->args[i])
+        {
+            printf("data->args[%d] = %s\n", i, data->args[i]);
+            i++;
+        }
     }
-
-    execve(path, data->args, ex->env);
-    perror("execve");
-    exit(127);
+    printf("data->path = %s\n", data->path);
+    printf("before execve\n");
+    /*int i = 0;
+    while (ex->env[i])
+    {
+        printf("ex->env[%d] = %s\n", i, ex->env[i]);
+        i++;
+    }*/
+    printf("File descriptors:\n");
+    printf("STDIN (0): %d\n", fcntl(0, F_GETFD));
+    printf("STDOUT (1): %d\n", fcntl(1, F_GETFD));
+    printf("STDERR (2): %d\n", fcntl(2, F_GETFD));
+    printf("path ok\n");
+    if (access(data->path, X_OK) == 0)
+        printf("File is executable\n");
+    else
+        perror("access");
+    printf("About to execute command\n");
+    fflush(stdout);
+    if (execve(data->path, data->args, ex->env) == -1)
+    {
+        //perror("execve");
+        exit(127);
+    }
+    return (0);
 }
+
+
 
 int exec_pipe_commands(t_input_data *start, t_input_data *end, t_exec *ex)
 {

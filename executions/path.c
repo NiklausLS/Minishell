@@ -36,7 +36,7 @@ static char **split_path(char *path)
     {
         tmp = paths[i];
         paths[i] = ft_strjoin(tmp, "/");
-		printf("in split path : path = %s", paths[i]);
+		//printf("in split path : path = %s", paths[i]);
         free(tmp);
         i++;
     }
@@ -63,7 +63,7 @@ static int check_and_set_path(t_input_data *data)
         return (1);
 
     command_path = find_command(paths, data->data);
-	printf("--- command path = %s\n", command_path);
+	//printf("--- command path = %s\n", command_path);
     if (command_path)
 	{
         if (data->path)
@@ -75,7 +75,7 @@ static int check_and_set_path(t_input_data *data)
         if (data->path)
 			free(data->path);
         data->path = ft_strdup(command_path);
-		printf("path = %s\n", data->path);
+		//printf("path = %s\n", data->path);
     }
 	else
 	{
@@ -98,7 +98,7 @@ static int get_path(t_exec *ex, t_input_data *data)
         if (ft_strncmp(ex->env[i], "PATH=", 5) == 0)
         {
             data->path = ft_strdup(ex->env[i] + 5);
-			printf("--- path = %s\n", data->path);
+			//printf("--- path = %s\n", data->path);
             break;
         }
         i++;
@@ -114,7 +114,7 @@ int make_path(t_exec *ex, t_input_data *data)
 	current = data;
 	if (data->path)
 		free(data->path);
-    printf("--- IN_MAKE_PATH\n");
+    //printf("--- IN_MAKE_PATH\n");
     if (get_path(ex, data) == 1)
         return (1);
     while (current)
