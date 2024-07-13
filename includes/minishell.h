@@ -122,9 +122,7 @@ int		free_input_data(t_input_data **input_data);
 //BUILDIN
 int     get_builtin(t_input_data *cmd, t_exec *ex);
 int		make_cd(char **argv);
-
 int     make_exit(void);
-//int     get_index(t_exec *ex, char *var);
 int     make_export(t_input_data *cmd, t_exec *ex);
 char    *add_quotes(char *var);
 void	update_env_loop(t_exec *ex, char **up_env, char *quote_var, int i);
@@ -137,8 +135,6 @@ int execute_piped_command(t_input_data *cmd, int in_fd, int out_fd, t_exec *ex);
 int setup_pipes(t_exec *ex);
 int setup_in_and_out(t_exec *ex);
 void    setup_pipe_end(t_exec *ex);
-
-
 int execute_pipeline(t_input_data *cmd_list, t_exec *ex);
 void wait_for_children(void);
 

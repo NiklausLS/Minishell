@@ -1,36 +1,16 @@
-//header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_builtin.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/13 19:15:16 by nileempo          #+#    #+#             */
+/*   Updated: 2024/07/13 19:15:18 by nileempo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/*int	make_child(t_input_data *cmd, t_exec *ex)
-{
-	pid_t			pid;
-	int				status;
-
-	printf("cmd  = %s\n", cmd->data);
-	//printf("-----\n");
-	pid = fork();
-	if (pid == -1)
-	{
-		ft_putstr_fd("Minishell: fork: creation failed\n", 2);
-		return (1);
-	}
-	if (pid == 0)
-	{
-		printf("child process created for command: %s\n", cmd->data);
-		if (make_all_redirections(cmd, NULL) == 1)
-            return (1);
-		printf("--- executing cmd : %s\n", cmd->data);
-		if (cmd->cmd_type == 1)
-			exec_command(cmd, ex);
-	}
-	else
-	{
-		printf("in parent process : child pid is %d\n", pid);
-		waitpid(pid, &status, 0);
-	}
-    return (0);
-}*/
 
 int get_builtin(t_input_data *data, t_exec *ex)
 //int get_builtin(t_data *data, char **argv, t_exec *ex)

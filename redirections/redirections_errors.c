@@ -34,21 +34,3 @@ int	pipe_errors(t_input_data *data)
 	}
     return (0);
 }
-
-//inutile
-/*int	redirection_errors(t_input_data *data)
-{
-	//printf("in redirection_errors\n");
-	//print_node(cmd);
-	if (data->input_type == 1 || data->output_type)//check quotes == 0 si verifie redirections
-	{
-		if (cmd->next == )
-		{
-			printf("test\n");
-			print_error(2, "");
-			exit(EXIT_FAILURE);
-		}
-		//printf("should work\n");
-	}
-    return (0);
-}*/

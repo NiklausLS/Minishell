@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/07/13 13:12:13 by nileempo         ###   ########.fr        #
+#    Updated: 2024/07/13 19:17:31 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS = main.c \
 		./builtins/export2.c \
 		./builtins/pwd.c \
 		./builtins/unset.c \
+		./builtins/get_builtin.c \
 		./cleans/cleans_parsing.c \
 		./cleans/free_exec.c \
 		./debug/debug_parsing.c \
@@ -35,7 +36,6 @@ SRCS = main.c \
 		./redirections/heredoc.c \
 		./redirections/parsing_redirections.c \
 		./redirections/redirections_errors.c \
-		./redirections/redirections_makechild.c \
 		./redirections/make_redirections.c \
 		./redirections/opens.c \
 		./utils/ft_lstnew.c \
@@ -43,6 +43,7 @@ SRCS = main.c \
 		./executions/path.c \
 		./executions/pipes.c \
 		./executions/execution.c \
+		./executions/exec_utils.c \
 		
 
 NAME = minishell
