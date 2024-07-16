@@ -1,4 +1,14 @@
-//header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_execution.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/16 20:47:45 by nileempo          #+#    #+#             */
+/*   Updated: 2024/07/16 20:47:47 by nileempo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
@@ -117,35 +127,5 @@ int init_input_data(t_input_data *input_data)
             temp = temp->next_data_same_command_id;
         }
     }
-    return (0);
-}
-
-int execution_minishell(t_input_data *input_data, t_exec *ex)
-{
-    //t_exec  *ex;
-
-    //ex = malloc(sizeof(t_exec));
-    /*if (init_exec_structure(ex, *(input_data->env)) == 1)
-        return (1);*/
-    //ex->env = NULL;
-    if (init_input_data(input_data) == 1)
-        return (1);
-    if (!input_data->data)
-    {
-        ft_putstr_fd("nothing in data structure\n", 2); 
-        return (2);
-    }
-    if (check_lst(input_data) == 1)
-        return (1);
-    if (parse_args(input_data) == 1)
-        return (1);
-    //printf("ex = %s\n", ex->env[0]);
-    if (exec_all(input_data, ex) == 1)
-        return (1);
-    /*if (free_input_data(&input_data) == 1)
-        return (1);*/
-    /*if (free_exec_structure(ex) == 1)
-        return (1);*/
-    ex->env = NULL;
     return (0);
 }

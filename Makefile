@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/07/13 19:17:31 by nileempo         ###   ########.fr        #
+#    Updated: 2024/07/16 20:52:45 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,19 +18,9 @@ SRCS = main.c \
 		./builtins/pwd.c \
 		./builtins/unset.c \
 		./builtins/get_builtin.c \
-		./cleans/cleans_parsing.c \
 		./cleans/free_exec.c \
-		./debug/debug_parsing.c \
 		./debug/errors_messages.c \
-		./inits/add_data_structure.c \
 		./inits/init_execution.c \
-		./inits/init_parsing_1.c \
-		./inits/init_signals.c \
-		./inits/inits_tests_parsing.c \
-		./mallocs/malloc_parsing.c \
-		./parsing/dollar.c \
-		./parsing/split_1_4.c \
-		./parsing/split_5_6.c \
 		./parsing/parse_args.c \
 		./redirections/check_redirections.c \
 		./redirections/heredoc.c \
@@ -39,7 +29,6 @@ SRCS = main.c \
 		./redirections/make_redirections.c \
 		./redirections/opens.c \
 		./utils/ft_lstnew.c \
-		./utils/utils_parsing.c \
 		./executions/path.c \
 		./executions/pipes.c \
 		./executions/execution.c \
