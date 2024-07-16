@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/07/16 20:52:45 by nileempo         ###   ########.fr        #
+#    Updated: 2024/07/16 21:02:57 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS = main.c \
 		./debug/errors_messages.c \
 		./inits/init_execution.c \
 		./parsing/parse_args.c \
-		./redirections/check_redirections.c \
+		./parsing/check_redirections.c \
 		./redirections/heredoc.c \
 		./redirections/parsing_redirections.c \
 		./redirections/redirections_errors.c \
