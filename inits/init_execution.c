@@ -6,12 +6,17 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 20:47:45 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/16 20:47:47 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/17 22:46:54 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Init my exec structure
+ * Copy the envp to make a environement specific to minishell
+ * @return : 0 if everything is ok, 1 if malloc failed for envp
+ */
 int    init_exec_structure(t_exec *ex, char **envp)
 {
     int env_i;
@@ -28,7 +33,7 @@ int    init_exec_structure(t_exec *ex, char **envp)
     if (ex->env == NULL)
     {
         ft_putstr_fd("Minishell: malloc: allocation memory failed\n", 2);
-        exit(EXIT_FAILURE);//return 
+        return (1);
     }
     i = 0;
     while (i < env_i)
@@ -38,94 +43,5 @@ int    init_exec_structure(t_exec *ex, char **envp)
     }
     ex->env[env_i] = NULL;
     //print_array(ex->env);
-    return (0);
-}
-
-int	check_lst(t_input_data *data)
-{
-	t_input_data	*current;
-	//t_input_data	*current_errors;
-	int				first_cmd;
-    //int             check_red;
-
-	current = data;
-	//current_errors = data;
-    first_cmd = 1;
-    //printf("IN CHECK LST\n");
-	/*while (current_errors)
-	{
-		if (pipe_errors(current_errors) == 1)
-            return (1);
-		if (redirection_errors(current_errors) == 1)
-            return (1);
-		current_errors = current_errors->next;
-	}*/
-    //printf("après current_error\n");
-    while (current != NULL)
-	{
-        //printf("current = %s\n", current->data);
-        if (first_cmd == 1)
-        {
-                current->cmd_type = 1;
-                first_cmd = 0;
-                print_node(current);
-        }
-        else
-        {
-		    //print_node(current);
-            if (parse_redirection(current) == 1)
-                return (1);
-		    if (parse_pipe(current) == 1)
-                return (1);
-            //printf("end of parse redirection and pipe\n");
-        
-            if (current->file_type == -1 && current->input_type == -1
-                && current->output_type == -1 && current->pipe_type == -1
-                    && current->cmd_type == -1)
-                current->arg_type = 1;
-            print_node(current);
-        }
-
-        /*printf("----\n");
-        printf("- cmd = %s\n", current->data);
-        printf("- input type = %d\n", current->input_type);
-        printf("- output type = %d\n", current->output_type);
-        printf("- cmd type = %d\n", current->cmd_type);
-        printf("- file type = %d\n", current->file_type);
-        printf("- arg type = %d\n", current->arg_type);
-        printf("----\n");*/
-        //if (current->next)//next_data_same_command_id
-        //check_red = check_redirection(data->data);
-        //printf("check_red = %d\n", check_red);
-        /*if ((check_red != -1 || check_pipe(data->data) == 0) && !current->next)
-        {
-            current->cmd_type = -1;
-            print_error (2, current->data);
-            return (0);
-        }*/
-        current = current->next;  
-    }
-    return (0);
-}
-
-int init_input_data(t_input_data *input_data)
-{
-    t_input_data    *temp;
-
-    temp = input_data;
-    while (temp)
-    {
-        temp->quotes = temp->between_double_quotes + temp->between_single_quotes;
-        if (temp->next_command_id)
-        {
-            temp->next = temp->next_command_id;
-            temp = temp->next_command_id;
-        }
-        else
-        {
-            temp->next = temp->next_data_same_command_id;
-            temp = temp->next_data_same_command_id;
-        }
-    }
     return (0);
 }

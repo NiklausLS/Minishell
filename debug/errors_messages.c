@@ -6,12 +6,15 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:23:16 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/13 19:15:52 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/17 22:52:44 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Will print an error message depending of the int it gets
+ */
 void	print_error(int error, char *cmd)
 {
 	ft_putstr_fd("Minishell: ", 2);
@@ -39,6 +42,10 @@ void	print_error(int error, char *cmd)
 	}
 }
 
+/*
+ * Will print what is in the node if there is something to check
+ * if i'm not a complete donkey
+ */
 void    print_node(t_input_data *data)
 {
     t_input_data *current;

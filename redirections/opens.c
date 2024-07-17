@@ -1,5 +1,8 @@
 #include "../includes/minishell.h"
 
+/*
+ * Open if there is an input
+ */
 int	open_input(t_input_data *data)
 {
 	int	fd;
@@ -30,6 +33,9 @@ int	open_input(t_input_data *data)
 	return (fd);
 }
 
+/*
+ * open if there is an output
+ */
 int	open_output(t_input_data *data)
 {
 	int	fd;

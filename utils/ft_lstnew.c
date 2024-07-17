@@ -6,14 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/16 20:49:21 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/17 22:56:01 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 //Pour tester en attendant d'avoir le code du mate
-
 t_input_data *init_node(char *data)
 {
     t_input_data *new_node;
@@ -96,6 +95,9 @@ void	add_arg(t_input_data *data)
     //print_array(current->args);
 }
 
+/*
+ * Print the env for checks
+ */
 int	make_env(char **envp)
 {
 	int	i;

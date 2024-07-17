@@ -1,6 +1,9 @@
 
 #include "../includes/minishell.h"
 
+/*
+ * check if there is a input or an output and open it
+ */
 static int  redirections(t_input_data *current, int *last_input, int *last_output)
 {
     //printf("--- current input_type = %d\n", current->input_type);
@@ -41,6 +44,9 @@ static int  redirections(t_input_data *current, int *last_input, int *last_outpu
     return (0);
 }
 
+/*
+ * dup the input and check if it worked
+ */
 static int  dup_input(int fd)
 {
     if (fd != -1)
@@ -56,6 +62,9 @@ static int  dup_input(int fd)
     return (0);
 }
 
+/*
+ * dup the output and check if it's ok
+ */
 static int  dup_output(int fd)
 {
     if (fd != -1)
@@ -71,6 +80,9 @@ static int  dup_output(int fd)
     return (0);
 }
 
+/*
+ * Check every node and open/close input and output accordingly
+ */
 int	make_all_redirections(t_input_data *start, t_input_data *end)
 {
     t_input_data    *current;

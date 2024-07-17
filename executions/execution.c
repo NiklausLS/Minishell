@@ -6,12 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/13 18:50:45 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/17 23:02:31 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+//for test because i'm a donkey
 /*static void wait_for_child(pid_t pid)
 {
     int status;
@@ -21,6 +22,7 @@
     printf("Child process (PID: %d) finished with status: %d\n", 
            pid, WEXITSTATUS(status));
 }*/
+
 
 static t_input_data	*find_command(t_input_data *start, t_input_data *end)
 {

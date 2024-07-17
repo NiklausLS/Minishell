@@ -6,12 +6,17 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/16 20:57:58 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/17 22:49:41 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Will go through every node until it found a pipe
+ * everything who is not a redirection or a pipe will be given a argument type
+ * @return : return 0 if everything is ok, 1 if a malloc failed
+ */
 int	parse_args(t_input_data *data)
 {
 	t_input_data	*current;
@@ -57,88 +62,75 @@ int	parse_args(t_input_data *data)
 	return (0);
 }
 
-/*static void    get_cmd_args(t_commands *cmd)
+/*
+ * Will make the first node a command
+ * check the rest to give them a type specific to each of them
+ * redirection / pipe / argument / command
+ * @return 0 if everything is ok, 1 if something is wrong
+ * */
+int	check_lst(t_input_data *data)
 {
-    int	count;
-	int	i;
-	t_commands *arg;
+	t_input_data	*current;
+	//t_input_data	*current_errors;
+	int				first_cmd;
+    //int             check_red;
 
-	count = count_args(cmd);
-	printf("in get_cmd_args : count = %d\n", count);
-	cmd->args = malloc((count + 2) * sizeof(char *));
-	if (cmd->args == NULL)
-		return ;
-	i = 1;
-	arg = cmd->next;
-	while (i <= count)
+	current = data;
+	//current_errors = data;
+    first_cmd = 1;
+    //printf("IN CHECK LST\n");
+	/*while (current_errors)
 	{
-		cmd->args[i] = ft_strdup(arg->cmd);
-		printf("cmd->args[%d] = %s\n", i, cmd->args[i]);
-		i++;
-		arg = arg->next;
-	}
-	cmd->args[i] =  NULL;
-}*/
-
-/*static void	free_args(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
+		if (pipe_errors(current_errors) == 1)
+            return (1);
+		if (redirection_errors(current_errors) == 1)
+            return (1);
+		current_errors = current_errors->next;
+	}*/
+    //printf("après current_error\n");
+    while (current != NULL)
 	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
-}*/
+        //printf("current = %s\n", current->data);
+        if (first_cmd == 1)
+        {
+                current->cmd_type = 1;
+                first_cmd = 0;
+                print_node(current);
+        }
+        else
+        {
+		    //print_node(current);
+            if (parse_redirection(current) == 1)
+                return (1);
+		    if (parse_pipe(current) == 1)
+                return (1);
+            //printf("end of parse redirection and pipe\n");
+        
+            if (current->file_type == -1 && current->input_type == -1
+                && current->output_type == -1 && current->pipe_type == -1
+                    && current->cmd_type == -1)
+                current->arg_type = 1;
+            print_node(current);
+        }
 
-/*void parse_args(t_commands *cmd)
-{
-	t_commands	*current;
-	int		i;
-	int		arg;
-	
-	printf("in parse_args\n");
-	if (cmd->cmd_type != 1 || !cmd->next)
-		return ;
-	printf("%s is a cmd_type\n", cmd->cmd);
-	size = 0;
-	while (cmd->args && cmd->args[size])
-		size++;
-	new_args = (char **)malloc(sizeof(char *) * (size + 2));
-	if (!new_args)
-		return ;
-	new_args[0] = ft_strdup(cmd->cmd);
-	i = 0;
-	while (i < size)
-	{
-		new_args[i + 1] = ft_strdup(cmd->args[i]);
-		i++;
-	}
-	new_args[size + 1] = NULL;
-	if (cmd->args)
-		free_args(cmd->args);
-	cmd->args = new_args;
-	i = 0;
-	//print_array(&cmd->args[i]);
+        /*printf("----\n");
+        printf("- cmd = %s\n", current->data);
+        printf("- input type = %d\n", current->input_type);
+        printf("- output type = %d\n", current->output_type);
+        printf("- cmd type = %d\n", current->cmd_type);
+        printf("- file type = %d\n", current->file_type);
+        printf("- arg type = %d\n", current->arg_type);
+        printf("----\n");*/
+        //if (current->next)//next_data_same_command_id
+        //check_red = check_redirection(data->data);
+        //printf("check_red = %d\n", check_red);
+        /*if ((check_red != -1 || check_pipe(data->data) == 0) && !current->next)
+        {
+            current->cmd_type = -1;
+            print_error (2, current->data);
+            return (0);
+        }*/
+        current = current->next;  
+    }
+    return (0);
 }
-
-void	parse_args(t_commands *cmd)
-{
-	t_commands	*current;
-	//int			i;
-
-	current = cmd;
-	//i = 0;
-	printf("in parse_args\n");
-	if (current->cmd_type == 1)
-	{
-		printf("current->cmd = %s\n", current->cmd);
-		get_cmd_args(current);
-	}
-	if (current->pipe_type == 1)
-		current = current->next;
-	else
-		current = current->next;
-}*/

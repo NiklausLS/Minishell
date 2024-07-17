@@ -6,12 +6,15 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 08:05:19 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/12 13:12:12 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/17 22:51:16 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Free a simple array
+ */
 void	free_array(char **array)
 {
 	int	i;
@@ -27,7 +30,10 @@ void	free_array(char **array)
 	free(array);
 }
 
-/*int    free_exec_structure(t_exec *ex)
+/*
+ * Free the environement
+ */
+int    free_exec_structure(t_exec *ex)
 {
     int i;
 
@@ -43,8 +49,11 @@ void	free_array(char **array)
         free(ex->env);
     }
     return (0);
-}*/
+}
 
+/*
+ * Free what is on the nodes if there is something
+ */
 int		free_input_data(t_input_data **input_data)
 {
     t_input_data	*current;
