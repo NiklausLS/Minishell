@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/17 23:02:31 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:04:47 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
     printf("Parent process waiting for child PID: %d\n", pid);
     waitpid(pid, &status, 0);
-    printf("Child process (PID: %d) finished with status: %d\n", 
+    printf("child process %d stop status = %d\n", 
            pid, WEXITSTATUS(status));
 }*/
 

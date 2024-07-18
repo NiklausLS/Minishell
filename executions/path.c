@@ -6,24 +6,24 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/13 19:03:07 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:00:03 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*find_command(char **paths, char *cmd)
+static char	*get_command(char **paths, char *cmd)
 {
-	char	*full_path;
+	char	*new_path;
 	int		i;
 
 	i = 0;
 	while (paths[i])
 	{
-		full_path = ft_strjoin(paths[i], cmd);
-		if (access(full_path, F_OK | X_OK) == 0)
-			return (full_path);
-		free(full_path);
+		new_path = ft_strjoin(paths[i], cmd);
+		if (access(new_path, F_OK | X_OK) == 0)
+			return (new_path);
+		free(new_path);
 		i++;
 	}
 	return (NULL);
@@ -58,7 +58,7 @@ static int	check_and_set_path(t_input_data *data)
 	paths = split_path(data->path);
 	if (!paths)
 		return (1);
-	command_path = find_command(paths, data->data);
+	command_path = get_command(paths, data->data);
 	if (command_path)
 	{
 		if (data->path)

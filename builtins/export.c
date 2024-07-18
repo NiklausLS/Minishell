@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:25:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/09 15:45:10 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:22:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ static int	get_index(t_exec *ex, char *var)
 	else
 	{
 		len = ft_strlen(var);
-		printf("else : len = %zu\n", len);
+		printf("else len = %zu\n", len);
 	}
 	while (ex->env[i])
 	{
 		if (ft_strncmp(ex->env[i], var, len) == 0 && ex->env[i][len] == '=')
 		{
-			printf("var found at index %d\n", i);
+			printf("var index %d\n", i);
 			return (i);
 		}
 		i++;

@@ -177,7 +177,7 @@ int add_string_to_string(char *data, char **line)
 //char    *heredoc_char;
 
 //heredoc(&heredoc_char)
-
+/*
 void    signal_handler_heredoc(int signal)
 {
     if (signal == SIGQUIT)
@@ -186,8 +186,8 @@ void    signal_handler_heredoc(int signal)
         rl_redisplay();
         write(1, "  \b\b  \b\b", 8);
     }
-}
-
+}*/
+/*
 int heredoc(char **heredoc_char, char *delim)
 {
     int     i;
@@ -241,7 +241,7 @@ int heredoc(char **heredoc_char, char *delim)
     }
     return (0);
 }//le heredoc_char sera a free lors de la sortie du heredoc, si *heredoc == NULL alors cest que signaux si return == 0 et erreur si return == 1
-
+*/
 
 //Il faudra réinitialiser la gestion des signaux pour ton code dans les processus enfants
 

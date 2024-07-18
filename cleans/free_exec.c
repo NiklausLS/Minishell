@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 08:05:19 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/17 22:51:16 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:23:49 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,15 @@ int    free_exec_structure(t_exec *ex)
 int		free_input_data(t_input_data **input_data)
 {
     t_input_data	*current;
+	t_input_data	*next;
 	
 	current = *input_data;
 	if (!input_data || !(*input_data))
 		return (1);
 	while (current)
 	{
+		if (current->next)
+			next = current->next;
 		if (current->data)
 			free(current->data);
 		if (current->input)
@@ -75,7 +78,8 @@ int		free_input_data(t_input_data **input_data)
 			free_array(current->args);
 		if (current->next)
 			current = current->next;
-		//free(current);
+		free(current);
+		current = next;
 	}
 	//free(current);
 	*input_data = NULL;
