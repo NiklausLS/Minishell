@@ -3,15 +3,15 @@
 /*
  * Open if there is an input
  */
-int	open_input(t_input_data *data)
+int	open_input(t_token *data)
 {
 	int	fd;
-	t_input_data *current;
+	t_token *current;
 
 	fd = -1;
 	current = data;
 	printf("--- in open_input\n");
-	if (current->input_type == 0)
+	if (current->type == INPUT)
 	{
 		//printf("Calling open_intput for %s\n", current->next->data);
 		fd = open(current->input, O_RDONLY, 0644);
@@ -36,23 +36,22 @@ int	open_input(t_input_data *data)
 /*
  * open if there is an output
  */
-int	open_output(t_input_data *data)
+int	open_output(t_token *data)
 {
 	int	fd;
-	t_input_data *current;
+	t_token *current;
 
 	fd = -1;
 	current = data;
 	printf("IN OPEN OUTPUT\n");
-	if (current->output_type == 2)
+	if (current->type == OUTPUT)
 	{
 		fd = open(current->output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		printf("--- opening %s\n", current->output);
-		printf("--- op %s\n", current->data);
+		printf("--- op %s\n", current->value);
 		if (fd == -1)
 		{
 			print_error(1, current->output);
-			current->arg_type = -1;
 			current->exec_fail = 1;
 			current->error = 1;
             return (-1);
@@ -60,7 +59,7 @@ int	open_output(t_input_data *data)
 		else
 			printf("--- File %s is created\n", current->output);
 	}
-	else if (current->output_type == 3)
+	else if (current->type == APPEND)
 	{
 		fd = open(current->output, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
@@ -68,7 +67,6 @@ int	open_output(t_input_data *data)
 			print_error(1, current->output);
 			current->exec_fail = 1;
 			current->error = 1;
-            current->arg_type = -1;
             return (-1);
 		}
 		else

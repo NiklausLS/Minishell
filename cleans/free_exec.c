@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 08:05:19 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/18 15:23:49 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 08:24:51 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ int    free_exec_structure(t_exec *ex)
 /*
  * Free what is on the nodes if there is something
  */
-int		free_input_data(t_input_data **input_data)
+int		free_input_data(t_token **input_data)
 {
-    t_input_data	*current;
-	t_input_data	*next;
+    t_token	*current;
+	t_token	*next;
 	
 	current = *input_data;
 	if (!input_data || !(*input_data))
@@ -66,8 +66,8 @@ int		free_input_data(t_input_data **input_data)
 	{
 		if (current->next)
 			next = current->next;
-		if (current->data)
-			free(current->data);
+		if (current->value)
+			free(current->value);
 		if (current->input)
 			free(current->input);
 		if (current->output)

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/18 12:04:47 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 08:17:02 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,36 +24,36 @@
 }*/
 
 
-static t_input_data	*find_command(t_input_data *start, t_input_data *end)
+static t_token	*find_command(t_token *start, t_token *end)
 {
-	t_input_data	*cmd;
+	t_token	*cmd;
 
 	cmd = start;
-	while (cmd != end && cmd->cmd_type != 1)
+	while (cmd != end && cmd->type != COMMAND)
 		cmd = cmd->next;
 	return (cmd);
 }
 
-static t_input_data	*find_command_end(t_input_data *start)
+static t_token	*find_command_end(t_token *start)
 {
-	t_input_data	*cmd;
+	t_token	*cmd;
 
 	cmd = start;
 	while (cmd && cmd->next)
 	{
-		if (cmd->next->pipe_type == 1)
+		if (cmd->next->type == PIPE)
 			return (cmd);
-		if (cmd->next->cmd_type == 1)
+		if (cmd->next->type == COMMAND)
 			return (cmd);
 		cmd = cmd->next;
 	}
 	return (cmd);
 }
 
-static int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
+static int	make_child(t_token *start, t_token *end, t_exec *ex)
 {
 	pid_t			pid;
-	t_input_data	*cmd;
+	t_token	*cmd;
 
 	pid = fork();
 	if (pid == -1)
@@ -75,13 +75,13 @@ static int	make_child(t_input_data *start, t_input_data *end, t_exec *ex)
 	return (0);
 }
 
-int	exec_command(t_input_data *data, t_exec *ex)
+int	exec_command(t_token *data, t_exec *ex)
 {
-	if (data->cmd_type != 1 || data->exec_fail != -1)
+	if (data->type != COMMAND || data->exec_fail != -1)
 		return (0);
 	make_path(ex, data);
 	if (!data->args)
-		data->args = ft_split(data->data, ' ');
+		data->args = ft_split(data->value, ' ');
 	if (execve(data->path, data->args, ex->env) == -1)
 	{
 		perror("execve failed");
@@ -90,11 +90,11 @@ int	exec_command(t_input_data *data, t_exec *ex)
 	return (0);
 }
 
-int	exec_all(t_input_data *cmd, t_exec *ex)
+int	exec_all(t_token *cmd, t_exec *ex)
 {
-	t_input_data	*current;
-	t_input_data	*start;
-	t_input_data	*end;
+	t_token	*current;
+	t_token	*start;
+	t_token	*end;
 
 	current = cmd;
 	start = cmd;
@@ -102,14 +102,14 @@ int	exec_all(t_input_data *cmd, t_exec *ex)
 	while (current != NULL)
 	{
 		end = find_command_end(current);
-		if (current->next && current->next->pipe_type == 1)
+		if (current->next && current->next->type == PIPE)
 		{
 			if (setup_pipes(ex) != 0)
 				return (1);
 		}
 		if (make_child(start, end, ex) != 0)
 			return (1);
-		if (end && end->pipe_type == 1)
+		if (end && end->type == PIPE)
 		{
 			setup_pipe_end(ex);
 			current = end->next;

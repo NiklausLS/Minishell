@@ -4,11 +4,11 @@
 /*
  * check if there is a input or an output and open it
  */
-static int  redirections(t_input_data *current, int *last_input, int *last_output)
+static int  redirections(t_token *current, int *last_input, int *last_output)
 {
     //printf("--- current input_type = %d\n", current->input_type);
     //printf("--- current output_type = %d\n", current->output_type);
-    if (current->input_type == 0)
+    if (current->type == INPUT)
 	{
 		if (*last_input != -1)
 		{
@@ -23,7 +23,7 @@ static int  redirections(t_input_data *current, int *last_input, int *last_outpu
 		if (*last_input == -1)
 			return (1);
 	}
-	if (current->output_type == 2 || current->output_type == 3)
+	if (current->type == OUTPUT || current->type == APPEND)
 	{
         //printf("Calling open_output for %s\n", current->next->data);
 		if (*last_output != -1)
@@ -83,9 +83,9 @@ static int  dup_output(int fd)
 /*
  * Check every node and open/close input and output accordingly
  */
-int	make_all_redirections(t_input_data *start, t_input_data *end)
+int	make_all_redirections(t_token *start, t_token *end)
 {
-    t_input_data    *current;
+    t_token    *current;
     int             last_input;
     int             last_output;
 

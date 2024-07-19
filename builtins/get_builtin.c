@@ -6,13 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 19:15:16 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/18 15:46:02 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 08:24:35 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int get_builtin(t_input_data *data, t_exec *ex)
+int get_builtin(t_token *data, t_exec *ex)
 //int get_builtin(t_data *data, char **argv, t_exec *ex)
 {
 	/*if (ft_strcmp(data->cmd_lst->cmd, "cd") == 0)
@@ -20,14 +20,14 @@ int get_builtin(t_input_data *data, t_exec *ex)
 		printf("CD USED\n");
 		make_cd(&argv[1]);
 	}*/
-    if (ft_strcmp(data->data, "env") == 0)
+    if (ft_strcmp(data->value, "env") == 0)
 	{
 		printf("ENV USED\n");
 		if (make_env(ex->env) == 1)
             return (1);
         return (0);
 	}
-	else if (ft_strcmp(data->data, "exit") == 0)
+	else if (ft_strcmp(data->value, "exit") == 0)
 	{
 		printf("--- EXIT USED ---\n");
 		if (make_exit() == 1)
@@ -42,7 +42,7 @@ int get_builtin(t_input_data *data, t_exec *ex)
     {
         printf("PWD USED\n");
     }*/
-    else if (ft_strcmp(data->data, "export") == 0)
+    else if (ft_strcmp(data->value, "export") == 0)
     {
         printf("--- EXPORT USED ---\n");
         if (make_export(data, ex) == 1)

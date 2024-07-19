@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/17 22:49:41 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 08:28:56 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,28 @@
  * everything who is not a redirection or a pipe will be given a argument type
  * @return : return 0 if everything is ok, 1 if a malloc failed
  */
-int	parse_args(t_input_data *data)
+int	parse_args(t_token *data)
 {
-	t_input_data	*current;
+	t_token	*current;
     int			count;
 	int			i;
 
 	count = 0;
 	//current = NULL;
 	//printf("in parse_args");
-	if (!data->data)
+	if (!data->value)
 		return (1);
 	current = data;
 	//printf("in parse_args\n");
 	//printf("cmd = %s\n", current->data);
-	data->args = ft_split(data->data, ' ');
+	data->args = ft_split(data->value, ' ');
 	//printf("current args = %s\n", current->args[0]);
 	if (data->next)
 	{
 		current = data->next;
 		//printf("next->cmd = %s\n", data->next->data);
 	}
-	while (current && current->arg_type == 1 && current->pipe_type == -1)
+	while (current && current->type == TEXT && current->type == PIPE)
 	{
 		count++;
 		//printf("%s is an arg_type\n", current->data);
@@ -47,13 +47,13 @@ int	parse_args(t_input_data *data)
 	data->args = malloc(sizeof(char *) * (count + 2));
 	if (!data->args)
 		return (1);
-	data->args[0] = ft_strdup(data->data);
+	data->args[0] = ft_strdup(data->value);
 	i = 1;
 	if (data->next)
 		current = data->next;
 	while (i <= count)
 	{
-		data->args[i] = ft_strdup(current->data);
+		data->args[i] = ft_strdup(current->value);
 		//printf("cmd->args[%d] = %s\n", i, data->args[i]);
 		current = current->next;
 		i++;
@@ -68,10 +68,10 @@ int	parse_args(t_input_data *data)
  * redirection / pipe / argument / command
  * @return 0 if everything is ok, 1 if something is wrong
  * */
-int	check_lst(t_input_data *data)
+/*int	check_lst(t_token *data)
 {
-	t_input_data	*current;
-	//t_input_data	*current_errors;
+	t_token	*current;
+	//t_token	*current_errors;
 	int				first_cmd;
     //int             check_red;
 
@@ -79,21 +79,21 @@ int	check_lst(t_input_data *data)
 	//current_errors = data;
     first_cmd = 1;
     //printf("IN CHECK LST\n");
-	/*while (current_errors)
+	while (current_errors)
 	{
 		if (pipe_errors(current_errors) == 1)
             return (1);
 		if (redirection_errors(current_errors) == 1)
             return (1);
 		current_errors = current_errors->next;
-	}*/
+	}
     //printf("après current_error\n");
     while (current != NULL)
 	{
         //printf("current = %s\n", current->data);
         if (first_cmd == 1)
         {
-                current->cmd_type = 1;
+                current->type = COMMAND;
                 first_cmd = 0;
                 print_node(current);
         }
@@ -113,7 +113,7 @@ int	check_lst(t_input_data *data)
             print_node(current);
         }
 
-        /*printf("----\n");
+        printf("----\n");
         printf("- cmd = %s\n", current->data);
         printf("- input type = %d\n", current->input_type);
         printf("- output type = %d\n", current->output_type);
@@ -129,8 +129,8 @@ int	check_lst(t_input_data *data)
             current->cmd_type = -1;
             print_error (2, current->data);
             return (0);
-        }*/
+        }
         current = current->next;  
     }
     return (0);
-}
+}*/

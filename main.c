@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/07/19 07:40:25 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 08:32:40 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,13 @@ t_token	*new_token(char *value, t_token_type type)
 	new->value = value;
 	new->type = type;
 	new->next = NULL;
+	new->args = NULL;
+    new->path = NULL;
+    new->input = NULL;
+    new->output = NULL;
+    new->heredoc_delim = NULL;
+    new->exec_fail = -1;
+	new->error = -1;
 	return (new);
 }
 
@@ -239,9 +246,18 @@ int	ft_treat_input(t_input *input)
 	return (1);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	ms;
+	t_exec ex;
+
+	if (argc == 0)
+	{
+        printf("argc = %d\n", argc);
+		printf("argv[0 = %s\n]", argv[0]);
+	}
+	
+	init_exec_structure(&ex, envp);
 
 	ft_bzero(&ms, sizeof(t_minishell));
 	signal(SIGINT, handle_sig);
@@ -250,9 +266,10 @@ int	main(void)
 	{
 		if (!ft_treat_input(&ms.input))
 			break ;
+		exec_all(ms.input.tokens, &ex);
 		ft_free_input_data(&ms.input);
 	}
-	rl_clear_history();
+	clear_history();
 	printf("Fin de l'entrée standard.\n");
 	return (0);
 }

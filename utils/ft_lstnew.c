@@ -6,18 +6,18 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/17 22:56:01 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 08:29:53 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 //Pour tester en attendant d'avoir le code du mate
-t_input_data *init_node(char *data)
+/*t_token *init_node(char *data)
 {
-    t_input_data *new_node;
+    t_token *new_node;
     
-    new_node = (t_input_data *)malloc(sizeof(t_input_data));
+    new_node = (t_token *)malloc(sizeof(t_token));
     new_node->data = ft_strdup(data);
     //printf("init_node = data = %s\n", data);
     new_node->args = ft_split(data, ' ');
@@ -44,12 +44,12 @@ t_input_data *init_node(char *data)
     new_node->arg_type = -1;
     printf("MAKING A NEW NODE\n");
     return (new_node);
-}
+}*/
 
 // Fonction pour ajouter une node à la fin de la liste
-void add_node(t_input_data **head, t_input_data *new_node)
+/*void add_node(t_token **head, t_token *new_node)
 {
-    t_input_data *current;
+    t_token *current;
     if (*head == NULL) {
         *head = new_node;
         return;
@@ -59,13 +59,13 @@ void add_node(t_input_data **head, t_input_data *new_node)
         current = current->next;
     }
     current->next = new_node;
-}
+}*/
 
 //ajoute à une node commande des arguments
-void	add_arg(t_input_data *data)
+void	add_arg(t_token *data)
 {
-	t_input_data	*current;
-	t_input_data	*last;
+	t_token	*current;
+	t_token	*last;
 	int			i;
 
     printf("-- in add_arg\n");
@@ -76,18 +76,18 @@ void	add_arg(t_input_data *data)
 	while (current)
 	{
         printf("in current loop\n");
-        if (current->cmd_type == 1)
+        if (current->type == COMMAND)
         {
             last = current;
             printf("last command is %s\n", last->args[0]);
         }
-		if (current->arg_type == 1 && current != last)
+		if (current->type == COMMAND && current != last)
 		{
 			i = 0;
-            printf("-- %s is an arg\n", current->data);
+            printf("-- %s is an arg\n", current->value);
 			while (last->args[i])
 				i++;
-			last->args[i] =  ft_strdup(current->data);
+			last->args[i] =  ft_strdup(current->value);
 			last->args[i + 1] = NULL;
  		}
 		current = current->next;

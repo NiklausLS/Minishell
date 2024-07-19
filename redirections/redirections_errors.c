@@ -5,7 +5,7 @@
 /*
  * check if there is something behind the pipe and send error according to it
  */
-/*int	pipe_errors(t_input_data *data)
+/*int	pipe_errors(t_token *data)
 {
 	if (!data)
 	{

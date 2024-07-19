@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:25:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/18 12:22:00 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 08:24:03 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,20 +115,20 @@ static void	make_update_env(t_exec *ex, char *var)
 	update_env(ex, index, var);
 }
 
-int	make_export(t_input_data *data, t_exec *ex)
+int	make_export(t_token *data, t_exec *ex)
 {
 	if (!data->next)
 	{
 		without_args(ex);
 		return (0);
 	}
-	printf("cmd->cmd = %s\n", data->data);
+	printf("cmd->cmd = %s\n", data->value);
 	while (data->next)
 	{
-		printf("checking arg = %s\n", data->next->data);
-		if (ft_strchr(data->next->data, '=')
-			|| get_index(ex, data->next->data) != -1)
-			make_update_env(ex, data->next->data);
+		printf("checking arg = %s\n", data->next->value);
+		if (ft_strchr(data->next->value, '=')
+			|| get_index(ex, data->next->value) != -1)
+			make_update_env(ex, data->next->value);
 		data = data->next;
 	}
 	return (0);

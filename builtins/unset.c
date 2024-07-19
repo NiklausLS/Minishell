@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:26:09 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/18 15:41:26 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 08:08:47 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void delete_var(t_exec *ex, int index)
     printf("- - * ex->env[%d] = %s\n", index, ex->env[index]);
 }
 
-int make_unset(t_input_data *data, t_exec *ex)
+int make_unset(t_token *data, t_exec *ex)
 {
     int index;
 

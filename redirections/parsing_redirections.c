@@ -2,10 +2,12 @@
 
 #include "../includes/minishell.h"
 
+
 /*
  * check the node and parse it depending of what it is
  */
-int	parse_redirection(t_input_data *current)
+/*
+int	parse_redirection(t_token *current)
 {
     int redir_type;
 
@@ -65,12 +67,13 @@ int	parse_redirection(t_input_data *current)
         return (0);
     }
 	return (0);
-}
+}*/
 
 /*
  * parse the node to check if it's a pipe
  */
-int	parse_pipe(t_input_data *current)
+/*
+int	parse_pipe(t_token *current)
 { 
     //printf("in parse_pipe\n");
     int res_pipe;
@@ -103,4 +106,4 @@ int	parse_pipe(t_input_data *current)
         //printf("%s is a pipe\n", current->data);
     }
 	return (0);
-}
+}*/

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/18 15:45:05 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 08:08:47 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //to do list
 //CD
 
-int get_builtin(t_input_data *data, t_exec *ex)
+int get_builtin(t_token *data, t_exec *ex)
 //int get_builtin(t_data *data, char **argv, t_exec *ex)
 {
 	/*if (ft_strcmp(data->cmd_lst->cmd, "cd") == 0)

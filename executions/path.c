@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/18 12:00:03 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 08:17:42 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	**split_path(char *path)
 	return (paths);
 }
 
-static int	check_and_set_path(t_input_data *data)
+static int	check_and_set_path(t_token *data)
 {
 	char	**paths;
 	char	*command_path;
@@ -58,14 +58,14 @@ static int	check_and_set_path(t_input_data *data)
 	paths = split_path(data->path);
 	if (!paths)
 		return (1);
-	command_path = get_command(paths, data->data);
+	command_path = get_command(paths, data->value);
 	if (command_path)
 	{
 		if (data->path)
 			free(data->path);
 		data->path = command_path;
 	}
-	else if (access(data->data, F_OK | X_OK) == 0)
+	else if (access(data->value, F_OK | X_OK) == 0)
 	{
 		if (data->path)
 			free(data->path);
@@ -76,7 +76,7 @@ static int	check_and_set_path(t_input_data *data)
 	return (0);
 }
 
-static int	get_path(t_exec *ex, t_input_data *data)
+static int	get_path(t_exec *ex, t_token *data)
 {
 	int	i;
 
@@ -95,9 +95,9 @@ static int	get_path(t_exec *ex, t_input_data *data)
 	return (0);
 }
 
-int	make_path(t_exec *ex, t_input_data *data)
+int	make_path(t_exec *ex, t_token *data)
 {
-	t_input_data	*current;
+	t_token	*current;
 
 	current = data;
 	if (data->path)
@@ -106,7 +106,7 @@ int	make_path(t_exec *ex, t_input_data *data)
 		return (1);
 	while (current)
 	{
-		if (current->cmd_type == 1)
+		if (current->type == COMMAND)
 		{
 			if (check_and_set_path(current) == 1)
 				return (1);
