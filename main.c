@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/07/19 19:37:45 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:49:05 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, handle_sig);
 	while (1)
 	{
+		//check_lst(ms.input.tokens);
 		if (!ft_treat_input(&ms.input))
 			break ;
 		check_lst(ms.input.tokens);

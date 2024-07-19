@@ -35,6 +35,7 @@ typedef enum e_token_type
     HEREDOC,
     OUTPUT,
     APPEND,
+    FI,
 } t_token_type;
 
 typedef struct s_redirection {
@@ -179,5 +180,6 @@ void	print_array(char **array);
 void	print_linked_list(t_token *head);
 void	print_node(t_token *cmd);
 void	print_env(t_exec *ex);
+void	print_info(t_input *input);
 
 #endif

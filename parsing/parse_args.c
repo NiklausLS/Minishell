@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/19 19:42:37 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:04:30 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,15 @@ int	check_lst(t_token *data)
         {
                 current->type = COMMAND;
                 first_cmd = 0;
-                print_node(current);
+                //print_node(current);
         }
+		if ((current->type == INPUT || current->type == HEREDOC
+			|| current->type == OUTPUT || current->type == APPEND)
+				&& current->next)
+				current->next->type = FI;
+		if (current->type == PIPE && current->next)
+			current->next->type = COMMAND;
+		print_node(current);
         current = current->next;  
     }
     return (0);
