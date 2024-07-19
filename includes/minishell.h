@@ -14,13 +14,28 @@
 # include <signal.h>
 # include <errno.h>
 # include <string.h>
-
+# include <stdbool.h>
 # include "../LIBFT/includes/libft.h"
+
+# define PROMPT "\033[1;34mminishell\033[0m> "
+# define WHITESPACES " \t\v\n\r"
+# define OPERATORS "><|"
 
 #define READ_END 0
 #define WRITE_END 1
 
 extern int global_signal_received;
+
+typedef enum e_token_type
+{
+    TEXT,
+    COMMAND,
+    PIPE,
+    INPUT,
+    HEREDOC,
+    OUTPUT,
+    APPEND,
+} t_token_type;
 
 typedef struct s_redirection {
     char	*file;
@@ -28,11 +43,32 @@ typedef struct s_redirection {
     struct	s_redirection *next;
 } t_redirection;
 
+typedef struct s_token
+{
+    char            *value;
+    t_token_type    type;
+    struct s_token  *next;
+} t_token;
+
+typedef struct s_input
+{
+    char    *total;
+    char    *left;
+    int     token_nb;
+    int     i;
+    int     j;
+    t_token *tokens;
+} t_input;
+
+typedef struct s_minishell
+{
+	t_input	input;
+}			t_minishell;
+
 typedef struct s_input_data
 {
     char    **args;
     char    *path;
-    //char    **env;
     char    *data;
     int     input_type;
     char    *input;

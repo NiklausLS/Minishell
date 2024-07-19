@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:08:27 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/09 19:14:33 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 07:33:08 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,8 @@ char	*ft_itoa(int n);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
 void	ft_errorexit(char *str);
+int		ft_ischarset(char c, char *charset);
+void	ft_putendl_fd(char *s, int fd);
+char	*ft_strndup(const char *s, size_t start, size_t n);
 
 #endif

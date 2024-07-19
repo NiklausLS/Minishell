@@ -5,49 +5,254 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 02:20:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/18 23:46:54 by nileempo         ###   ########.fr       */
+/*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
+/*   Updated: 2024/07/19 07:40:25 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/minishell.h"
+#include "../includes/minishell.h"
 
-int main(int argc, char **argv, char **envp)
+void	handle_sig(int sig)
 {
-    t_input_data *data;
-	t_exec ex;
-
-	data = NULL;
-	init_exec_structure(&ex, envp);
-	//data.redir_lst = NULL;
-	//printf("lanching the program\n");
-    if (argc == 0)
+	if (sig == SIGINT)
 	{
-        printf("argc = %d\n", argc);
-		printf("argv[0 = %s\n]", argv[0]);
+		ft_putchar_fd('\n', 1);
+		ft_putstr_fd(PROMPT, 1);
 	}
-	//printf("--- ENV BEFORE ---\n");
-	//print_env(&ex);
-	add_node(&data, init_node("echo"));
-	add_node(&data, init_node("hello"));
-	add_node(&data, init_node("f1"));
-	add_node(&data, init_node(">"));
-	add_node(&data, init_node("f2"));
-	add_node(&data, init_node("f3"));
-
-	check_lst(data);
-	//init_redirections_lst(&data);
-	//print_linked_list(&data);
-	exec_all(data, &ex);
-	
-	//printf("\n--- ENV AFTER ---\n");
-	//print_env(&ex);
-
-	free_exec_structure(&ex);
-	//free_input_data(&data);
-    return (0);
+	else if (sig == SIGQUIT)
+	{
+		exit(1);
+	}
 }
 
+char	*ft_strtrim_ws(char *s)
+{
+	int	i;
+	int	j;
 
+	i = 0;
+	j = 0;
+	while (s[i] && ft_ischarset(s[i], WHITESPACES))
+		i++;
+	while (s[i])
+	{
+		if (ft_ischarset(s[i], WHITESPACES))
+		{
+			while (s[i] && ft_ischarset(s[i], WHITESPACES))
+				i++;
+			if (s[i])
+				s[j++] = ' ';
+			else
+				break ;
+		}
+		s[j++] = s[i++];
+	}
+	s[j] = 0;
+	return (s);
+}
 
+void	print_info(t_input *input)
+{
+	t_token	*current;
 
+	current = input->tokens;
+	while (current)
+	{
+		printf("Token: %s, Type: %d\n", current->value, current->type);
+		current = current->next;
+	}
+	printf("Reste à traiter : %s\n\n", input->left);
+}
+
+t_token	*new_token(char *value, t_token_type type)
+{
+	t_token	*new;
+
+	new = malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
+	new->value = value;
+	new->type = type;
+	new->next = NULL;
+	return (new);
+}
+
+void	add_token(t_input *input, t_token *new)
+{
+	t_token	*tmp;
+
+	if (!input->tokens)
+		input->tokens = new;
+	else
+	{
+		tmp = input->tokens;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+}
+
+void	free_tokens(t_token *tokens)
+{
+	t_token	*tmp;
+
+	while (tokens)
+	{
+		tmp = tokens;
+		tokens = tokens->next;
+		if (tmp->value)
+			free(tmp->value);
+		free(tmp);
+	}
+}
+
+char	*remove_char(char *str, char *to_remove)
+{
+	char	*result;
+	char	*dst;
+
+	result = (char *)malloc(ft_strlen(str) + 1);
+	if (result == NULL)
+	{
+		fprintf(stderr, "malloc error\n");
+		exit(1);
+	}
+	dst = result;
+	while (*str != '\0')
+	{
+		if (!ft_ischarset(*str, to_remove))
+		{
+			*dst = *str;
+			dst++;
+		}
+		str++;
+	}
+	*dst = '\0';
+	return (result);
+}
+
+void	ft_free_input_data(t_input *input)
+{
+	free_tokens(input->tokens);
+	if (input->total)
+		free(input->total);
+	input->tokens = NULL;
+}
+
+bool	ft_handle_quotes(t_input *input, char type)
+{
+	printf("' detected\n");
+	input->i++;
+	while (input->left[input->i] && input->left[input->i] != type)
+		input->i++;
+	if (!input->left[input->i])
+	{
+		ft_putendl_fd("Unclosed quotes.", 2);
+		return (true);
+	}
+	return (false);
+}
+
+bool	ft_handle_operators(t_input *input, t_token_type *type)
+{
+	*type = TEXT;
+	if (input->left[input->i] == '|')
+		*type = PIPE;
+	else if (input->left[input->i] == '<')
+		*type = INPUT;
+	else if (input->left[input->i] == '>')
+		*type = OUTPUT;
+	if (input->left[input->i + 1]
+		&& input->left[input->i] == input->left[input->i + 1])
+	{
+		(*type)++;
+		input->i++;
+		if (input->left[input->i] == input->left[input->i + 1])
+		{
+			ft_putendl_fd("Syntax error", 2);
+			return (true);
+		}
+	}
+	input->i++;
+	return (false);
+}
+
+void	ft_create_token(t_input *input, t_token_type type)
+{
+	char *token_input;
+
+	token_input = ft_strndup(input->left, 0, input->i);
+	add_token(input, new_token(remove_char(token_input, "\'\""), type));
+	if (input->left[input->i] == ' ')
+		input->i++;
+	input->left += input->i;
+	input->i = 0;
+}
+
+void	ft_tokenization(t_input *input) // GERER LES BACKSLASH
+{
+	t_token_type type;
+
+	while (input->left[input->i])
+	{
+		type = TEXT;
+		while (input->left[input->i] && (input->i == 0 || (input->i > 0
+					&& input->left[input->i - 1] == '\\')
+				|| !ft_ischarset(input->left[input->i], OPERATORS))
+			&& !ft_ischarset(input->left[input->i], WHITESPACES))
+		{
+			if ((input->left[input->i] == 39 || input->left[input->i] == 34)
+				&& ft_handle_quotes(input, input->left[input->i]))
+				return ;
+			else if (ft_ischarset(input->left[input->i], OPERATORS))
+			{
+				if (ft_handle_operators(input, &type))
+					return ;
+				break ;
+			}
+			else
+				input->i++;
+		}
+		ft_create_token(input, type);
+		print_info(input); // à dégager
+	}
+}
+
+int	ft_treat_input(t_input *input)
+{
+	ft_bzero(input, sizeof(t_input));
+	input->total = readline(PROMPT);
+	if (input->total == NULL)
+		return (0);
+	if (ft_strcmp(input->total, "") != 0)
+		add_history(input->total);
+	ft_strtrim_ws(input->total);
+	if (!ft_strcmp(input->total, "exit") || !ft_strcmp(input->total, "quit"))
+		return (0);
+	input->i = 0;
+	input->j = 0;
+	input->token_nb = 0;
+	input->tokens = NULL;
+	input->left = input->total;
+	ft_tokenization(input);
+	printf("Commande exécutée : %s\n", input->total);
+	return (1);
+}
+
+int	main(void)
+{
+	t_minishell	ms;
+
+	ft_bzero(&ms, sizeof(t_minishell));
+	signal(SIGINT, handle_sig);
+	signal(SIGQUIT, handle_sig);
+	while (1)
+	{
+		if (!ft_treat_input(&ms.input))
+			break ;
+		ft_free_input_data(&ms.input);
+	}
+	rl_clear_history();
+	printf("Fin de l'entrée standard.\n");
+	return (0);
+}
