@@ -148,7 +148,9 @@ int	exec_all(t_token *cmd, t_exec *ex);
 int	exec_only_command(t_token *cmd, t_exec *ex);
 int exec_pipe_commands(t_token *start, t_token *end, t_exec *ex);
 
-t_token  *parse_input(char *input);
+t_token	*parse_input(char *input);
+int		parse_args(t_token *data);
+int		check_lst(t_token *data);
 
 //PROTECTED functions to make other functions shorter
 //int		protected_open(char *file, int flags);

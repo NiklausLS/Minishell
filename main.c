@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/07/19 14:28:08 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:37:45 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (!ft_treat_input(&ms.input))
 			break ;
+		check_lst(ms.input.tokens);
 		exec_all(ms.input.tokens, &ex);
 		ft_free_input_data(&ms.input);
 	}
