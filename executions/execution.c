@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/19 08:17:02 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:28:34 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static t_token	*find_command_end(t_token *start)
 			return (cmd);
 		cmd = cmd->next;
 	}
+	printf("- in find_command_end : cmd is %s\n", cmd->value);
 	return (cmd);
 }
 
@@ -56,6 +57,7 @@ static int	make_child(t_token *start, t_token *end, t_exec *ex)
 	t_token	*cmd;
 
 	pid = fork();
+	printf("-- in make_child : start = %s end = %s\n", start->value, end->value);
 	if (pid == -1)
 	{
 		ft_putstr_fd("Minishell: fork error\n", 2);
@@ -69,17 +71,21 @@ static int	make_child(t_token *start, t_token *end, t_exec *ex)
 		cmd = find_command(start, end);
 		//if (cmd == end)
 		//	return (0);
-		exec_command(cmd, ex);
+		printf("-- cmd = %s\n", cmd->value);
+		make_execve(cmd, ex);
 		return (1);
 	}
 	return (0);
 }
 
-int	exec_command(t_token *data, t_exec *ex)
+int	make_execve(t_token *data, t_exec *ex)
 {
-	if (data->type != COMMAND || data->exec_fail != -1)
+	printf("--- in make_execve : cmd is %s\n", data->value);
+	/*if (data->type != COMMAND || data->exec_fail != -1)
 		return (0);
+	printf("--- in make_execve : cmd is %s\n", data->value);*/
 	make_path(ex, data);
+	printf("--- path is %s\n", data->path);
 	if (!data->args)
 		data->args = ft_split(data->value, ' ');
 	if (execve(data->path, data->args, ex->env) == -1)
@@ -98,6 +104,7 @@ int	exec_all(t_token *cmd, t_exec *ex)
 
 	current = cmd;
 	start = cmd;
+	printf("- in exec_all\n");
 	ex->prev_pipe = STDIN_FILENO;
 	while (current != NULL)
 	{

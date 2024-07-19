@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/07/19 08:32:40 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:28:08 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,7 +269,8 @@ int	main(int argc, char **argv, char **envp)
 		exec_all(ms.input.tokens, &ex);
 		ft_free_input_data(&ms.input);
 	}
-	clear_history();
+	clear_history(); //for mac
+	//rl_clear_history(); //for mate
 	printf("Fin de l'entrée standard.\n");
 	return (0);
 }

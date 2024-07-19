@@ -121,7 +121,7 @@ char    *add_quotes(char *var);
 void	update_env_loop(t_exec *ex, char **up_env, char *quote_var, int i);
 //int     make_unset(t_token *cmd, t_exec *ex);
 
-int	exec_command(t_token *data, t_exec *ex);
+int	make_execve(t_token *data, t_exec *ex);
 int handle_piped_commands(t_token *current, t_exec *ex);
 int execute_piped_command(t_token *cmd, int in_fd, int out_fd, t_exec *ex);
 
@@ -133,7 +133,7 @@ void wait_for_children(void);
 
 //EXECUTION functions
 int	make_path(t_exec *ex, t_token *data);
-int	exec_command_lst(t_token *cmd, t_exec *ex);
+int	make_execve_lst(t_token *cmd, t_exec *ex);
 
 //OPERATOR checkers and managers
 void    split_redirection(char *str, t_token *data);
