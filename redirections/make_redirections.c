@@ -25,7 +25,6 @@ static int  redirections(t_token *current, int *last_input, int *last_output)
 	}
 	if (current->type == OUTPUT || current->type == APPEND)
 	{
-        //printf("Calling open_output for %s\n", current->next->data);
 		if (*last_output != -1)
         {
             if (close(*last_output) == -1)
@@ -34,7 +33,6 @@ static int  redirections(t_token *current, int *last_input, int *last_output)
                 return (1);
             }
         }
-        //printf("Calling open_output for %s\n", current->next->data);
 		*last_output = open_output(current);
         //printf("----- output = %d\n", *last_output);
 		if (*last_output == -1)
@@ -99,7 +97,7 @@ int	make_all_redirections(t_token *start, t_token *end)
     {
         //printf("--- testing %s\n", current->data);
         if (redirections(current, &last_input, &last_output) == 1)
-            return (0);
+            return (1);
         current = current->next;
     }
     if (dup_input(last_input) == 1)

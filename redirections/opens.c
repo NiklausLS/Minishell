@@ -57,7 +57,7 @@ int	open_output(t_token *data)
             return (-1);
 		}
 		else
-			printf("--- File %s is created\n", current->output);
+			printf("--- File %s is created\n", current->next->value);
 	}
 	else if (current->type == APPEND && current->next)
 	{
@@ -70,7 +70,7 @@ int	open_output(t_token *data)
             return (-1);
 		}
 		else
-			printf("File %s is created\n", current->value);
+			printf("File %s is created\n", current->next->value);
 	}
 	return (fd);
 }
