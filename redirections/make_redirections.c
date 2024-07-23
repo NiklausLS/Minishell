@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:17:53 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/23 17:24:29 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:34:15 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,8 @@ static int	redirections(t_token *current, int *last_input, int *last_output)
 	if (current->type == INPUT)
 	{
 		if (*last_input != -1)
-		{
-			if (close(*last_input) == -1)
-			{
-				ft_putstr_fd("Error: close failed\n", 2);
+			if (protected_close(*last_input) == 1)
 				return (1);
-			}
-		}
 		*last_input = open_input(current);
 		if (*last_input == -1)
 			return (1);
@@ -34,13 +29,8 @@ static int	redirections(t_token *current, int *last_input, int *last_output)
 	if (current->type == OUTPUT || current->type == APPEND)
 	{
 		if (*last_output != -1)
-		{
-			if (close(*last_output) == -1)
-			{
-				ft_putstr_fd("Error: close failed\n", 2);
+			if (protected_close(*last_output) == 1)
 				return (1);
-			}
-		}
 		*last_output = open_output(current);
 		if (*last_output == -1)
 			return (1);

@@ -158,7 +158,8 @@ int		check_lst(t_token *data);
 
 //PROTECTED functions to make other functions shorter
 //int		protected_open(char *file, int flags);
-int    protected_pipe(int pipefd[2]);
+int	protected_pipe(int pipefd[2]);
+int	protected_close(int fd);
 
 //PARSING commands, path, ex->env
 //void	split_path(t_exec *ex, t_data *data);

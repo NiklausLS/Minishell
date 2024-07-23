@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/07/23 15:31:50 by nileempo         ###   ########.fr        #
+#    Updated: 2024/07/23 17:35:27 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCS = main.c \
 		./executions/pipes.c \
 		./executions/execution.c \
 		./executions/exec_utils.c \
+		./protected_functions/protected_open.c \
 		
 
 NAME = minishell
