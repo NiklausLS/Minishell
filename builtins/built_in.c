@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/19 08:08:47 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:44:07 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ int get_builtin(t_token *data, t_exec *ex)
 		printf("CD USED\n");
 		make_cd(&argv[1]);
 	}*/
-    if (ft_strcmp(data->data, "env") == 0)
+    if (ft_strcmp(data->value, "env") == 0)
 	{
 		printf("ENV USED\n");
-		make_env(ex->env);
-        return (0);
+		if (make_env(ex->env) == 0)
+            return (0);
+        return (1);
 	}
-	else if (ft_strcmp(data->data, "exit") == 0)
+	else if (ft_strcmp(data->value, "exit") == 0)
 	{
 		printf("--- EXIT USED ---\n");
 		make_exit();
@@ -37,12 +38,13 @@ int get_builtin(t_token *data, t_exec *ex)
     /*else if (ft_strcmp(cmd->data, "echo") == 0)
     {
         printf("ECHO USED\n");
-    }
-    else if (ft_strcmp(data->cmd, "pwd") == 0)
-    {
-        printf("PWD USED\n");
     }*/
-    else if (ft_strcmp(data->data, "export") == 0)
+    else if (ft_strcmp(data->value, "pwd") == 0)
+    {
+        if (make_pwd() == 0)
+            return (0);
+    }
+    else if (ft_strcmp(data->value, "export") == 0)
     {
         printf("--- EXPORT USED ---\n");
         make_export(data, ex);
@@ -54,5 +56,5 @@ int get_builtin(t_token *data, t_exec *ex)
         make_unset(data, ex);
         return (0);
     }*/
-    return (-1);
+    return (1);
 }

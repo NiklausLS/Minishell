@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:25:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/19 08:24:03 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:06:43 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@
 
 static void	without_args(t_exec *ex)
 {
-	int	i;
+	int		i;
+	//char	*sign;
 
 	i = 0;
 	while (ex->env[i])
 	{
+		//sign = ft_strchr(ex->env[i], '=');
 		printf("declare -x %s\n", ex->env[i]);
 		i++;
 	}
@@ -71,7 +73,7 @@ static int	get_index(t_exec *ex, char *var)
 	return (-1);
 }
 
-static void	update_env(t_exec *ex, int index, char *var)
+static int	update_env(t_exec *ex, int index, char *var)
 {
 	int		i;
 	char	**up_env;
@@ -79,15 +81,20 @@ static void	update_env(t_exec *ex, int index, char *var)
 
 	printf("*** in update_env\n");
 	i = 0;
-	quote_var = add_quotes(var);
+	quote_var = make_quotes(var);
 	if (!quote_var)
-		return ;// gestion des erreurs entierement a revoir pour export
+		return (1);
 	if (index != -1)
 	{
 		free(ex->env[index]);
 		printf("** freeing enx->env[%d] : %s\n", index, ex->env[index]);
 		ex->env[index] = ft_strdup(var);
 		printf("** copy var %s\n", var);
+		if (!ex->env[index])
+		{
+			free(quote_var);
+			return (1);
+		}
 	}
 	else
 	{
@@ -96,23 +103,49 @@ static void	update_env(t_exec *ex, int index, char *var)
 		while (ex->env[i])
 			i++;
 		up_env = (char **)malloc(sizeof(char *) * (i + 2));
-		if (up_env)
-			update_env_loop(ex, up_env, quote_var, i);
-		else
+		if (!up_env)
+		{
 			free(quote_var);
+			return (1);
+		}
+		if (update_env_loop(ex, up_env, quote_var, i) != 0)
+		{
+			free(up_env);
+			free(quote_var);
+			return (1);
+		}
 	}
+	free(quote_var);
+	return (0);
 }
 
-static void	make_update_env(t_exec *ex, char *var)
+static int	make_update_env(t_exec *ex, char *var)
 {
-	int	index;
+	int		index;
+	char	*new_var;
 
+	new_var = make_quotes(var);
+	if (!new_var)
+		return (1);
 	printf("--- in make_update_env\n");
 	printf("-- adding %s\n", var);
 	index = get_index(ex, var);
-	printf("- index = %d\n", index);
-	printf("calling update_env\n");
-	update_env(ex, index, var);
+	if (index != -1)
+	{
+		free(ex->env[index]);
+		ex->env[index] = new_var;
+	}
+	else
+	{
+		if (update_env(ex, index, var) != 0)
+		{
+			free(new_var);
+			return (1);
+		}
+	}
+	//printf("- index = %d\n", index);
+	//printf("calling update_env\n");
+	return (0);
 }
 
 int	make_export(t_token *data, t_exec *ex)

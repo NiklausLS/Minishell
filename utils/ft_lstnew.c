@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/19 08:29:53 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:19:42 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ int	make_env(char **envp)
 	int	i;
 
 	i = 0;
+    if (!envp)
+        return (1);
 	while (envp[i])
 	{
 		if (ft_strchr(envp[i], '='))

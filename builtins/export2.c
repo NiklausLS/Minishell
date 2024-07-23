@@ -6,13 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:30:35 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/09 15:43:19 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:50:20 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*add_quotes(char *var)
+char	*make_quotes(char *var)
 {
 	char	*sign;
 	size_t	var_len;
@@ -27,9 +27,7 @@ char	*add_quotes(char *var)
 	}
 	var_len = sign - var;
 	len = ft_strlen_ptr(sign + 1);
-	new_var = (char *)malloc(var_len + len + 4);  // Correction ici
-	//new_var = (char *)malloc(sizeof(var_len + len + 4));
-	//new_var = malloc(sizeof(var_len + len + 4));
+	new_var = (char *)malloc(var_len + len + 4);
 	if (new_var)
 	{
 		ft_memcpy(new_var, var, var_len + 1);
@@ -41,7 +39,7 @@ char	*add_quotes(char *var)
 	return (new_var);
 }
 
-void	update_env_loop(t_exec *ex, char **up_env, char *quote_var, int i)
+int	update_env_loop(t_exec *ex, char **up_env, char *quote_var, int i)
 {
 	int	j;
 
@@ -53,9 +51,16 @@ void	update_env_loop(t_exec *ex, char **up_env, char *quote_var, int i)
 		//printf("up_env[%d] = %s\n", j, up_env[j]);
 		j++;
 	}
-	up_env[i] = quote_var;
+	up_env[i] = ft_strdup(quote_var);
+	if (!up_env[i])
+	{
+		while (--j >= 0)
+			free(up_env[j]);
+		return (1);
+	}
 	printf("quote_var = %s\n", quote_var);
 	up_env[i + 1] = NULL;
 	free(ex->env);
 	ex->env = up_env;
+	return (0);
 }
