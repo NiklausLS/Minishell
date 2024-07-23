@@ -114,10 +114,12 @@ void	free_array(char **array);
 int		free_input_data(t_token **input_data);
 
 //BUILDIN
-int     get_builtin(t_token *cmd, t_exec *ex);
+int     get_builtin(t_token *data);
+int     make_builtin(t_token *data, t_exec *ex);
 int		make_cd(char **argv);
 int     make_exit(void);
 int     make_pwd(void);
+int     make_unset(t_token *data, t_exec *ex);
 int     make_export(t_token *cmd, t_exec *ex);
 char    *make_quotes(char *var);
 int     update_env_loop(t_exec *ex, char **up_env, char *quote_var, int i);

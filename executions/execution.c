@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/20 16:22:03 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:34:59 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,13 @@ static int	make_child(t_token *start, t_token *end, t_exec *ex)
 		cmd = find_command(start, end);
 		//if (cmd == end)
 		//	return (0);
-		if (get_builtin(start, ex) == 0)
-			return (0);
-		printf("-- cmd = %s\n", cmd->value);
-		make_execve(cmd, ex);
+		if (get_builtin(start) == 0)
+			make_builtin(start, ex);
+		else
+		{
+			printf("-- cmd = %s\n", cmd->value);
+			make_execve(cmd, ex);
+		}
 		return (1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:26:09 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/19 08:08:47 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:21:34 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 //-find the index of the command
 //-free the command
 //-change index of elements after ? 
-/*
+
 static int get_index(t_exec *ex, char *var)
 {
     int i;
@@ -61,19 +61,20 @@ int make_unset(t_token *data, t_exec *ex)
 {
     int index;
 
+    printf("--- IN MAKE UNSET\n");
     if (data->next == NULL)
     {
-        printf("- not enought argument to use unset\n");
-        return (-1);
+        printf("- nothing to unset\n");
+        return (0);
     }
     printf("- in make_unset\n");
     printf("- env before\n");
     //print_env(ex);
-    index = get_index(ex, data->next->data);
+    index = get_index(ex, data->next->value);
     printf("- index = %d\n", index);
     if (index != -1)
         delete_var(ex, index);
     printf("- env after\n");
     //print_env(ex);
     return (0);
-}*/
+}

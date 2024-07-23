@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/23 11:44:07 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:33:54 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,36 @@
 //to do list
 //CD
 
-int get_builtin(t_token *data, t_exec *ex)
-//int get_builtin(t_data *data, char **argv, t_exec *ex)
+int get_builtin(t_token *data)
+{
+	/*if (ft_strcmp(data->cmd_lst->cmd, "cd") == 0)
+	{
+        return (0);
+	}*/
+    printf("*** IN GET BUILTIN\n");
+    if (ft_strcmp(data->value, "env") == 0)
+        return (0);
+	else if (ft_strcmp(data->value, "exit") == 0)
+        return (0);
+    else if (ft_strcmp(data->value, "echo") == 0)
+        return (0);
+    else if (ft_strcmp(data->value, "pwd") == 0)
+        return (0);
+    else if (ft_strcmp(data->value, "export") == 0)
+        return (0);
+    else if (ft_strcmp(data->value, "unset") == 0)
+        return (0);
+    return (1);
+}
+
+int make_builtin(t_token *data, t_exec *ex)
 {
 	/*if (ft_strcmp(data->cmd_lst->cmd, "cd") == 0)
 	{
 		printf("CD USED\n");
 		make_cd(&argv[1]);
 	}*/
+    printf("*** IN MAKE BUILTIN\n");
     if (ft_strcmp(data->value, "env") == 0)
 	{
 		printf("ENV USED\n");
@@ -35,12 +57,13 @@ int get_builtin(t_token *data, t_exec *ex)
 		printf("--- EXIT USED ---\n");
 		make_exit();
 	}
-    /*else if (ft_strcmp(cmd->data, "echo") == 0)
+    /*else if (ft_strcmp(cmd->value, "echo") == 0)
     {
         printf("ECHO USED\n");
     }*/
     else if (ft_strcmp(data->value, "pwd") == 0)
     {
+        printf("--- PWD USED ---\n");
         if (make_pwd() == 0)
             return (0);
     }
@@ -50,11 +73,11 @@ int get_builtin(t_token *data, t_exec *ex)
         make_export(data, ex);
         return (0);
     }
-    /*else if (ft_strcmp(data->data, "unset") == 0)
+    else if (ft_strcmp(data->value, "unset") == 0)
     {
         printf("UNSET USED\n");
         make_unset(data, ex);
         return (0);
-    }*/
+    }
     return (1);
 }
