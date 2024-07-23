@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/19 20:04:30 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:14:07 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,20 @@
  */
 int	parse_args(t_token *data)
 {
-	t_token	*current;
-    int			count;
+	t_token		*current;
+	int			count;
 	int			i;
 
 	count = 0;
-	//current = NULL;
-	//printf("in parse_args");
 	if (!data->value)
 		return (1);
 	current = data;
-	//printf("in parse_args\n");
-	//printf("cmd = %s\n", current->data);
 	data->args = ft_split(data->value, ' ');
-	//printf("current args = %s\n", current->args[0]);
 	if (data->next)
-	{
 		current = data->next;
-		//printf("next->cmd = %s\n", data->next->data);
-	}
 	while (current && current->type == TEXT && current->type == PIPE)
 	{
 		count++;
-		//printf("%s is an arg_type\n", current->data);
 		current = current->next;
 	}
 	data->args = malloc(sizeof(char *) * (count + 2));
@@ -54,7 +45,6 @@ int	parse_args(t_token *data)
 	while (i <= count)
 	{
 		data->args[i] = ft_strdup(current->value);
-		//printf("cmd->args[%d] = %s\n", i, data->args[i]);
 		current = current->next;
 		i++;
 	}
@@ -87,15 +77,12 @@ int	check_lst(t_token *data)
             return (1);
 		current_errors = current_errors->next;
 	}*/
-    //printf("après current_error\n");
     while (current != NULL)
 	{
-        //printf("current = %s\n", current->data);
         if (first_cmd == 1)
         {
                 current->type = COMMAND;
                 first_cmd = 0;
-                //print_node(current);
         }
 		if ((current->type == INPUT || current->type == HEREDOC
 			|| current->type == OUTPUT || current->type == APPEND)
@@ -103,7 +90,6 @@ int	check_lst(t_token *data)
 				current->next->type = FI;
 		if (current->type == PIPE && current->next)
 			current->next->type = COMMAND;
-		print_node(current);
         current = current->next;  
     }
     return (0);

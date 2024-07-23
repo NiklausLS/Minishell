@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 08:05:19 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/19 08:24:51 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:08:11 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	free_array(char **array)
 
 	i = 0;
 	if (!array)
-		return;
+		return ;
 	while (array[i])
 	{
 		free(array[i]);
@@ -33,55 +33,19 @@ void	free_array(char **array)
 /*
  * Free the environement
  */
-int    free_exec_structure(t_exec *ex)
+int	free_exec_structure(t_exec *ex)
 {
-    int i;
+	int	i;
 
-    i = 0;
-	//printf("ex->env[i] = %s\n", ex->env[i]);
-    if (ex->env != NULL)
-    {
-        while (ex->env[i])
-        {
-            free(ex->env[i]);
-            i++;
-        }
-        free(ex->env);
-    }
-    return (0);
-}
-
-/*
- * Free what is on the nodes if there is something
- */
-int		free_input_data(t_token **input_data)
-{
-    t_token	*current;
-	t_token	*next;
-	
-	current = *input_data;
-	if (!input_data || !(*input_data))
-		return (1);
-	while (current)
+	i = 0;
+	if (ex->env != NULL)
 	{
-		if (current->next)
-			next = current->next;
-		if (current->value)
-			free(current->value);
-		if (current->input)
-			free(current->input);
-		if (current->output)
-			free(current->output);
-		if (current->heredoc_delim)
-			free(current->heredoc_delim);
-		if (current->args)
-			free_array(current->args);
-		if (current->next)
-			current = current->next;
-		free(current);
-		current = next;
+		while (ex->env[i])
+		{
+			free(ex->env[i]);
+			i++;
+		}
+		free(ex->env);
 	}
-	//free(current);
-	*input_data = NULL;
 	return (0);
 }

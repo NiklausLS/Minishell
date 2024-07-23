@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   opens.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/23 17:15:59 by nileempo          #+#    #+#             */
+/*   Updated: 2024/07/23 17:17:39 by nileempo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 /*
@@ -5,20 +17,16 @@
  */
 int	open_input(t_token *data)
 {
-	int	fd;
-	t_token *current;
+	int		fd;
+	t_token	*current;
 
 	fd = -1;
 	current = data;
-	printf("--- in open_input\n");
 	if (current->type == INPUT && current->next)
 	{
-		//printf("Calling open_intput for %s\n", current->next->data);
 		fd = open(current->next->value, O_RDONLY, 0644);
-		printf("- fd = %d\n", fd);
 		if (fd == -1)
 		{
-			//printf("test input\n");
 			print_error(0, current->next->value);
 			current->exec_fail = 1;
 			return (-1);
@@ -29,7 +37,6 @@ int	open_input(t_token *data)
 		make_input_heredoc(cmd->input);
 		return (fd);
 	}*/
-	//printf("end of open_input loop\n");
 	return (fd);
 }
 
@@ -38,26 +45,20 @@ int	open_input(t_token *data)
  */
 int	open_output(t_token *data)
 {
-	int	fd;
-	t_token *current;
+	int		fd;
+	t_token	*current;
 
 	fd = -1;
 	current = data;
-	printf("IN OPEN OUTPUT\n");
 	if (current->type == OUTPUT && current->next)
 	{
 		fd = open(current->next->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		printf("--- opening %s\n", current->next->value);
-		printf("--- op %s\n", current->next->value);
 		if (fd == -1)
 		{
 			print_error(1, current->next->value);
 			current->exec_fail = 1;
 			current->error = 1;
-            return (-1);
 		}
-		else
-			printf("--- File %s is created\n", current->next->value);
 	}
 	else if (current->type == APPEND && current->next)
 	{
@@ -67,10 +68,7 @@ int	open_output(t_token *data)
 			print_error(1, current->next->value);
 			current->exec_fail = 1;
 			current->error = 1;
-            return (-1);
 		}
-		else
-			printf("File %s is created\n", current->next->value);
 	}
 	return (fd);
 }
