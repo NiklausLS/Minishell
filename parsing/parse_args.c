@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/23 17:14:07 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:58:11 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	parse_args(t_token *data)
 	data->args = ft_split(data->value, ' ');
 	if (data->next)
 		current = data->next;
-	while (current && current->type == TEXT && current->type == PIPE)
+	while (current && current->type == TEXT)
 	{
 		count++;
 		current = current->next;

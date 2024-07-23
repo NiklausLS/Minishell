@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/23 15:34:59 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:54:39 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@
 {
     int status;
 
-    printf("Parent process waiting for child PID: %d\n", pid);
+    printf("parent process waiting for child PID: %d\n", pid);
     waitpid(pid, &status, 0);
     printf("child process %d stop status = %d\n", 
            pid, WEXITSTATUS(status));
 }*/
-
 
 static t_token	*find_command(t_token *start, t_token *end)
 {
@@ -69,8 +68,6 @@ static int	make_child(t_token *start, t_token *end, t_exec *ex)
 		if (make_all_redirections(start, end) == 1)
 			return (1);
 		cmd = find_command(start, end);
-		//if (cmd == end)
-		//	return (0);
 		if (get_builtin(start) == 0)
 			make_builtin(start, ex);
 		else

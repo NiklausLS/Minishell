@@ -73,25 +73,6 @@ typedef struct s_minishell
 	t_input	input;
 }			t_minishell;
 
-/*typedef struct s_input_data
-{
-    char    **args;
-    char    *path;
-    char    *data;
-    int     input_type;
-    char    *input;
-    int     output_type;
-    char    *output;
-    int     pipe_type;
-    char    *heredoc_delim;
-    int     file_type;
-    int     cmd_type;
-    int     exec_fail;
-    struct  s_input_data *next;
-    int     error;
-    int     arg_type;
-} t_token;*/
-
 typedef struct s_exec {
     int		pipefd[2];
     int		prev_pipe;
@@ -120,6 +101,7 @@ int		make_cd(char **argv);
 int     make_exit(void);
 int     make_pwd(void);
 int     make_unset(t_token *data, t_exec *ex);
+void	make_echo(t_token *data);
 int     make_export(t_token *cmd, t_exec *ex);
 char    *make_quotes(char *var);
 int     update_env_loop(t_exec *ex, char **up_env, char *quote_var, int i);

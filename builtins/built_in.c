@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/23 15:33:54 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:50:36 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int get_builtin(t_token *data)
 
 int make_builtin(t_token *data, t_exec *ex)
 {
-	/*if (ft_strcmp(data->cmd_lst->cmd, "cd") == 0)
+	/*if (ft_strcmp(data->value, "cd") == 0)
 	{
 		printf("CD USED\n");
 		make_cd(&argv[1]);
@@ -57,10 +57,11 @@ int make_builtin(t_token *data, t_exec *ex)
 		printf("--- EXIT USED ---\n");
 		make_exit();
 	}
-    /*else if (ft_strcmp(cmd->value, "echo") == 0)
+    else if (ft_strcmp(data->value, "echo") == 0)
     {
         printf("ECHO USED\n");
-    }*/
+        make_echo(data);
+    }
     else if (ft_strcmp(data->value, "pwd") == 0)
     {
         printf("--- PWD USED ---\n");
