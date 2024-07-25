@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:30:35 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/23 15:37:43 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/25 20:15:32 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ char	*make_quotes(char *var)
 	}
 	var_len = sign - var;
 	len = ft_strlen_ptr(sign + 1);
+	if (sign[1] == '"' && sign[len] == '"')
+	{
+		new_var = ft_strdup(var);
+		return (new_var);
+	}
 	new_var = (char *)malloc(var_len + len + 4);
 	if (new_var)
 	{
@@ -47,8 +52,6 @@ int	update_env_loop(t_exec *ex, char **up_env, char *quote_var, int i)
 	while (j < i)
 	{
 		up_env[j] = ex->env[j];
-		//printf("ex->env[%d] = %s\n", j, ex->env[j]);
-		//printf("up_env[%d] = %s\n", j, up_env[j]);
 		j++;
 	}
 	up_env[i] = ft_strdup(quote_var);

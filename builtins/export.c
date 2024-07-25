@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:25:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/22 16:06:43 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:57:55 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@
 static void	without_args(t_exec *ex)
 {
 	int		i;
-	//char	*sign;
+	char	*new_var;
 
 	i = 0;
 	while (ex->env[i])
 	{
 		//sign = ft_strchr(ex->env[i], '=');
-		printf("declare -x %s\n", ex->env[i]);
+		new_var = make_quotes(ex->env[i]);
+		printf("declare -x %s\n", new_var);
+		//free(new_var);
 		i++;
 	}
 }
