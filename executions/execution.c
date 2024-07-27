@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/23 19:54:39 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/27 22:49:35 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	make_child(t_token *start, t_token *end, t_exec *ex)
 			printf("-- cmd = %s\n", cmd->value);
 			make_execve(cmd, ex);
 		}
-		return (1);
+		return (0);
 	}
 	return (0);
 }
@@ -83,9 +83,9 @@ static int	make_child(t_token *start, t_token *end, t_exec *ex)
 int	make_execve(t_token *data, t_exec *ex)
 {
 	printf("--- in make_execve : cmd is %s\n", data->value);
-	/*if (data->type != COMMAND || data->exec_fail != -1)
-		return (0);
-	printf("--- in make_execve : cmd is %s\n", data->value);*/
+	//if (data->type != COMMAND)
+	//	return (1);
+	//printf("--- in make_execve : cmd is %s\n", data->value);*/
 	make_path(ex, data);
 	printf("--- path is %s\n", data->path);
 	if (!data->args)
@@ -116,8 +116,11 @@ int	exec_all(t_token *cmd, t_exec *ex)
 			if (setup_pipes(ex) != 0)
 				return (1);
 		}
-		if (make_child(start, end, ex) != 0)
-			return (1);
+		if (current->type == COMMAND)
+		{
+			if (make_child(start, end, ex) != 0)
+				return (1);
+		}
 		if (end && end->type == PIPE)
 		{
 			setup_pipe_end(ex);
