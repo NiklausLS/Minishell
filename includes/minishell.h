@@ -105,6 +105,8 @@ void	make_echo(t_token *data);
 int     make_export(t_token *cmd, t_exec *ex);
 char    *make_quotes(char *var);
 int     update_env_loop(t_exec *ex, char **up_env, char *quote_var, int i);
+void	sort_ex(char **env, int count);
+void	print_export(char **env, int count);
 //int     make_unset(t_token *cmd, t_exec *ex);
 
 int	make_execve(t_token *data, t_exec *ex);

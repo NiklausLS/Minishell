@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:25:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/25 19:57:55 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/27 16:37:17 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,27 @@
 static void	without_args(t_exec *ex)
 {
 	int		i;
-	char	*new_var;
+	//char	*new_var;
+	char	**tab_ptr;
+	int		count;
 
 	i = 0;
-	while (ex->env[i])
+	count = 0;
+	printf("in without args\n");
+	while (ex->env[count])
+		count++;	
+	tab_ptr = (char **)malloc(sizeof(char *) * count);
+	if (!tab_ptr)
+		return ;
+	while (i < count)
 	{
-		//sign = ft_strchr(ex->env[i], '=');
-		new_var = make_quotes(ex->env[i]);
-		printf("declare -x %s\n", new_var);
-		//free(new_var);
+		tab_ptr[i] =  ex->env[i];
 		i++;
 	}
+	printf("fin de without args\n");
+	sort_ex(tab_ptr, count);
+	print_export(tab_ptr, count);
+	free(tab_ptr);
 }
 
 static int	get_index(t_exec *ex, char *var)
@@ -154,6 +164,7 @@ int	make_export(t_token *data, t_exec *ex)
 {
 	if (!data->next)
 	{
+		printf("NO ARGUMENTS\n");
 		without_args(ex);
 		return (0);
 	}
