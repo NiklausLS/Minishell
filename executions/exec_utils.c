@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:46:11 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/30 11:38:13 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:52:04 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	exec_command(t_token *start, t_token *end, t_exec *ex)
 
 	if (make_all_redirections(start, end) == 1)
 		return (1);
-
 	if (make_child(start, end, ex) != 0)
 		return (1);
 	dup2(start_stdin, STDIN_FILENO);

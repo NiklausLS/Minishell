@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/19 08:17:42 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/30 20:36:33 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,18 @@ static int	check_and_set_path(t_token *data)
 		if (data->path)
 			free(data->path);
 		data->path = command_path;
+		return (0);
 	}
 	else if (access(data->value, F_OK | X_OK) == 0)
 	{
 		if (data->path)
 			free(data->path);
 		data->path = ft_strdup(command_path);
+		return (0);
 	}
 	else
-		return (1);
-	return (0);
+		print_error(1, data->value);
+	return (1);
 }
 
 static int	get_path(t_exec *ex, t_token *data)
@@ -87,8 +89,15 @@ static int	get_path(t_exec *ex, t_token *data)
 	{
 		if (ft_strncmp(ex->env[i], "PATH=", 5) == 0)
 		{
+			if (data->path)
+				free(data->path);
 			data->path = ft_strdup(ex->env[i] + 5);
-			break ;
+			if (data->path == NULL)
+			{
+				ft_putstr_fd("Minishell: malloc error\n", 2);
+				return (1);
+			}
+			return (0);
 		}
 		i++;
 	}

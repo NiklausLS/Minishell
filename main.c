@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/07/19 19:49:05 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:47:49 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ void	print_info(t_input *input)
 	current = input->tokens;
 	while (current)
 	{
-		printf("Token: %s, Type: %d\n", current->value, current->type);
+		//printf("Token: %s, Type: %d\n", current->value, current->type);
 		current = current->next;
 	}
-	printf("Reste à traiter : %s\n\n", input->left);
+	//printf("Reste à traiter : %s\n\n", input->left);
 }
 
 t_token	*new_token(char *value, t_token_type type)

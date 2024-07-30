@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:17:53 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/30 09:34:24 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:45:50 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ static int	dup_input(int fd)
  */
 static int	dup_output(int fd)
 {
-	printf("--- in dup_output\n");
-	printf("--- fd = %d\n", fd);
+	//printf("--- in dup_output\n");
+	//printf("--- fd = %d\n", fd);
 	if (fd != -1)
 	{
 		if (dup2(fd, STDOUT_FILENO) == -1)

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/23 19:58:11 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:48:15 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_lst(t_token *data)
 	current = data;
 	//current_errors = data;
     first_cmd = 1;
-    printf("IN CHECK LST\n");
+    //printf("IN CHECK LST\n");
 	/*while (current_errors)
 	{
 		if (pipe_errors(current_errors) == 1)
