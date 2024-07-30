@@ -112,6 +112,8 @@ void	print_export(char **env, int count);
 int	make_execve(t_token *data, t_exec *ex);
 int handle_piped_commands(t_token *current, t_exec *ex);
 int execute_piped_command(t_token *cmd, int in_fd, int out_fd, t_exec *ex);
+int	exec_command(t_token *start, t_token *end, t_exec *ex);
+int	make_child(t_token *start, t_token *end, t_exec *ex);
 
 int setup_pipes(t_exec *ex);
 int setup_in_and_out(t_exec *ex);

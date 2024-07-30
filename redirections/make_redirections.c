@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:17:53 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/23 17:34:15 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/30 09:34:24 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static int	dup_input(int fd)
  */
 static int	dup_output(int fd)
 {
+	printf("--- in dup_output\n");
+	printf("--- fd = %d\n", fd);
 	if (fd != -1)
 	{
 		if (dup2(fd, STDOUT_FILENO) == -1)
@@ -93,8 +95,8 @@ int	make_all_redirections(t_token *start, t_token *end)
 		current = current->next;
 	}
 	if (dup_input(last_input) == 1)
-		return (0);
+		return (1);
 	if (dup_output(last_output) == 1)
-		return (0);
+		return (1);
 	return (0);
 }

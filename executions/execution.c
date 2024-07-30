@@ -6,23 +6,15 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/27 22:53:22 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:34:45 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//for test because i'm a donkey
-/*static void wait_for_child(pid_t pid)
-{
-    int status;
-
-    printf("parent process waiting for child PID: %d\n", pid);
-    waitpid(pid, &status, 0);
-    printf("child process %d stop status = %d\n", 
-           pid, WEXITSTATUS(status));
-}*/
-
+/*
+ * Find the position of the next command
+ */
 static t_token	*find_command(t_token *start, t_token *end)
 {
 	t_token	*cmd;
@@ -33,6 +25,9 @@ static t_token	*find_command(t_token *start, t_token *end)
 	return (cmd);
 }
 
+/*
+ * find the position of the next command
+ */
 static t_token	*find_command_end(t_token *start)
 {
 	t_token	*cmd;
@@ -50,13 +45,17 @@ static t_token	*find_command_end(t_token *start)
 	return (cmd);
 }
 
-static int	make_child(t_token *start, t_token *end, t_exec *ex)
+/*
+ * Make a process for each node and use a function depending of the type of the token inside
+ */
+int	make_child(t_token *start, t_token *end, t_exec *ex)
 {
-	pid_t			pid;
+	pid_t	pid;
 	t_token	*cmd;
 
 	pid = fork();
-	printf("-- in make_child : start = %s end = %s\n", start->value, end->value);
+	printf("-- in make_child : start = %s end = %s\n",
+		start->value, end->value);
 	if (pid == -1)
 	{
 		ft_putstr_fd("Minishell: fork error\n", 2);
@@ -72,6 +71,7 @@ static int	make_child(t_token *start, t_token *end, t_exec *ex)
 			make_builtin(start, ex);
 		else
 		{
+			printf("---before make_execve\n");
 			make_execve(cmd, ex);
 		}
 		return (0);
@@ -79,6 +79,9 @@ static int	make_child(t_token *start, t_token *end, t_exec *ex)
 	return (0);
 }
 
+/*
+ * Will execute the command after finding it's path
+ */
 int	make_execve(t_token *data, t_exec *ex)
 {
 	printf("--- in make_execve : cmd is %s\n", data->value);
@@ -94,6 +97,9 @@ int	make_execve(t_token *data, t_exec *ex)
 	return (0);
 }
 
+/*
+ * Loot that will go throught every node
+ */
 int	exec_all(t_token *cmd, t_exec *ex)
 {
 	t_token	*current;
@@ -108,15 +114,11 @@ int	exec_all(t_token *cmd, t_exec *ex)
 	{
 		end = find_command_end(current);
 		if (current->next && current->next->type == PIPE)
-		{
 			if (setup_pipes(ex) != 0)
 				return (1);
-		}
 		if (current->type == COMMAND)
-		{
-			if (make_child(start, end, ex) != 0)
+			if (exec_command(start, end, ex) != 0)
 				return (1);
-		}
 		if (end && end->type == PIPE)
 		{
 			setup_pipe_end(ex);
