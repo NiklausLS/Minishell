@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:46:11 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/30 19:52:04 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:49:52 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,29 @@ void	wait_for_children(void)
 	pid = waitpid(-1, &status, 0);
 	while (pid > 0)
 	{
-		if (WIFEXITED(status))
+		/*if (WIFEXITED(status))
 			printf("child %d : status %d\n",
 				pid, WEXITSTATUS(status));
 		else if (WIFSIGNALED(status))
 			printf("child %d : stop signal %d\n",
-				pid, WTERMSIG(status));
+				pid, WTERMSIG(status));*/
 		pid = waitpid(-1, &status, 0);
 	}
 }
 /*
- * Copy stdin and stdout to make sure every command start with the original
- * Protect my code from eventual mean correctors
+ * get the next command and call make_child if there is one
+ * 
  */
 int	exec_command(t_token *start, t_token *end, t_exec *ex)
 {
-	int	start_stdin;
-	int	start_stdout;
-	printf("--- start of exec_command\n");
-	start_stdin = dup(STDIN_FILENO);
-	start_stdout = dup(STDOUT_FILENO);
+	t_token *cmd;
 
-	if (make_all_redirections(start, end) == 1)
-		return (1);
-	if (make_child(start, end, ex) != 0)
-		return (1);
-	dup2(start_stdin, STDIN_FILENO);
-	dup2(start_stdout, STDOUT_FILENO);
-	close(start_stdin);
-	close(start_stdout); 
-	printf("--- end of exec_command\n");
+	cmd = find_command(start, end);
+	if (cmd && cmd->type == COMMAND)
+	{
+		if (make_child(start, ex) != 0)
+			return (1);
+	}
+	//printf("--- end of exec_command\n");
 	return (0);
 }

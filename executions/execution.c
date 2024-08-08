@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/30 20:39:47 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:49:01 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  * Find the position of the next command
  */
-/*static t_token	*find_command(t_token *start, t_token *end)
+t_token	*find_command(t_token *start, t_token *end)
 {
 	t_token	*cmd;
 
@@ -23,12 +23,12 @@
 	while (cmd != end && cmd->type != COMMAND)
 		cmd = cmd->next;
 	return (cmd);
-}*/
+}
 
 /*
  * find the position of the next command
  */
-static t_token	*find_command_end(t_token *start)
+static t_token	*get_command_end(t_token *start)
 {
 	t_token	*cmd;
 
@@ -48,13 +48,13 @@ static t_token	*find_command_end(t_token *start)
 /*
  * Make a process for each node and use a function depending of the type of the token inside
  */
-int	make_child(t_token *start, t_token *end, t_exec *ex)
+int	make_child(t_token *start, t_exec *ex)
 {
 	pid_t	pid;
 
 	pid = fork();
-	printf("---- in make_child : start = %s end = %s\n",
-		start->value, end->value);
+	//printf("---- in make_child : start = %s end = %s\n",
+	//	start->value, end->value);
 	if (pid == -1)
 	{
 		ft_putstr_fd("Minishell: fork error\n", 2);
@@ -106,33 +106,43 @@ int	exec_all(t_token *cmd, t_exec *ex)
 {
 	t_token	*current;
 	t_token	*end;
+	int	start_stdin;
+	int	start_stdout;
 
 	current = cmd;
-	//printf("- in exec_all\n");
 	ex->prev_pipe = STDIN_FILENO;
+	start_stdin = dup(STDIN_FILENO);
+	start_stdout = dup(STDOUT_FILENO);
 	while (current != NULL)
 	{
-		end = find_command_end(current);
+		end = get_command_end(current);
 		if (current->next && current->next->type == PIPE)
 			if (setup_pipes(ex) != 0)
 				return (1);
+		if (make_all_redirections(current, end) == 1)
+			return (1);
 		if (current->type == COMMAND)
 		{
 			if (exec_command(current, end, ex) != 0)
 				return (1);
 		}
+		dup2(start_stdin, STDIN_FILENO);
+		dup2(start_stdout, STDOUT_FILENO);
 		if (end && end->type == PIPE)
 		{
 			setup_pipe_end(ex);
 			current = end->next;
 		}
 		else
-		{
-			current = end;
-			if (current)
-				current = current->next;
+		{ 
+			if (end)
+				current = end->next;
+			else
+				current = NULL;
 		}
 	}
+	close(start_stdin);
+	close(start_stdout); 
 	wait_for_children();
 	return (0);
 }

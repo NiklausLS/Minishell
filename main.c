@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/07/30 19:47:49 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:31:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ void	print_info(t_input *input)
 	current = input->tokens;
 	while (current)
 	{
-		//printf("Token: %s, Type: %d\n", current->value, current->type);
+		printf("Token: %s, Type: %d\n", current->value, current->type);
 		current = current->next;
 	}
-	//printf("Reste à traiter : %s\n\n", input->left);
+	printf("Reste à traiter : %s\n\n", input->left);
 }
 
 t_token	*new_token(char *value, t_token_type type)
@@ -221,7 +221,7 @@ void	ft_tokenization(t_input *input) // GERER LES BACKSLASH
 				input->i++;
 		}
 		ft_create_token(input, type);
-		print_info(input); // à dégager
+		//print_info(input); // à dégager
 	}
 }
 
@@ -242,7 +242,7 @@ int	ft_treat_input(t_input *input)
 	input->tokens = NULL;
 	input->left = input->total;
 	ft_tokenization(input);
-	printf("Commande exécutée : %s\n", input->total);
+	//printf("Commande exécutée : %s\n", input->total);
 	return (1);
 }
 
@@ -273,6 +273,6 @@ int	main(int argc, char **argv, char **envp)
 	}
 	clear_history(); //for mac
 	//rl_clear_history(); //for mate
-	printf("Fin de l'entrée standard.\n");
+	//printf("Fin de l'entrée standard.\n");
 	return (0);
 }

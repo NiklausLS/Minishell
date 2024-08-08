@@ -113,13 +113,14 @@ int	make_execve(t_token *data, t_exec *ex);
 int handle_piped_commands(t_token *current, t_exec *ex);
 int execute_piped_command(t_token *cmd, int in_fd, int out_fd, t_exec *ex);
 int	exec_command(t_token *start, t_token *end, t_exec *ex);
-int	make_child(t_token *start, t_token *end, t_exec *ex);
+int	make_child(t_token *start, t_exec *ex);
 
 int setup_pipes(t_exec *ex);
 int setup_in_and_out(t_exec *ex);
 void    setup_pipe_end(t_exec *ex);
 int execute_pipeline(t_token *cmd_list, t_exec *ex);
 void wait_for_children(void);
+t_token	*find_command(t_token *start, t_token *end);
 
 //EXECUTION functions
 int	make_path(t_exec *ex, t_token *data);
