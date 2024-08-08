@@ -97,7 +97,7 @@ int		free_input_data(t_token **input_data);
 //BUILDIN
 int     get_builtin(t_token *data);
 int     make_builtin(t_token *data, t_exec *ex);
-int		make_cd(char **argv);
+int     make_cd(t_exec *ex, t_token *data);
 int     make_exit(void);
 int     make_pwd(void);
 int     make_unset(t_token *data, t_exec *ex);
@@ -132,7 +132,7 @@ int		check_pipe(char *str);
 
 int     open_input(t_token *cmd);
 int     open_output(t_token *cmd);
-//void	make_heredoc(int fd, char *delim);
+char    *readline_heredoc(t_token *cmd);
 int	make_all_redirections(t_token *start, t_token *end);
 int	exec_all(t_token *cmd, t_exec *ex);
 int	exec_only_command(t_token *cmd, t_exec *ex);

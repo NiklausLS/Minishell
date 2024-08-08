@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:15:59 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/23 17:17:39 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:43:33 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	open_input(t_token *data)
 {
 	int		fd;
 	t_token	*current;
+	//char	*here;
 
 	fd = -1;
 	current = data;
@@ -32,11 +33,8 @@ int	open_input(t_token *data)
 			return (-1);
 		}
 	}
-	/*else if (cmd->input_type == 1)
-	{
-		make_input_heredoc(cmd->input);
-		return (fd);
-	}*/
+	//else if (current->type == HEREDOC)
+	//	fd = make_heredoc(data);
 	return (fd);
 }
 

@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/07/27 16:30:17 by nileempo         ###   ########.fr        #
+#    Updated: 2024/08/08 10:42:50 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS = main.c \
 		./builtins/pwd.c \
 		./builtins/unset.c \
 		./builtins/built_in.c \
+		./builtins/cd.c \
 		./cleans/free_exec.c \
 		./debug/errors_messages.c \
 		./inits/init_execution.c \

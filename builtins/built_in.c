@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/30 19:13:29 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:47:02 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,19 @@ int get_builtin(t_token *data)
         return (0);
     else if (ft_strcmp(data->value, "unset") == 0)
         return (0);
+    else if (ft_strcmp(data->value, "cd") == 0)
+        return (0);
     return (1);
 }
 
 int make_builtin(t_token *data, t_exec *ex)
 {
-	/*if (ft_strcmp(data->value, "cd") == 0)
+	if (ft_strcmp(data->value, "cd") == 0)
 	{
 		printf("CD USED\n");
-		make_cd(&argv[1]);
-	}*/
-    //printf("*** IN MAKE BUILTIN\n");
+		if (make_cd(ex, data) == 0)
+            return (0);
+    }
     if (ft_strcmp(data->value, "env") == 0)
 	{
 		printf("ENV USED\n");
