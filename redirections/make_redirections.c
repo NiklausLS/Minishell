@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:17:53 by nileempo          #+#    #+#             */
-/*   Updated: 2024/08/08 18:30:13 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/08/27 14:11:09 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  */
 static int	redirections(t_token *current, int *last_input, int *last_output)
 {
-	if (current->type == INPUT)
+	if (current->type == INPUT || current->type == HEREDOC)
 	{
 		if (*last_input != -1)
 			if (protected_close(*last_input) == 1)
@@ -43,6 +43,8 @@ static int	redirections(t_token *current, int *last_input, int *last_output)
  */
 static int	dup_input(int fd)
 {
+	printf("IN dup input\n");
+	printf("fd = %d\n", fd);
 	if (fd != -1)
 	{
 		if (dup2(fd, STDIN_FILENO) == -1)
@@ -85,14 +87,17 @@ int	make_all_redirections(t_token *start, t_token *end)
 	current = start;
 	last_input = -1;
 	last_output = -1;
+	printf("in make all redirections\n");
 	while (current && current != end)
 	{
 		if (redirections(current, &last_input, &last_output) == 1)
 			return (1);
 		current = current->next;
 	}
+	printf("before dup_input\n");
 	if (dup_input(last_input) == 1)
 		return (1);
+	printf("after dup_input\n");
 	if (dup_output(last_output) == 1)
 		return (1);
 	return (0);

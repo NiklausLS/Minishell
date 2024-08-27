@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/08/08 18:31:00 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/08/27 13:49:55 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ void	ft_tokenization(t_input *input) // GERER LES BACKSLASH
 				input->i++;
 		}
 		ft_create_token(input, type);
-		//print_info(input); // à dégager
+		print_info(input); // à dégager
 	}
 }
 

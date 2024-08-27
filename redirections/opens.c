@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:15:59 by nileempo          #+#    #+#             */
-/*   Updated: 2024/08/08 10:43:33 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/08/27 14:10:17 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int	open_input(t_token *data)
 {
 	int		fd;
 	t_token	*current;
-	//char	*here;
 
 	fd = -1;
 	current = data;
+	printf("in open input\n");
 	if (current->type == INPUT && current->next)
 	{
 		fd = open(current->next->value, O_RDONLY, 0644);
@@ -33,8 +33,12 @@ int	open_input(t_token *data)
 			return (-1);
 		}
 	}
-	//else if (current->type == HEREDOC)
-	//	fd = make_heredoc(data);
+	else if (current->type == HEREDOC && current->next)
+	{
+		printf("current = %s", current->value);
+		fd = make_heredoc(current->value);
+		printf("fd heredoc = %d\n", fd);
+	}
 	return (fd);
 }
 
