@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:15:59 by nileempo          #+#    #+#             */
-/*   Updated: 2024/08/27 14:10:17 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/08/27 14:19:37 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	open_input(t_token *data)
 	}
 	else if (current->type == HEREDOC && current->next)
 	{
-		printf("current = %s", current->value);
-		fd = make_heredoc(current->value);
+		printf("current = %s\n", current->next->value);
+		fd = make_heredoc(current->next->value);
 		printf("fd heredoc = %d\n", fd);
 	}
 	return (fd);

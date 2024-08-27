@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 11:12:46 by nileempo          #+#    #+#             */
-/*   Updated: 2024/08/27 13:54:58 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/08/27 14:15:18 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ char    *readline_heredoc(char *delim)
     char    *here;
 
     printf("----- IN READLINE\n");
+    printf("delim = %s\n", delim);
 	here = ft_strdup("");
 	if (!here)
 		return (NULL);

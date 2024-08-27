@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:17:53 by nileempo          #+#    #+#             */
-/*   Updated: 2024/08/27 14:11:09 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/08/27 14:18:07 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	redirections(t_token *current, int *last_input, int *last_output)
 		if (*last_output != -1)
 			if (protected_close(*last_output) == 1)
 				return (1);
-		*last_output = open_output(current);
+		*last_output = open_output(current->next);
 		if (*last_output == -1)
 			return (1);
 	}
