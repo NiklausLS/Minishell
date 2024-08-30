@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/08/08 10:42:50 by nileempo         ###   ########.fr        #
+#    Updated: 2024/08/30 12:08:33 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS = main.c \
 		./executions/execution.c \
 		./executions/exec_utils.c \
 		./protected_functions/protected_open.c \
+		./signals/heredoc_signal.c \
 		
 
 NAME = minishell

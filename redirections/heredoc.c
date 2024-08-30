@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 11:12:46 by nileempo          #+#    #+#             */
-/*   Updated: 2024/08/27 14:15:18 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/08/30 11:57:02 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	make_heredoc(char *cmd)
 	int		fd;
 	char	*here;
 
-    printf("--- IN MAKE HEREDOC\n");
+    //printf("--- IN MAKE HEREDOC\n");
 	here = readline_heredoc(cmd);
 	if (!here)
 		return (-1);
@@ -32,7 +32,7 @@ int	make_heredoc(char *cmd)
     write (fd, here, ft_strlen(here));
     free(here);
     close(fd);
-    printf("---END OF MAKE HEREDOC\n");
+    //printf("---END OF MAKE HEREDOC\n");
     return (fd);
 }
 
@@ -43,10 +43,10 @@ static char *join_and_free(char *s1, char *s2)
 {
 	char	*res;
 
-    printf("---- IN JOIN AND FREE\n");
+    //printf("---- IN JOIN AND FREE\n");
 	res = ft_strjoin(s1, s2);
 	free(s1);
-    printf("---- END OF JOIN AND FREE\n");
+    //printf("---- END OF JOIN AND FREE\n");
 	return (res);
 }
 /*
@@ -57,9 +57,10 @@ char    *readline_heredoc(char *delim)
     char    *line;
     char    *here;
 
-    printf("----- IN READLINE\n");
-    printf("delim = %s\n", delim);
+    //printf("----- IN READLINE\n");
+    //printf("delim = %s\n", delim);
 	here = ft_strdup("");
+    heredoc_signal();
 	if (!here)
 		return (NULL);
     while (1)
@@ -75,6 +76,6 @@ char    *readline_heredoc(char *delim)
         if (!here)
             return (NULL);
     }
-    printf("----- END OF READLINE\n");
+    //printf("----- END OF READLINE\n");
     return (here);
 }

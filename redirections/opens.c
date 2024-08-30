@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:15:59 by nileempo          #+#    #+#             */
-/*   Updated: 2024/08/27 14:19:37 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/08/30 11:27:08 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	open_input(t_token *data)
 	}
 	else if (current->type == HEREDOC && current->next)
 	{
-		printf("current = %s\n", current->next->value);
+		//printf("current = %s\n", current->next->value);
 		fd = make_heredoc(current->next->value);
-		printf("fd heredoc = %d\n", fd);
+		//printf("fd heredoc = %d\n", fd);
 	}
 	return (fd);
 }
@@ -59,7 +59,7 @@ int	open_output(t_token *data)
 		{
 			print_error(1, current->next->value);
 			current->exec_fail = 1;
-			current->error = 1;
+			//current->error = 1;
 		}
 	}
 	else if (current->type == APPEND && current->next)
@@ -68,7 +68,7 @@ int	open_output(t_token *data)
 		if (fd == -1)
 		{
 			print_error(1, current->next->value);
-			current->exec_fail = 1;
+			//current->exec_fail = 1;
 			current->error = 1;
 		}
 	}

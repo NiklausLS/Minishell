@@ -167,6 +167,10 @@ int    pipe_errors(t_token *cmd);
 void    print_error(int error, char *cmd);
 int	redirection_errors(t_token *cmd);
 
+//signals functions
+void	handle_sig(int sig);
+void    heredoc_signal(void);
+
 //functions to help debug and improve my projet
 void	print_array(char **array);
 void	print_linked_list(t_token *head);
