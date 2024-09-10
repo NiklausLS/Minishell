@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/08/08 20:49:01 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/10 19:04:19 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_token	*find_command(t_token *start, t_token *end)
 /*
  * find the position of the next command
  */
-static t_token	*get_command_end(t_token *start)
+t_token	*get_command_end(t_token *start)
 {
 	t_token	*cmd;
 
@@ -75,74 +75,49 @@ int	make_child(t_token *start, t_exec *ex)
 	}
 	return (0);
 }
-
-/*
- * Will execute the command after finding it's path
- */
-int	make_execve(t_token *data, t_exec *ex)
+static char **prepare_args(t_token *data)
 {
-	//printf("--- in make_execve : cmd is %s\n", data->value);
-	make_path(ex, data);
-	//printf("--- path is %s\n", data->path);
-	if (data->path == NULL)
-	{
-		print_error(1, data->value);
-		exit (1);
-	}
-	if (!data->args)
-		data->args = ft_split(data->value, ' ');
-	if (execve(data->path, data->args, ex->env) == -1)
-	{
-		//print_error(1, data->value);
-		exit(127);
-	}
-	return (0);
+    char **args;
+    int i;
+    t_token *current;
+
+    i = 0;
+    current = data;
+    while (current && current->type != PIPE)
+    {
+        current = current->next;
+		i++;
+    }
+    args = (char **)malloc(sizeof(char *) * (i + 1));
+    if (!args)
+        return (NULL);
+    i = 0;
+    current = data;
+    while (current && current->type != PIPE)
+    {
+        args[i++] = ft_strdup(current->value);
+        current = current->next;
+    }
+    args[i] = NULL;
+    return (args);
 }
 
-/*
- * Loot that will go throught every node
- */
-int	exec_all(t_token *cmd, t_exec *ex)
+int make_execve(t_token *data, t_exec *ex)
 {
-	t_token	*current;
-	t_token	*end;
-	int	start_stdin;
-	int	start_stdout;
-
-	current = cmd;
-	ex->prev_pipe = STDIN_FILENO;
-	start_stdin = dup(STDIN_FILENO);
-	start_stdout = dup(STDOUT_FILENO);
-	while (current != NULL)
-	{
-		end = get_command_end(current);
-		if (current->next && current->next->type == PIPE)
-			if (setup_pipes(ex) != 0)
-				return (1);
-		if (make_all_redirections(current, end) == 1)
-			return (1);
-		if (current->type == COMMAND)
-		{
-			if (exec_command(current, end, ex) != 0)
-				return (1);
-		}
-		dup2(start_stdin, STDIN_FILENO);
-		dup2(start_stdout, STDOUT_FILENO);
-		if (end && end->type == PIPE)
-		{
-			setup_pipe_end(ex);
-			current = end->next;
-		}
-		else
-		{ 
-			if (end)
-				current = end->next;
-			else
-				current = NULL;
-		}
-	}
-	close(start_stdin);
-	close(start_stdout); 
-	wait_for_children();
-	return (0);
+    make_path(ex, data);
+    if (data->path == NULL)
+    {
+        print_error(1, data->value);
+        exit(1);
+    }
+    if (!data->args)
+        data->args = prepare_args(data);
+    if (!data->args)
+    {
+        print_error(1, "Memory allocation failed");
+        exit(1);
+    }
+    if (execve(data->path, data->args, ex->env) == -1)
+        exit(127);
+    return (0);
 }

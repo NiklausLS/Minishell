@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/30 20:36:33 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:43:44 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,10 @@ int	make_path(t_exec *ex, t_token *data)
 
 	current = data;
 	if (data->path)
+	{
 		free(data->path);
+		data->path = NULL;
+	}
 	if (get_path(ex, data) == 1)
 		return (1);
 	while (current)

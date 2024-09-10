@@ -82,9 +82,6 @@ typedef struct s_exec {
 int     make_env(char **envp);
 int make_path(t_exec *ex, t_token *data);
 
-int parse_redirection(t_token *current);
-int parse_pipe(t_token *current);
-
 //Initialise my structures
 //void	init_struc(t_data *data);
 int    init_exec_structure(t_exec *ex, char **envp);
@@ -92,7 +89,6 @@ int    init_exec_structure(t_exec *ex, char **envp);
 //Free everything inside my structure
 int		free_exec_structure(t_exec *ex);
 void	free_array(char **array);
-int		free_input_data(t_token **input_data);
 
 //BUILDIN
 int     get_builtin(t_token *data);
@@ -110,24 +106,19 @@ void	print_export(char **env, int count);
 //int     make_unset(t_token *cmd, t_exec *ex);
 
 int	make_execve(t_token *data, t_exec *ex);
-int handle_piped_commands(t_token *current, t_exec *ex);
-int execute_piped_command(t_token *cmd, int in_fd, int out_fd, t_exec *ex);
 int	exec_command(t_token *start, t_token *end, t_exec *ex);
 int	make_child(t_token *start, t_exec *ex);
 
 int setup_pipes(t_exec *ex);
 int setup_in_and_out(t_exec *ex);
 void    setup_pipe_end(t_exec *ex);
-int execute_pipeline(t_token *cmd_list, t_exec *ex);
 void wait_for_children(void);
 t_token	*find_command(t_token *start, t_token *end);
 
 //EXECUTION functions
 int	make_path(t_exec *ex, t_token *data);
-int	make_execve_lst(t_token *cmd, t_exec *ex);
 
 //OPERATOR checkers and managers
-void    split_redirection(char *str, t_token *data);
 int     check_redirection(char *str);
 int		check_pipe(char *str);
 
@@ -137,10 +128,8 @@ char    *readline_heredoc(char *cmd);
 int	    make_heredoc(char *cmd);
 int	make_all_redirections(t_token *start, t_token *end);
 int	exec_all(t_token *cmd, t_exec *ex);
-int	exec_only_command(t_token *cmd, t_exec *ex);
-int exec_pipe_commands(t_token *start, t_token *end, t_exec *ex);
+t_token	*get_command_end(t_token *start);
 
-t_token	*parse_input(char *input);
 int		parse_args(t_token *data);
 int		check_lst(t_token *data);
 
@@ -163,9 +152,7 @@ int    check_lst(t_token *data);
 //void    init_redirections_lst(t_data *data);
 
 //errors functions
-int    pipe_errors(t_token *cmd);
 void    print_error(int error, char *cmd);
-int	redirection_errors(t_token *cmd);
 
 //signals functions
 void	handle_sig(int sig);
