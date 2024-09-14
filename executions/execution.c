@@ -6,11 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/10 19:04:19 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/14 17:05:40 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static t_token	*find_command_end(t_token *start);
 
 /*
  * Find the position of the next command
@@ -28,7 +30,7 @@ t_token	*find_command(t_token *start, t_token *end)
 /*
  * find the position of the next command
  */
-t_token	*get_command_end(t_token *start)
+t_token	*find_command_end(t_token *start)
 {
 	t_token	*cmd;
 
@@ -48,13 +50,12 @@ t_token	*get_command_end(t_token *start)
 /*
  * Make a process for each node and use a function depending of the type of the token inside
  */
-int	make_child(t_token *start, t_exec *ex)
+int	make_child(t_token *start, t_token *end, t_exec *ex)
 {
 	pid_t	pid;
+	t_token	*cmd;
 
 	pid = fork();
-	//printf("---- in make_child : start = %s end = %s\n",
-	//	start->value, end->value);
 	if (pid == -1)
 	{
 		ft_putstr_fd("Minishell: fork error\n", 2);
@@ -63,61 +64,75 @@ int	make_child(t_token *start, t_exec *ex)
 	else if (pid == 0)
 	{
 		setup_in_and_out(ex);
+		cmd = find_command(start, end);
 		if (get_builtin(start) == 0)
 			make_builtin(start, ex);
 		else
-		{
-			//printf("*** --- before make_execve\n");
-			make_execve(start, ex);
-			exit(127);
-		}
-		exit (0);
+			make_execve(cmd, ex);
+		return (0);
 	}
 	return (0);
 }
-static char **prepare_args(t_token *data)
-{
-    char **args;
-    int i;
-    t_token *current;
 
-    i = 0;
-    current = data;
-    while (current && current->type != PIPE)
-    {
-        current = current->next;
-		i++;
-    }
-    args = (char **)malloc(sizeof(char *) * (i + 1));
-    if (!args)
-        return (NULL);
-    i = 0;
-    current = data;
-    while (current && current->type != PIPE)
-    {
-        args[i++] = ft_strdup(current->value);
-        current = current->next;
-    }
-    args[i] = NULL;
-    return (args);
+/*
+ * Will execute the command after finding it's path
+ */
+int	make_execve(t_token *data, t_exec *ex)
+{
+	if (make_path(ex, data) == 1)
+	{
+		print_error(1, data->value);
+		exit(127);
+	}
+	printf("-- in make_execve : cmd is %s\n", data->value);
+	printf("--- path is %s\n", data->path);
+	//printf("--- path is %s\n", data->path);
+	if (!data->args)
+		data->args = ft_split(data->value, ' ');
+	if (execve(data->path, data->args, ex->env) == -1)
+	{
+		perror("execve failed");
+		exit(127);
+	}
+	return (0);
 }
 
-int make_execve(t_token *data, t_exec *ex)
+/*
+ * Loot that will go throught every node
+ */
+int	exec_all(t_token *cmd, t_exec *ex)
 {
-    make_path(ex, data);
-    if (data->path == NULL)
-    {
-        print_error(1, data->value);
-        exit(1);
-    }
-    if (!data->args)
-        data->args = prepare_args(data);
-    if (!data->args)
-    {
-        print_error(1, "Memory allocation failed");
-        exit(1);
-    }
-    if (execve(data->path, data->args, ex->env) == -1)
-        exit(127);
-    return (0);
+	t_token	*current;
+	t_token	*start;
+	t_token	*end;
+
+	current = cmd;
+	start = cmd;
+	//printf("- in exec_all\n");
+	ex->prev_pipe = STDIN_FILENO;
+	while (current != NULL)
+	{
+		end = find_command_end(current);
+		if (current->next && current->next->type == PIPE)
+			if (setup_pipes(ex) != 0)
+				return (1);
+		if (current->type == COMMAND)
+			if (exec_command(start, end, ex) != 0)
+				return (1);
+		if (end && end->type == PIPE)
+		{
+			setup_pipe_end(ex);
+			current = end->next;
+		}
+		else
+		{
+			if (end)
+				current = end->next;
+			else
+				current = NULL;
+		}
+		start = current;
+	}
+	wait_for_children();
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:23:16 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/19 08:26:17 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:58:21 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,12 @@ void    print_node(t_token *data)
         printf("- cmd = %s\n", current->value);
     if (current->type)
         printf("- type = %d\n", current->type);
+}
+
+void print_env(t_exec *ex)
+{
+    for (int i = 0; ex->env[i]; i++)
+    {
+        printf("%s\n", ex->env[i]);
+    }
 }

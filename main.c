@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/08/27 13:49:55 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/14 16:38:16 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ void	ft_create_token(t_input *input, t_token_type type)
 	input->i = 0;
 }
 
-void	ft_tokenization(t_input *input) // GERER LES BACKSLASH
+/*void	ft_tokenization(t_input *input) // GERER LES BACKSLASH
 {
 	t_token_type type;
 
@@ -223,6 +223,36 @@ void	ft_tokenization(t_input *input) // GERER LES BACKSLASH
 		ft_create_token(input, type);
 		print_info(input); // à dégager
 	}
+}*/
+
+void ft_tokenization(t_input *input)
+{
+    t_token_type type;
+
+    while (input->left[input->i])
+    {
+        type = TEXT;
+        while (input->left[input->i] && (input->i == 0 || (input->i > 0
+                    && input->left[input->i - 1] == '\\')
+                || !ft_ischarset(input->left[input->i], OPERATORS))
+            && !ft_ischarset(input->left[input->i], WHITESPACES))
+        {
+            if ((input->left[input->i] == 39 || input->left[input->i] == 34)
+                && ft_handle_quotes(input, input->left[input->i]))
+                return;
+            else if (ft_ischarset(input->left[input->i], OPERATORS))
+            {
+                if (ft_handle_operators(input, &type))
+                    return;
+                break;
+            }
+            else
+                input->i++;
+        }
+        ft_create_token(input, type);
+        printf("Created token: value='%s', type=%d\n", input->tokens->value, input->tokens->type);
+        print_info(input);
+    }
 }
 
 int	ft_treat_input(t_input *input)
@@ -246,33 +276,74 @@ int	ft_treat_input(t_input *input)
 	return (1);
 }
 
-int	main(int argc, char **argv, char **envp)
+/*int main(int argc, char **argv, char **envp)
 {
-	t_minishell	ms;
-	t_exec ex;
+    t_minishell ms;
+    t_exec ex;
 
-	if (argc == 0)
-	{
+    if (argc == 0)
+    {
         printf("argc = %d\n", argc);
-		printf("argv[0 = %s\n]", argv[0]);
-	}
-	
-	init_exec_structure(&ex, envp);
+        printf("argv[0] = %s\n", argv[0]);
+    }
+    if (init_exec_structure(&ex, envp) != 0)
+    {
+        fprintf(stderr, "Failed to initialize exec structure\n");
+        return (1);
+    }
 
-	ft_bzero(&ms, sizeof(t_minishell));
-	signal(SIGINT, handle_sig);
-	signal(SIGQUIT, handle_sig);
+    ft_bzero(&ms, sizeof(t_minishell));
+    signal(SIGINT, handle_sig);
+    signal(SIGQUIT, handle_sig);
+    while (1)
+    {
+        if (!ft_treat_input(&ms.input))
+            break;
+        check_lst(ms.input.tokens);
+        exec_all(ms.input.tokens, &ex);
+        ft_free_input_data(&ms.input);
+    }
 	while (1)
-	{
-		//check_lst(ms.input.tokens);
-		if (!ft_treat_input(&ms.input))
-			break ;
-		check_lst(ms.input.tokens);
-		exec_all(ms.input.tokens, &ex);
-		ft_free_input_data(&ms.input);
+{
+    if (!ft_treat_input(&ms.input))
+        break;
+    check_lst(ms.input.tokens);
+    exec_all(ms.input.tokens, &ex);
+    //ft_free_input_data(&ms.input);
+}
+    // Print environment after each command
+    printf("Current environment:\n");
+    for (int i = 0; ex.env[i]; i++)
+    {
+        printf("%s\n", ex.env[i]);
+    }
 	}
-	clear_history(); //for mac
-	//rl_clear_history(); //for mate
-	//printf("Fin de l'entrée standard.\n");
-	return (0);
+    //clear_history();
+    //free_exec_structure(&ex);
+    return (0);
+}*/
+
+int main(int argc, char **argv, char **envp)
+{
+    t_minishell ms;
+    t_exec ex;
+
+	printf("argv = %s\n", argv[0]);
+	printf("argc = %d\n", argc);
+    init_exec_structure(&ex, envp);
+    while (1)
+    {
+        if (!ft_treat_input(&ms.input))
+            break;
+        check_lst(ms.input.tokens);
+        exec_all(ms.input.tokens, &ex);
+        ft_free_input_data(&ms.input);
+        //printf("*** ENV NOW\n");
+       /*for (int i = 0; ex.env[i]; i++)
+        {
+            printf("%s\n", ex.env[i]);
+        }*/
+    }
+    free_exec_structure(&ex);
+    return 0;
 }

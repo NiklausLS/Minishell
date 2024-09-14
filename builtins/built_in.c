@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/08/13 15:47:00 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/12 20:08:02 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int get_builtin(t_token *data)
 
 int make_builtin(t_token *data, t_exec *ex)
 {
+    printf("IN MAKE BUILTIN\n");
+    //print_env(ex);
 	if (ft_strcmp(data->value, "cd") == 0)
 	{
 		if (make_cd(ex, data) == 0)
@@ -58,12 +60,16 @@ int make_builtin(t_token *data, t_exec *ex)
     else if (ft_strcmp(data->value, "export") == 0)
     {
         if (make_export(data, ex) == 0)
+        {
+            print_env(ex);
             return (0);
+        }
     }
     else if (ft_strcmp(data->value, "unset") == 0)
     {
         make_unset(data, ex);
         return (0);
     }
+    //print_env(ex);
     return (1);
 }
