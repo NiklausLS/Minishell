@@ -6,13 +6,12 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/09/24 14:02:19 by nileempo         ###   ########.fr        #
+#    Updated: 2024/09/24 18:47:29 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS = main.c \
 		./builtins/echo.c \
-		./builtins/exit.c \
 		./builtins/export.c \
 		./builtins/export2.c \
 		./builtins/sort_export.c \

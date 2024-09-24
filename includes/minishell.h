@@ -80,7 +80,6 @@ typedef struct s_exec {
     char	**env;
 } t_exec;
 
-int     make_env(char **envp);
 int     make_path(t_exec *ex, t_token *data);
 
 //Initialise my structures
@@ -93,10 +92,10 @@ void	free_array(char **array);
 //BUILDIN
 int     get_builtin(t_token *data);
 int     make_builtin(t_token *data, t_exec *ex);
+void    make_env(char **envp);
 int     make_cd(t_exec *ex, t_token *data);
-int     make_exit(void);
 int     make_pwd(void);
-int     make_unset(t_token *data, t_exec *ex);
+void    make_unset(t_token *data, t_exec *ex);
 void	make_echo(t_token *data);
 int     make_export(t_token *cmd, t_exec *ex);
 char    *make_quotes(char *var);
@@ -144,7 +143,6 @@ void	print_node(t_token *cmd);
 void	print_env(t_exec *ex);
 void	print_info(t_input *input);
 
-int     wait_for_children(void);
 void	execute_all_commands(t_token *data, t_exec *ex);
 t_token *get_end(t_token *start);
 

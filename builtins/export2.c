@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:30:35 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/25 20:15:32 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/24 19:03:38 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	update_env_loop(t_exec *ex, char **up_env, char *quote_var, int i)
 			free(up_env[j]);
 		return (1);
 	}
-	printf("quote_var = %s\n", quote_var);
 	up_env[i + 1] = NULL;
 	free(ex->env);
 	ex->env = up_env;

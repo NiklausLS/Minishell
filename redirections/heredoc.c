@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 11:12:46 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/24 15:37:08 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/24 19:06:46 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	make_heredoc(char *cmd)
     write (fd, here, ft_strlen(here));
     free(here);
     protected_close(fd);
-    //printf("---END OF MAKE HEREDOC\n");
     return (fd);
 }
 
@@ -43,10 +42,8 @@ static char *join_and_free(char *s1, char *s2)
 {
 	char	*res;
 
-    //printf("---- IN JOIN AND FREE\n");
 	res = ft_strjoin(s1, s2);
 	free(s1);
-    //printf("---- END OF JOIN AND FREE\n");
 	return (res);
 }
 /*
@@ -57,8 +54,6 @@ char    *readline_heredoc(char *delim)
     char    *line;
     char    *here;
 
-    //printf("----- IN READLINE\n");
-    //printf("delim = %s\n", delim);
 	here = ft_strdup("");
     heredoc_signal();
 	if (!here)
@@ -76,6 +71,5 @@ char    *readline_heredoc(char *delim)
         if (!here)
             return (NULL);
     }
-    //printf("----- END OF READLINE\n");
     return (here);
 }

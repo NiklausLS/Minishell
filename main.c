@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/09/24 13:42:25 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:35:21 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,35 +196,6 @@ void	ft_create_token(t_input *input, t_token_type type)
 	input->i = 0;
 }
 
-/*void	ft_tokenization(t_input *input) // GERER LES BACKSLASH
-{
-	t_token_type type;
-
-	while (input->left[input->i])
-	{
-		type = TEXT;
-		while (input->left[input->i] && (input->i == 0 || (input->i > 0
-					&& input->left[input->i - 1] == '\\')
-				|| !ft_ischarset(input->left[input->i], OPERATORS))
-			&& !ft_ischarset(input->left[input->i], WHITESPACES))
-		{
-			if ((input->left[input->i] == 39 || input->left[input->i] == 34)
-				&& ft_handle_quotes(input, input->left[input->i]))
-				return ;
-			else if (ft_ischarset(input->left[input->i], OPERATORS))
-			{
-				if (ft_handle_operators(input, &type))
-					return ;
-				break ;
-			}
-			else
-				input->i++;
-		}
-		ft_create_token(input, type);
-		print_info(input); // à dégager
-	}
-}*/
-
 void ft_tokenization(t_input *input)
 {
     t_token_type type;
@@ -265,7 +236,12 @@ int	ft_treat_input(t_input *input)
 		add_history(input->total);
 	ft_strtrim_ws(input->total);
 	if (!ft_strcmp(input->total, "exit") || !ft_strcmp(input->total, "quit"))
-		return (0);
+	{
+		free(input->total);
+		printf("exit\n");
+		exit(0);
+	}
+
 	input->i = 0;
 	input->j = 0;
 	input->token_nb = 0;

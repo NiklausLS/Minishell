@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:06:54 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/14 17:00:46 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/24 19:03:24 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	print_export(char **env, int count)
 	int		i;
 
 	i = 0;
-	printf("in print export\n");
 	while (i < count)
 	{
 		new_var = make_quotes(env[i]);

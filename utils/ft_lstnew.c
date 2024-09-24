@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 08:21:17 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/23 19:04:51 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:47:41 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,15 @@ void	add_arg(t_token *data)
 /*
  * Print the env for checks
  */
-int	make_env(char **envp)
+void	make_env(char **envp)
 {
 	int	i;
 
 	i = 0;
-    if (!envp)
-	{
-        return (1);
-	}
 	while (envp[i])
 	{
 		if (ft_strchr(envp[i], '='))
 			printf("%s\n", envp[i]);
 		i++;
 	}
-	return (0);
 }

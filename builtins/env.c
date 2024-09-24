@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/31 11:44:23 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/23 19:24:46 by nileempo         ###   ########.fr       */
+/*   Created: 2024/09/24 18:50:13 by nileempo          #+#    #+#             */
+/*   Updated: 2024/09/24 18:50:57 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	make_exit(void)
+void	make_env(char **envp)
 {
-	ft_putstr_fd("exit\n", 1);
-	exit (EXIT_SUCCESS);
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strchr(envp[i], '='))
+			printf("%s\n", envp[i]);
+		i++;
+	}
 }
