@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/09/14 17:07:48 by nileempo         ###   ########.fr        #
+#    Updated: 2024/09/24 14:02:19 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ SRCS = main.c \
 		./parsing/parse_args.c \
 		./parsing/check_redirections.c \
 		./redirections/heredoc.c \
-		./redirections/parsing_redirections.c \
 		./redirections/redirections_errors.c \
 		./redirections/make_redirections.c \
 		./redirections/opens.c \
@@ -37,7 +36,6 @@ SRCS = main.c \
 		./executions/exec_utils.c \
 		./protected_functions/protected_open.c \
 		./signals/heredoc_signal.c \
-		
 
 NAME = minishell
 CC = gcc

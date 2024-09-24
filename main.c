@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/09/14 16:38:16 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:42:25 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,8 +250,8 @@ void ft_tokenization(t_input *input)
                 input->i++;
         }
         ft_create_token(input, type);
-        printf("Created token: value='%s', type=%d\n", input->tokens->value, input->tokens->type);
-        print_info(input);
+        //printf("Created token: value='%s', type=%d\n", input->tokens->value, input->tokens->type);
+        //print_info(input);
     }
 }
 
@@ -323,7 +323,7 @@ int	ft_treat_input(t_input *input)
     return (0);
 }*/
 
-int main(int argc, char **argv, char **envp)
+/*int main(int argc, char **argv, char **envp)
 {
     t_minishell ms;
     t_exec ex;
@@ -338,12 +338,48 @@ int main(int argc, char **argv, char **envp)
         check_lst(ms.input.tokens);
         exec_all(ms.input.tokens, &ex);
         ft_free_input_data(&ms.input);
-        //printf("*** ENV NOW\n");
-       /*for (int i = 0; ex.env[i]; i++)
+        printf("*** ENV NOW\n");
+       for (int i = 0; ex.env[i]; i++)
         {
             printf("%s\n", ex.env[i]);
-        }*/
+        }
     }
+	clear_history();
     free_exec_structure(&ex);
     return 0;
+}*/
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_minishell	ms;
+	t_exec		ex;
+
+	(void)argc;
+	(void)argv;
+	if (init_exec_structure(&ex, envp) != 0)
+	{
+		ft_putstr_fd("Failed to initialize exec structure\n", 2);
+		return (1);
+	}
+	ft_bzero(&ms, sizeof(t_minishell));
+	signal(SIGINT, handle_sig);
+	signal(SIGQUIT, handle_sig);
+	while (1)
+	{
+		if (!ft_treat_input(&ms.input))
+			break ;
+		if (check_lst(ms.input.tokens) != 0)
+		{
+			ft_putstr_fd("Syntax error\n", 2);
+			ft_free_input_data(&ms.input);
+			continue ;
+		}
+		//exec_pipeline(ms.input.tokens, &ex);
+		execute_all_commands(ms.input.tokens, &ex);
+		//execute_pipeline(ms.input.tokens, &ex);
+		ft_free_input_data(&ms.input);
+	}
+	free_exec_structure(&ex);
+	clear_history();
+	return (0);
 }

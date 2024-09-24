@@ -23,6 +23,7 @@
 
 #define READ_END 0
 #define WRITE_END 1
+#define MAX_ARGS 20
 
 extern int global_signal_received;
 
@@ -80,10 +81,9 @@ typedef struct s_exec {
 } t_exec;
 
 int     make_env(char **envp);
-int make_path(t_exec *ex, t_token *data);
+int     make_path(t_exec *ex, t_token *data);
 
 //Initialise my structures
-//void	init_struc(t_data *data);
 int    init_exec_structure(t_exec *ex, char **envp);
 
 //Free everything inside my structure
@@ -105,19 +105,9 @@ void	sort_ex(char **env, int count);
 void	print_export(char **env, int count);
 //int     make_unset(t_token *cmd, t_exec *ex);
 
-int	make_execve(t_token *data, t_exec *ex);
-int	exec_command(t_token *start, t_token *end, t_exec *ex);
-//int	make_child(t_token *start, t_exec *ex);
-int make_child(t_token *start, t_token *end, t_exec *ex);
-
-int setup_pipes(t_exec *ex);
-int setup_in_and_out(t_exec *ex);
-void    setup_pipe_end(t_exec *ex);
-void wait_for_children(void);
-t_token	*find_command(t_token *start, t_token *end);
-
 //EXECUTION functions
-int	make_path(t_exec *ex, t_token *data);
+int     make_path(t_exec *ex, t_token *data);
+int	    make_execve(t_token *data, t_exec *ex);
 
 //OPERATOR checkers and managers
 int     check_redirection(char *str);
@@ -127,12 +117,7 @@ int     open_input(t_token *cmd);
 int     open_output(t_token *cmd);
 char    *readline_heredoc(char *cmd);
 int	    make_heredoc(char *cmd);
-int	make_all_redirections(t_token *start, t_token *end);
-int	exec_all(t_token *cmd, t_exec *ex);
-t_token	*get_command_end(t_token *start);
-
-int		parse_args(t_token *data);
-int		check_lst(t_token *data);
+int     make_all_redirections(t_token *start, t_token *end);
 
 //PROTECTED functions to make other functions shorter
 //int		protected_open(char *file, int flags);
@@ -140,17 +125,10 @@ int	protected_pipe(int pipefd[2]);
 int	protected_close(int fd);
 
 //PARSING commands, path, ex->env
-//void	split_path(t_exec *ex, t_data *data);
-//char **split_path(char *path);
-void    get_args(char **argv, t_token *data);
-int	parse_args(t_token *data);
+int     parse_args(t_token *data);
 
 //modified functions for chained list
-void    add_node(t_token **head, t_token *new_node);
-t_token *init_node(char *cmd);
 int    check_lst(t_token *data);
-//void    add_redirection_node(t_token *cmd, char *file, int type);
-//void    init_redirections_lst(t_data *data);
 
 //errors functions
 void    print_error(int error, char *cmd);
@@ -160,10 +138,14 @@ void	handle_sig(int sig);
 void    heredoc_signal(void);
 
 //functions to help debug and improve my projet
-void	print_array(char **array);
-void	print_linked_list(t_token *head);
+//void	print_array(char **array);
+//void	print_linked_list(t_token *head);
 void	print_node(t_token *cmd);
 void	print_env(t_exec *ex);
 void	print_info(t_input *input);
+
+int     wait_for_children(void);
+void	execute_all_commands(t_token *data, t_exec *ex);
+t_token *get_end(t_token *start);
 
 #endif

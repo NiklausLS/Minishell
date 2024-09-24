@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/12 20:08:02 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:18:12 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int make_builtin(t_token *data, t_exec *ex)
         make_echo(data);
     else if (ft_strcmp(data->value, "pwd") == 0)
     {
+        printf("cmd = pwd\n");
         if (make_pwd() == 0)
             return (0);
     }
@@ -61,7 +62,7 @@ int make_builtin(t_token *data, t_exec *ex)
     {
         if (make_export(data, ex) == 0)
         {
-            print_env(ex);
+            //print_env(ex);
             return (0);
         }
     }

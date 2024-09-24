@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/30 19:00:16 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:26:20 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	check_and_set_path(t_token *data)
 	{
 		if (data->path)
 			free(data->path);
-		data->path = ft_strdup(command_path);
+		data->path = ft_strdup(data->value);
 		return (0);
 	}
 	else

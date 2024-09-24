@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 11:12:46 by nileempo          #+#    #+#             */
-/*   Updated: 2024/08/30 11:57:02 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:37:08 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	make_heredoc(char *cmd)
     }
     write (fd, here, ft_strlen(here));
     free(here);
-    close(fd);
+    protected_close(fd);
     //printf("---END OF MAKE HEREDOC\n");
     return (fd);
 }
