@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/08/08 18:31:42 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/25 07:31:16 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,10 @@ int	parse_args(t_token *data)
 int	check_lst(t_token *data)
 {
 	t_token	*current;
-	//t_token	*current_errors;
 	int				first_cmd;
-    //int             check_red;
 
 	current = data;
-	//current_errors = data;
     first_cmd = 1;
-    //printf("IN CHECK LST\n");
-	/*while (current_errors)
-	{
-		if (pipe_errors(current_errors) == 1)
-            return (1);
-		if (redirection_errors(current_errors) == 1)
-            return (1);
-		current_errors = current_errors->next;
-	}*/
     while (current != NULL)
 	{
         if (first_cmd == 1)
@@ -85,6 +73,7 @@ int	check_lst(t_token *data)
 			&& current->type != OUTPUT && current->type != APPEND)
 			{
                 current->type = COMMAND;
+				//printf("after cmd_type = %d\n", current->type);
                 first_cmd = 0;
 			}
 			first_cmd = 0;
@@ -92,12 +81,18 @@ int	check_lst(t_token *data)
 		if ((current->type == INPUT || current->type == HEREDOC
 			|| current->type == OUTPUT || current->type == APPEND)
 				&& current->next)
+		{
 				current->next->type = FI;
+				//printf("cmd_type = %d\n", current->type);
+		}
 		if (current->type == PIPE && current->next)
 		{
 			if (current->next->type != INPUT && current->next->type != HEREDOC
 			&& current->next->type != OUTPUT && current->next->type != APPEND)
+			{
 				current->next->type = COMMAND;
+				//printf("cmd_type = %d\n", current->type);
+			}
 		}
         current = current->next; 
     }

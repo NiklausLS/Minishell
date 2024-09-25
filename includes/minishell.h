@@ -55,7 +55,7 @@ typedef struct s_token
     char    *input;
     char    *output;
     char    *heredoc_delim;
-    int     exec_fail;
+    //int     exec_fail;
     int     error;
 } t_token;
 
@@ -80,8 +80,6 @@ typedef struct s_exec {
     char	**env;
 } t_exec;
 
-int     make_path(t_exec *ex, t_token *data);
-
 //Initialise my structures
 int    init_exec_structure(t_exec *ex, char **envp);
 
@@ -102,11 +100,11 @@ char    *make_quotes(char *var);
 int     update_env_loop(t_exec *ex, char **up_env, char *quote_var, int i);
 void	sort_ex(char **env, int count);
 void	print_export(char **env, int count);
-//int     make_unset(t_token *cmd, t_exec *ex);
 
 //EXECUTION functions
 int     make_path(t_exec *ex, t_token *data);
 int	    make_execve(t_token *data, t_exec *ex);
+int     check_if_cmd(t_token *data);
 
 //OPERATOR checkers and managers
 int     check_redirection(char *str);

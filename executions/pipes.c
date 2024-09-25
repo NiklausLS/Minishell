@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:26 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/24 15:49:34 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/26 00:45:58 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,18 @@
 
 static void	execute_command(t_token *data, t_exec *ex)
 {
-	if (make_all_redirections (data, get_end(data)) != 0)
-		exit(EXIT_FAILURE);
+	t_token	*end;
+
+	end = get_end(data);
+	make_all_redirections(data, end);
 	if (get_builtin(data) == 0)
-	{
-		printf("builtin cmd\n");
 		make_builtin(data, ex);
-	}
 	else
 	{
 		make_path(ex, data);
 		parse_args(data);
 		execve(data->path, data->args, ex->env);
-		ft_putstr_fd("Minishell: execve error\n", 2);
+		ft_putstr_fd("Minishell: command not found\n", 2);
 		exit(127);
 	}
 }
@@ -94,12 +93,22 @@ static void	execute_command_node(t_token *data, t_exec *ex)
 void	execute_all_commands(t_token *data, t_exec *ex)
 {
 	ex->prev_pipe = -1;
-	while (data != NULL)
+	//printf("EXECUTE ALL COMMANDS : data type = %d\n", data->type);
+	//printf("check_if_cmd = %d\n", cmd_ok);
+	if (check_if_cmd(data) == 1)
 	{
-		if (make_all_redirections(data, data) == 1)
-			return ;
-		if (data->type == COMMAND)
-			execute_command_node(data, ex);
-		data = data->next;
+		while (data != NULL)
+		{
+			if (data->type == COMMAND)
+				execute_command_node(data, ex);
+			data = data->next;
+		}
 	}
+	if (data->type == OUTPUT || data->type == INPUT
+		|| data->type == HEREDOC || data->type == APPEND)
+	{
+		if (make_all_redirections(data, get_end(data)) != 0)
+			return ;
+	}
+	fprintf(stderr, "END execute all commands\n");
 }

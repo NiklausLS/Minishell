@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/09/24 18:35:21 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/25 08:12:54 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_token	*new_token(char *value, t_token_type type)
     new->input = NULL;
     new->output = NULL;
     new->heredoc_delim = NULL;
-    new->exec_fail = -1;
+    //new->exec_fail = -1;
 	new->error = -1;
 	return (new);
 }
@@ -241,7 +241,6 @@ int	ft_treat_input(t_input *input)
 		printf("exit\n");
 		exit(0);
 	}
-
 	input->i = 0;
 	input->j = 0;
 	input->token_nb = 0;
@@ -251,79 +250,6 @@ int	ft_treat_input(t_input *input)
 	//printf("Commande exécutée : %s\n", input->total);
 	return (1);
 }
-
-/*int main(int argc, char **argv, char **envp)
-{
-    t_minishell ms;
-    t_exec ex;
-
-    if (argc == 0)
-    {
-        printf("argc = %d\n", argc);
-        printf("argv[0] = %s\n", argv[0]);
-    }
-    if (init_exec_structure(&ex, envp) != 0)
-    {
-        fprintf(stderr, "Failed to initialize exec structure\n");
-        return (1);
-    }
-
-    ft_bzero(&ms, sizeof(t_minishell));
-    signal(SIGINT, handle_sig);
-    signal(SIGQUIT, handle_sig);
-    while (1)
-    {
-        if (!ft_treat_input(&ms.input))
-            break;
-        check_lst(ms.input.tokens);
-        exec_all(ms.input.tokens, &ex);
-        ft_free_input_data(&ms.input);
-    }
-	while (1)
-{
-    if (!ft_treat_input(&ms.input))
-        break;
-    check_lst(ms.input.tokens);
-    exec_all(ms.input.tokens, &ex);
-    //ft_free_input_data(&ms.input);
-}
-    // Print environment after each command
-    printf("Current environment:\n");
-    for (int i = 0; ex.env[i]; i++)
-    {
-        printf("%s\n", ex.env[i]);
-    }
-	}
-    //clear_history();
-    //free_exec_structure(&ex);
-    return (0);
-}*/
-
-/*int main(int argc, char **argv, char **envp)
-{
-    t_minishell ms;
-    t_exec ex;
-
-	printf("argv = %s\n", argv[0]);
-	printf("argc = %d\n", argc);
-    init_exec_structure(&ex, envp);
-    while (1)
-    {
-        if (!ft_treat_input(&ms.input))
-            break;
-        check_lst(ms.input.tokens);
-        exec_all(ms.input.tokens, &ex);
-        ft_free_input_data(&ms.input);
-        printf("*** ENV NOW\n");
-       for (int i = 0; ex.env[i]; i++)
-        {
-            printf("%s\n", ex.env[i]);
-        }
-    }
-	clear_history();
-    free_exec_structure(&ex);
-    return 0;
-}*/
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -350,9 +276,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_free_input_data(&ms.input);
 			continue ;
 		}
-		//exec_pipeline(ms.input.tokens, &ex);
 		execute_all_commands(ms.input.tokens, &ex);
-		//execute_pipeline(ms.input.tokens, &ex);
 		ft_free_input_data(&ms.input);
 	}
 	free_exec_structure(&ex);

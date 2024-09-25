@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:15:59 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/24 16:00:40 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/25 08:10:58 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	open_input(t_token *data)
 		if (fd == -1)
 		{
 			print_error(0, current->next->value);
-			current->exec_fail = 1;
+			//current->exec_fail = 1;
 			return (-1);
 		}
 	}
@@ -59,7 +59,7 @@ int open_output(t_token *data)
             //perror("open failed");
             //printf("Error opening file: %s\n", strerror(errno));
             print_error(1, current->next->value);
-            current->exec_fail = 1;
+            //current->exec_fail = 1;
         }
     }
     else if (current->type == APPEND && current->next)
