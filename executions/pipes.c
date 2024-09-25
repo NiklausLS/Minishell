@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:26 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/26 00:45:58 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/26 01:20:01 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,11 @@ static void	execute_command_node(t_token *data, t_exec *ex)
 void	execute_all_commands(t_token *data, t_exec *ex)
 {
 	ex->prev_pipe = -1;
+	int	first_stdin;
+	int	first_stdout;
+
+	first_stdin = dup(STDIN_FILENO);
+	first_stdout = dup(STDOUT_FILENO);
 	//printf("EXECUTE ALL COMMANDS : data type = %d\n", data->type);
 	//printf("check_if_cmd = %d\n", cmd_ok);
 	if (check_if_cmd(data) == 1)
@@ -104,11 +109,13 @@ void	execute_all_commands(t_token *data, t_exec *ex)
 			data = data->next;
 		}
 	}
-	if (data->type == OUTPUT || data->type == INPUT
-		|| data->type == HEREDOC || data->type == APPEND)
+	else
 	{
-		if (make_all_redirections(data, get_end(data)) != 0)
-			return ;
+		if (data->type == OUTPUT || data->type == INPUT
+		|| data->type == HEREDOC || data->type == APPEND)
+			make_all_redirections(data, get_end(data));
 	}
-	fprintf(stderr, "END execute all commands\n");
+	dup2(first_stdin, STDIN_FILENO);
+	dup2(first_stdout, STDOUT_FILENO);
+	//printf("END execute all commands\n");
 }
