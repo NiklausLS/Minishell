@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:23:16 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/26 15:17:14 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:20:26 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,26 @@ void	print_error(int error, char *cmd)
  * Will print what is in the node if there is something to check
  * if i'm not a complete donkey
  */
-void    print_node(t_token *data)
+void	print_node(t_token *data)
 {
-    t_token *current;
+	t_token	*current;
 
-    current = data;
-    printf("---print node---\n");
-    if (current->value)
-        printf("- cmd = %s\n", current->value);
-    if (current->type)
-        printf("- type = %d\n", current->type);
+	current = data;
+	printf("---print node---\n");
+	if (current->value)
+		printf("- cmd = %s\n", current->value);
+	if (current->type)
+		printf("- type = %d\n", current->type);
 }
 
-void print_env(t_exec *ex)
+void	print_env(t_exec *ex)
 {
-    for (int i = 0; ex->env[i]; i++)
-    {
-        printf("%s\n", ex->env[i]);
-    }
+	int	i;
+
+	i = 0;
+	while (ex->env[i])
+	{
+		printf("%s\n", ex->env[i]);
+		i++;
+	}
 }

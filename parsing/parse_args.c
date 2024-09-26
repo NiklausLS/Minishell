@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/26 15:17:16 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:24:26 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	parse_args(t_token *data)
 	return (0);
 }
 
-int count_text_nodes(t_token *current)
+int	count_text_nodes(t_token *current)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (current && current->type == TEXT)
@@ -47,7 +47,7 @@ int count_text_nodes(t_token *current)
 	return (count);
 }
 
-void copy_and_free_nodes(t_token *current, t_token *data, int arg_count)
+void	copy_and_free_nodes(t_token *current, t_token *data, int arg_count)
 {
 	t_token	*next;
 	int		i;
@@ -65,23 +65,16 @@ void copy_and_free_nodes(t_token *current, t_token *data, int arg_count)
 	data->next = current;
 }
 
-void free_node(t_token *node)
+void	free_node(t_token *node)
 {
 	if (node->args)
 		free(node->args);
 	if (node->path)
 		free(node->path);
-	if (node->input)
-		free(node->input);
-	if (node->output)
-		free(node->output);
-	if (node->heredoc_delim)
-		free(node->heredoc_delim);
 	if (node->value)
 		free(node->value);
 	free(node);
 }
-
 
 /*
  * Will make the first node a command
@@ -92,40 +85,34 @@ void free_node(t_token *node)
 int	check_lst(t_token *data)
 {
 	t_token	*current;
-	int				first_cmd;
+	int		first_cmd;
 
 	current = data;
-    first_cmd = 1;
-    while (current != NULL)
+	first_cmd = 1;
+	while (current != NULL)
 	{
-        if (first_cmd == 1)
-        {
+		if (first_cmd == 1)
+		{
 			if (current->type != INPUT && current->type != HEREDOC
-			&& current->type != OUTPUT && current->type != APPEND)
+				&& current->type != OUTPUT && current->type != APPEND)
 			{
-                current->type = COMMAND;
-				//printf("after cmd_type = %d\n", current->type);
-                first_cmd = 0;
+				current->type = COMMAND;
+				first_cmd = 0;
 			}
 			first_cmd = 0;
-        }
-		if ((current->type == INPUT || current->type == HEREDOC
-			|| current->type == OUTPUT || current->type == APPEND)
-				&& current->next)
-		{
-				current->next->type = FI;
-				//printf("cmd_type = %d\n", current->type);
 		}
+		if ((current->type == INPUT || current->type == HEREDOC
+				|| current->type == OUTPUT || current->type == APPEND)
+			&& current->next)
+			current->next->type = FI;
 		if (current->type == PIPE && current->next)
 		{
 			if (current->next->type != INPUT && current->next->type != HEREDOC
-			&& current->next->type != OUTPUT && current->next->type != APPEND)
-			{
+				&& current->next->type != OUTPUT
+				&& current->next->type != APPEND)
 				current->next->type = COMMAND;
-				//printf("cmd_type = %d\n", current->type);
-			}
 		}
-        current = current->next; 
-    }
-    return (0);
+		current = current->next;
+	}
+	return (0);
 }

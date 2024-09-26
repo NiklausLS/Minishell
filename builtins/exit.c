@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 11:44:23 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/26 16:59:29 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:14:06 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,5 @@
 
 int	make_exit(void)
 {
-	//ft_putstr_fd("exit\n", 1);
 	exit (EXIT_SUCCESS);
 }

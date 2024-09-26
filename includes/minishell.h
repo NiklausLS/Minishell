@@ -104,7 +104,6 @@ int     make_exit(void);
 
 //EXECUTION functions
 int     make_path(t_exec *ex, t_token *data);
-int	    make_execve(t_token *data, t_exec *ex);
 int     check_if_cmd(t_token *data);
 
 //OPERATOR checkers and managers
@@ -116,6 +115,12 @@ int     open_output(t_token *cmd);
 char    *readline_heredoc(char *cmd);
 int	    make_heredoc(char *cmd);
 int     make_all_redirections(t_token *start, t_token *end);
+int     handle_redirection_only(t_token *data);
+int     fork_and_exec(t_exec *ex, t_token *current, int is_first_cmd, int has_pipe);
+
+void	parent_process(t_exec *ex, int f_cmd, int has_pipe);
+void	child_process(t_exec *ex, t_token *data, int f_cmd, int has_pipe);
+int     check_if_cmd(t_token *data);
 
 //PROTECTED functions to make other functions shorter
 //int		protected_open(char *file, int flags);
@@ -143,7 +148,7 @@ void	print_env(t_exec *ex);
 void	print_info(t_input *input);
 
 void	execute_command(t_token *data, t_exec *ex);
-void	execute_all_commands(t_token *data, t_exec *ex);
+int     execute_all_commands(t_token *data, t_exec *ex);
 t_token *get_end(t_token *start);
 
 void free_node(t_token *node);

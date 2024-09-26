@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:25:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/24 19:04:41 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:13:46 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,19 @@
 static void	without_args(t_exec *ex)
 {
 	int		i;
-	//char	*new_var;
 	char	**tab_ptr;
 	int		count;
 
 	i = 0;
 	count = 0;
 	while (ex->env[count])
-		count++;	
+		count++;
 	tab_ptr = (char **)malloc(sizeof(char *) * count);
 	if (!tab_ptr)
 		return ;
 	while (i < count)
 	{
-		tab_ptr[i] =  ex->env[i];
+		tab_ptr[i] = ex->env[i];
 		i++;
 	}
 	sort_ex(tab_ptr, count);
