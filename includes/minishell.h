@@ -142,6 +142,7 @@ void	print_node(t_token *cmd);
 void	print_env(t_exec *ex);
 void	print_info(t_input *input);
 
+void	execute_command(t_token *data, t_exec *ex);
 void	execute_all_commands(t_token *data, t_exec *ex);
 t_token *get_end(t_token *start);
 

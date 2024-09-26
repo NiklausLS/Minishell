@@ -6,32 +6,11 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:26 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/26 17:24:27 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:29:25 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static void	execute_command(t_token *data, t_exec *ex)
-{
-	t_token	*end;
-
-	end = get_end(data);
-	make_all_redirections(data, end);
-	if (get_builtin(data) == 0)
-		make_builtin(data, ex);
-	else
-	{
-		parse_args(data);
-		make_path(ex, data);
-		print_node(data);
-		execve(data->path, data->args, ex->env);
-		ft_putstr_fd("Minishell: ", 2);
-		ft_putstr_fd(data->value, 2);
-		ft_putstr_fd(": command not found\n", 2);
-		exit(127);
-	}
-}
 
 static void handle_child_process(t_exec *ex, t_token *data, int is_first_cmd, int has_pipe)
 {
@@ -67,6 +46,29 @@ static void handle_parent_process(t_exec *ex, int is_first_cmd, int has_pipe)
         ex->prev_pipe = -1;
     }
 }
+
+static int handle_redirection_only(t_token *data)
+{
+	int fd;
+
+	fd = -1;
+	while (data)
+	{
+		if (data->type == INPUT || data->type == OUTPUT
+			|| data->type == HEREDOC || data->type == APPEND)
+		{
+			if (data->type == INPUT || data->type == HEREDOC)
+				fd = open_input(data);
+			else
+				fd = open_output(data);
+			if (fd == -1)
+				return (-1);
+		}
+		data = data->next;
+	}
+	return (fd);
+}
+
 
 void execute_all_commands(t_token *data, t_exec *ex)
 {
