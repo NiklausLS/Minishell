@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/24 15:50:07 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:20:28 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,16 @@ int	make_execve(t_token *data, t_exec *ex)
 	printf("--- path is %s\n", data->path);
 	if (!data->args)
 		parse_args(data);
-	if (execve(data->path, data->args, ex->env) == -1)
+	/*for (int i = 0; data->args[i] != NULL; i++)
+	{
+    	printf("data->args[%d] = %s\n", i, data->args[i]);
+	}
+	*/
+	print_node(data);
+	/*if (execve(data->path, data->args, ex->env) == -1)
 	{
 		perror("execve failed");
 		exit(127);
-	}
+	}*/
 	return (0);
 }

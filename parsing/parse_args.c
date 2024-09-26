@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/25 07:31:16 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:17:16 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,38 +19,69 @@
  */
 int	parse_args(t_token *data)
 {
-	t_token		*current;
-	int			count;
-	int			i;
+	t_token	*current;
+	int		arg_count;
+
+	arg_count = count_text_nodes(data->next);
+	data->args = malloc(sizeof(char *) * (arg_count + 2));
+	if (!data->args)
+		return (1);
+	data->args[0] = ft_strdup(data->value);
+	if (!data->args[0])
+		return (1);
+	current = data->next;
+	copy_and_free_nodes(current, data, arg_count);
+	return (0);
+}
+
+int count_text_nodes(t_token *current)
+{
+	int count;
 
 	count = 0;
-	if (!data->value)
-		return (1);
-	current = data;
-	data->args = ft_split(data->value, ' ');
-	if (data->next)
-		current = data->next;
 	while (current && current->type == TEXT)
 	{
 		count++;
 		current = current->next;
 	}
-	data->args = malloc(sizeof(char *) * (count + 2));
-	if (!data->args)
-		return (1);
-	data->args[0] = ft_strdup(data->value);
+	return (count);
+}
+
+void copy_and_free_nodes(t_token *current, t_token *data, int arg_count)
+{
+	t_token	*next;
+	int		i;
+
 	i = 1;
-	if (data->next)
-		current = data->next;
-	while (i <= count)
+	while (current && current->type == TEXT)
 	{
 		data->args[i] = ft_strdup(current->value);
-		current = current->next;
+		next = current->next;
+		free_node(current);
+		current = next;
 		i++;
 	}
-	data->args[i] = NULL;
-	return (0);
+	data->args[arg_count + 1] = NULL;
+	data->next = current;
 }
+
+void free_node(t_token *node)
+{
+	if (node->args)
+		free(node->args);
+	if (node->path)
+		free(node->path);
+	if (node->input)
+		free(node->input);
+	if (node->output)
+		free(node->output);
+	if (node->heredoc_delim)
+		free(node->heredoc_delim);
+	if (node->value)
+		free(node->value);
+	free(node);
+}
+
 
 /*
  * Will make the first node a command

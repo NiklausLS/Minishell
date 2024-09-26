@@ -100,6 +100,7 @@ char    *make_quotes(char *var);
 int     update_env_loop(t_exec *ex, char **up_env, char *quote_var, int i);
 void	sort_ex(char **env, int count);
 void	print_export(char **env, int count);
+int     make_exit(void);
 
 //EXECUTION functions
 int     make_path(t_exec *ex, t_token *data);
@@ -143,5 +144,9 @@ void	print_info(t_input *input);
 
 void	execute_all_commands(t_token *data, t_exec *ex);
 t_token *get_end(t_token *start);
+
+void free_node(t_token *node);
+void copy_and_free_nodes(t_token *current, t_token *data, int arg_count);
+int count_text_nodes(t_token *current);
 
 #endif

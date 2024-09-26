@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:15:59 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/25 08:10:58 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:08:03 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,26 @@ int open_output(t_token *data)
     }
     //printf("END open_output with fd=%d\n", fd);
     return (fd);
+}
+
+int handle_redirection_only(t_token *data)
+{
+	int fd;
+
+	fd = -1;
+	while (data)
+	{
+		if (data->type == INPUT || data->type == OUTPUT
+			|| data->type == HEREDOC || data->type == APPEND)
+		{
+			if (data->type == INPUT || data->type == HEREDOC)
+				fd = open_input(data);
+			else
+				fd = open_output(data);
+			if (fd == -1)
+				return (-1);
+		}
+		data = data->next;
+	}
+	return (fd);
 }
