@@ -112,8 +112,11 @@ int		check_pipe(char *str);
 
 int     open_input(t_token *cmd);
 int     open_output(t_token *cmd);
+
 char    *readline_heredoc(char *cmd);
 int	    make_heredoc(char *cmd);
+void	delete_hidden_heredoc(void);
+
 int     make_all_redirections(t_token *start, t_token *end);
 int     handle_redirection_only(t_token *data);
 int     fork_and_exec(t_exec *ex, t_token *current, int is_first_cmd, int has_pipe);
@@ -121,6 +124,7 @@ int     fork_and_exec(t_exec *ex, t_token *current, int is_first_cmd, int has_pi
 void	parent_process(t_exec *ex, int f_cmd, int has_pipe);
 void	child_process(t_exec *ex, t_token *data, int f_cmd, int has_pipe);
 int     check_if_cmd(t_token *data);
+int     wait_child_process(void);
 
 //PROTECTED functions to make other functions shorter
 //int		protected_open(char *file, int flags);
@@ -141,8 +145,6 @@ void	handle_sig(int sig);
 void    heredoc_signal(void);
 
 //functions to help debug and improve my projet
-//void	print_array(char **array);
-//void	print_linked_list(t_token *head);
 void	print_node(t_token *cmd);
 void	print_env(t_exec *ex);
 void	print_info(t_input *input);

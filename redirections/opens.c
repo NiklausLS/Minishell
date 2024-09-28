@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:15:59 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/26 23:56:10 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/28 17:22:19 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ int	open_input(t_token *data)
 	current = data;
 	if (current->type == INPUT && current->next)
 	{
-		fd = open(current->next->value, O_RDONLY, 0644);
+		printf("input = %s et file = %s\n", current->value, current->next->value);
+		fd = open(current->next->value, O_RDONLY);
 		if (fd == -1)
 		{
 			print_error(0, current->next->value);
 			return (-1);
 		}
+		printf("input = %s | file = %s | fd = %d\n", current->value, current->next->value, fd);
 	}
 	else if (current->type == HEREDOC && current->next)
 		fd = make_heredoc(current->next->value);
@@ -72,7 +74,11 @@ int	handle_redirection_only(t_token *data)
 			|| data->type == HEREDOC || data->type == APPEND)
 		{
 			if (data->type == INPUT || data->type == HEREDOC)
+			{
+				if (fd != -1)
+					protected_close(fd);
 				fd = open_input(data);
+			}
 			else
 				fd = open_output(data);
 			if (fd == -1)

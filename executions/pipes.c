@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:26 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/26 23:52:24 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/28 22:49:23 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,8 @@ static void	exec_commands(t_exec *ex, t_token **current, int *is_first_cmd)
 		next_pipe = next_pipe->next;
 	if (next_pipe && next_pipe->type == PIPE)
 	{
-		if (pipe(ex->pipefd) == -1)
-		{
-			perror("pipe");
+		if (protected_pipe(ex->pipefd) == -1)
 			return ;
-		}
 	}
 	fork_and_exec(ex, *current, *is_first_cmd, next_pipe != NULL);
 	*is_first_cmd = 0;
@@ -64,14 +61,14 @@ static void	exec_commands(t_exec *ex, t_token **current, int *is_first_cmd)
 		*current = (*current)->next;
 }
 
-static int	handle_all_redirections(t_token **current)
+static int	only_redirections(t_token **current)
 {
 	while (*current && ((*current)->type == INPUT || (*current)->type == OUTPUT
 			|| (*current)->type == HEREDOC || (*current)->type == APPEND))
 	{
 		if (handle_redirection_only(*current) == -1)
 		{
-			ft_putstr_fd("Redirection error\n", 2);
+			ft_putstr_fd("Minishell: redirection error\n", 2);
 			return (-1);
 		}
 		*current = (*current)->next;
@@ -90,17 +87,13 @@ int	execute_all_commands(t_token *data, t_exec *ex)
 	last_status = 0;
 	while (current)
 	{
-		if (handle_all_redirections(&current) == -1)
+		if (only_redirections(&current) == -1)
 			return (1);
 		if (current && current->type == COMMAND)
 			exec_commands(ex, &current, &is_first_cmd);
 		else
 			current = current->next;
 	}
-	while (wait(&last_status) > 0)
-	{
-		if (WIFEXITED(last_status))
-			last_status = WEXITSTATUS(last_status);
-	}
+	last_status = wait_child_process();
 	return (last_status);
 }

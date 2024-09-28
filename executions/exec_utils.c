@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:46:11 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/26 23:46:53 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/28 17:01:01 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,18 @@ int	fork_and_exec(t_exec *ex, t_token *current, int is_first_cmd, int has_pipe)
 	else
 		parent_process(ex, is_first_cmd, has_pipe);
 	return (0);
+}
+
+int	wait_child_process(void)
+{
+	int	last_status;
+	int	new_status;
+
+	last_status = 0;
+	while (wait(&new_status) > 0)
+	{
+		if (WIFEXITED(new_status))
+			last_status = WEXITSTATUS(new_status);
+	}
+	return (last_status);
 }

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:17:53 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/27 00:02:26 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/28 23:19:01 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ static int	redirections(t_token *current, int *last_input, int *last_output)
 			if (protected_close(*last_input) == 1)
 				return (1);
 		}
-		*last_input = open_input(current);
+		if (current->type == HEREDOC)
+			*last_input = make_heredoc(current->next->value);
+		else
+			*last_input = open_input(current);
 		if (*last_input == -1)
 			return (1);
 	}
@@ -79,10 +82,12 @@ static int	dup_input(int fd)
 	{
 		if (dup2(fd, STDIN_FILENO) == -1)
 		{
-			close(fd);
+			ft_putstr_fd("Minishell: dup2 input error\n", 2);
+			protected_close(fd);
 			return (1);
 		}
-		close(fd);
+		protected_close(fd);
+		delete_hidden_heredoc();
 	}
 	return (0);
 }
@@ -93,10 +98,11 @@ static int	dup_output(int fd)
 	{
 		if (dup2(fd, STDOUT_FILENO) == -1)
 		{
-			ft_putstr_fd("Minishell: dup2 error\n", 2);
+			ft_putstr_fd("Minishell: dup2 output error\n", 2);
+			protected_close(fd);
 			return (1);
 		}
-		close(fd);
+		protected_close(fd);
 	}
 	return (0);
 }

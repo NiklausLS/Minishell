@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/27 00:26:29 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/28 17:15:01 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,3 +34,4 @@ void	execute_command(t_token *data, t_exec *ex)
 		exit(127);
 	}
 }
+
