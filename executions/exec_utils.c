@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:46:11 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/28 17:01:01 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:11:42 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	wait_child_process(void)
 	{
 		if (WIFEXITED(new_status))
 			last_status = WEXITSTATUS(new_status);
+			printf("last_status = %d\n", last_status);
 	}
 	return (last_status);
 }

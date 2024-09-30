@@ -6,32 +6,31 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 11:12:46 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/28 23:05:59 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/30 20:25:17 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//trouver un moyen de supprimer le fichier temporaire après utilisation
 int	make_heredoc(char *cmd)
 {
-	int		fd;
+	int		pipefd[2];
 	char	*here;
-
+	
+	if (protected_pipe(pipefd) == 1)
+		return (1);
 	here = readline_heredoc(cmd);
 	if (!here)
-		return (-1);
-	fd = open("./includes/.hidden_heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
 	{
-		free(here);
-		ft_putstr_fd("Error : heredoc\n", 2);
+		close(pipefd[0]);
+		close(pipefd[1]);
 		return (1);
 	}
-	write (fd, here, ft_strlen(here));
+	write(pipefd[1], here, strlen(here));
 	free(here);
-	protected_close(fd);
-	return (fd);
+	if (protected_close(pipefd[1]) == 1)
+		return (1);
+	return (pipefd[0]);
 }
 
 /*
@@ -74,11 +73,11 @@ char	*readline_heredoc(char *delim)
 	return (here);
 }
 
-void	delete_hidden_heredoc(void)
+/*void	delete_hidden_heredoc(void)
 {
 	char	*heredoc;
 
 	heredoc = "./includes/.hidden_heredoc";
 	if (unlink(heredoc) == -1)
 		ft_putstr_fd("Minishell: unlink heredoc failed\n", 2);
-}
+}*/

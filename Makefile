@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/09/26 16:57:34 by nileempo         ###   ########.fr        #
+#    Updated: 2024/09/30 17:10:02 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS = main.c \
 		./redirections/redirections_errors.c \
 		./redirections/make_redirections.c \
 		./redirections/opens.c \
+		./redirections/redirection_utils.c \
 		./utils/ft_lstnew.c \
 		./executions/path.c \
 		./executions/pipes.c \

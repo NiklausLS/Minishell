@@ -112,6 +112,7 @@ int		check_pipe(char *str);
 
 int     open_input(t_token *cmd);
 int     open_output(t_token *cmd);
+//int     redirections(t_token *current, int *last_input, int *last_output);
 
 char    *readline_heredoc(char *cmd);
 int	    make_heredoc(char *cmd);

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:15:59 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/28 17:22:19 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:19:42 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	open_output(t_token *data)
 			print_error(1, current->next->value);
 			current->error = 1;
 		}
+		printf("input = %s | file = %s | fd = %d\n", current->value, current->next->value, fd);
 	}
 	return (fd);
 }
