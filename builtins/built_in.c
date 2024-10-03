@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/27 00:16:33 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:12:18 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	get_builtin(t_token *data)
 {
+	printf("IN GET_BUILTIN\n");
 	if (ft_strcmp(data->value, "env") == 0)
 		return (0);
 	else if (ft_strcmp(data->value, "echo") == 0)

@@ -105,10 +105,12 @@ int     make_exit(void);
 //EXECUTION functions
 int     make_path(t_exec *ex, t_token *data);
 int     check_if_cmd(t_token *data);
+int     exec_builtin(t_token *data, t_exec *ex);
 
 //OPERATOR checkers and managers
 int     check_redirection(char *str);
 int		check_pipe(char *str);
+int     check_last_node(t_token *data);
 
 int     open_input(t_token *cmd);
 int     open_output(t_token *cmd);

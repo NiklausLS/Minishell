@@ -6,11 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:26 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/28 22:49:23 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:31:14 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	only_redirections(t_token **current);
 
 void	child_process(t_exec *ex, t_token *data, int f_cmd, int has_pipe)
 {
@@ -41,24 +43,32 @@ void	parent_process(t_exec *ex, int f_cmd, int has_pipe)
 		ex->prev_pipe = -1;
 }
 
-static void	exec_commands(t_exec *ex, t_token **current, int *is_first_cmd)
+static void	exec_commands(t_exec *ex, t_token **data, int *is_first_cmd)
 {
-	t_token	*next_pipe;
+	t_token	*current;
+	int		built_in;
 
-	next_pipe = *current;
-	while (next_pipe && next_pipe->type != PIPE)
-		next_pipe = next_pipe->next;
-	if (next_pipe && next_pipe->type == PIPE)
+	current = *data;
+	built_in = 0;
+	while (current && current->type != PIPE)
+		current = current->next;
+	built_in = get_builtin(*data);
+	if (built_in == 0 && current == NULL)
+		exec_builtin(*data, ex);
+	else
 	{
-		if (protected_pipe(ex->pipefd) == -1)
-			return ;
+		if (current && current->type == PIPE)
+		{
+			if (protected_pipe(ex->pipefd) == -1)
+				return ;
+		}
+		fork_and_exec(ex, *data, *is_first_cmd, current != NULL);
 	}
-	fork_and_exec(ex, *current, *is_first_cmd, next_pipe != NULL);
 	*is_first_cmd = 0;
-	while (*current && (*current)->type != PIPE)
-		*current = (*current)->next;
-	if (*current && (*current)->type == PIPE)
-		*current = (*current)->next;
+	while (*data && (*data)->type != PIPE)
+		*data = (*data)->next;
+	if (*data && (*data)->type == PIPE)
+		*data = (*data)->next;
 }
 
 static int	only_redirections(t_token **current)
@@ -81,14 +91,18 @@ int	execute_all_commands(t_token *data, t_exec *ex)
 	t_token	*current;
 	int		is_first_cmd;
 	int		last_status;
+	//t_token	*end;
 
 	current = data;
+	//end = get_end(current);
 	is_first_cmd = 1;
 	last_status = 0;
 	while (current)
 	{
 		if (only_redirections(&current) == -1)
 			return (1);
+		//end = get_end(current);
+		//make_all_redirections(data, end);
 		if (current && current->type == COMMAND)
 			exec_commands(ex, &current, &is_first_cmd);
 		else

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/09/26 16:40:47 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:01:28 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,11 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (!ft_treat_input(&ms.input))
 			break ;
+		if (check_last_node(ms.input.tokens) == 1)
+		{
+			ft_free_input_data(&ms.input);
+			continue ;
+		}
 		if (check_lst(ms.input.tokens) != 0)
 		{
 			ft_putstr_fd("Syntax error\n", 2);

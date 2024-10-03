@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:17:53 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/30 20:29:31 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/09/30 21:46:14 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ static int	redirections(t_token *current, int *last_input, int *last_output)
 	}
 	return (0);
 }
-
 
 int	make_all_redirections(t_token *start, t_token *end)
 {

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 22:53:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/07/23 17:12:12 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:01:52 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,23 @@ int	check_pipe(char *str)
 	if (str[0] == '|')
 		return (0);
 	return (-1);
+}
+
+int	check_last_node(t_token *data)
+{
+	t_token	*current;
+
+	current = data;
+	while (current && current->next != NULL)
+	{
+		printf("current = %s\n", current->value);
+		current = current->next;
+	}
+	printf("current = %s\n", current->value);
+	if (!ft_strcmp(current->value, "<") || !ft_strcmp(current->value, "<<") || !ft_strcmp(current->value, ">") || !ft_strcmp(current->value, ">>"))
+	{
+		ft_putstr_fd("Minishell: syntax error near unexpected token `newline'\n", 2);
+		return (1);
+	}
+	return (0);
 }
