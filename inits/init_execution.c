@@ -6,11 +6,29 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 20:47:45 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/26 16:26:58 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:36:11 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	init_pipes(t_exec *ex)
+{
+	ex->prev_pipe = -1;
+	ex->pipefd[0] = -1;
+	ex->pipefd[1] = -1;
+}
+
+static int	malloc_env(t_exec *ex, int env_len)
+{
+	ex->env = (char **)malloc(sizeof(char *) * (env_len + 1));
+	if (ex->env == NULL)
+	{
+		ft_putstr_fd("Minishell: malloc failed\n", 2);
+		return (1);
+	}
+	return (0);
+}
 
 /*
  * Init my exec structure
@@ -22,18 +40,12 @@ int	init_exec_structure(t_exec *ex, char **envp)
 	int	env_i;
 	int	i;
 
-	ex->prev_pipe = -1;
-	ex->pipefd[0] = -1;
-	ex->pipefd[1] = -1;
 	env_i = 0;
+	init_pipes(ex);
 	while (envp[env_i])
 		env_i++;
-	ex->env = malloc(sizeof(char *) * (env_i + 1));
-	if (ex->env == NULL)
-	{
-		ft_putstr_fd("Minishell: malloc: allocation memory failed\n", 2);
+	if (malloc_env(ex, env_i) == 1)
 		return (1);
-	}
 	i = 0;
 	while (i < env_i)
 	{

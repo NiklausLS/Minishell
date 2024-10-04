@@ -90,10 +90,10 @@ void	free_array(char **array);
 //BUILDIN
 int     get_builtin(t_token *data);
 int     make_builtin(t_token *data, t_exec *ex);
-void    make_env(char **envp);
+int     make_env(char **envp);
 int     make_cd(t_exec *ex, t_token *data);
 int     make_pwd(void);
-void    make_unset(t_token *data, t_exec *ex);
+int     make_unset(t_token *data, t_exec *ex);
 void	make_echo(t_token *data);
 int     make_export(t_token *cmd, t_exec *ex);
 char    *make_quotes(char *var);
@@ -108,8 +108,6 @@ int     check_if_cmd(t_token *data);
 int     exec_builtin(t_token *data, t_exec *ex);
 
 //OPERATOR checkers and managers
-int     check_redirection(char *str);
-int		check_pipe(char *str);
 int     check_last_node(t_token *data);
 
 int     open_input(t_token *cmd);
@@ -153,11 +151,7 @@ void	print_env(t_exec *ex);
 void	print_info(t_input *input);
 
 void	execute_command(t_token *data, t_exec *ex);
-int     execute_all_commands(t_token *data, t_exec *ex);
-t_token *get_end(t_token *start);
-
-void free_node(t_token *node);
-void copy_and_free_nodes(t_token *current, t_token *data, int arg_count);
-int count_text_nodes(t_token *current);
+int		execute_all_commands(t_token *data, t_exec *ex);
+t_token	*get_end(t_token *start);
 
 #endif

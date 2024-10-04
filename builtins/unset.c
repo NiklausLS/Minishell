@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:26:09 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/27 00:12:52 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:14:20 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,14 @@ static void	delete_var(t_exec *ex, int index)
 	ex->env[index] = NULL;
 }
 
-void	make_unset(t_token *data, t_exec *ex)
+int		make_unset(t_token *data, t_exec *ex)
 {
 	int	index;
 
 	if (data->next == NULL)
-		return ;
+		return (1);
 	index = get_index(ex, data->next->value);
 	if (index != -1)
 		delete_var(ex, index);
+	return (0);
 }

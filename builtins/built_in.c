@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/03 12:12:18 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:13:30 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	make_builtin(t_token *data, t_exec *ex)
 	if (ft_strcmp(data->value, "cd") == 0)
 		ret = make_cd(ex, data);
 	if (ft_strcmp(data->value, "env") == 0)
-		make_env(ex->env);
+		ret = make_env(ex->env);
 	else if (ft_strcmp(data->value, "echo") == 0)
 		make_echo(data);
 	else if (ft_strcmp(data->value, "pwd") == 0)
@@ -48,7 +48,7 @@ int	make_builtin(t_token *data, t_exec *ex)
 	else if (ft_strcmp(data->value, "export") == 0)
 		ret = make_export(data, ex);
 	else if (ft_strcmp(data->value, "unset") == 0)
-		make_unset(data, ex);
+		ret = make_unset(data, ex);
 	else if (ft_strcmp(data->value, "exit") == 0)
 		ret = make_exit();
 	return (ret);

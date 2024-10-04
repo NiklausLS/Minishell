@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/09/30 17:10:02 by nileempo         ###   ########.fr        #
+#    Updated: 2024/10/04 15:38:11 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS = main.c \
 		./builtins/built_in.c \
 		./builtins/cd.c \
 		./builtins/exit.c \
+		./builtins/env.c \
 		./cleans/free_exec.c \
 		./debug/errors_messages.c \
 		./inits/init_execution.c \
@@ -30,7 +31,6 @@ SRCS = main.c \
 		./redirections/make_redirections.c \
 		./redirections/opens.c \
 		./redirections/redirection_utils.c \
-		./utils/ft_lstnew.c \
 		./executions/path.c \
 		./executions/pipes.c \
 		./executions/execution.c \

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 11:12:46 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/30 20:25:17 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:43:38 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,13 @@ static char	*join_and_free(char *s1, char *s2)
 	char	*res;
 
 	res = ft_strjoin(s1, s2);
-	free(s1);
+	if(s2 == NULL)
+	{
+		free(s1);
+		return (res);
+	}
+	else
+		res = ft_strjoin(res, "\n");
 	return (res);
 }
 
@@ -72,12 +78,3 @@ char	*readline_heredoc(char *delim)
 	}
 	return (here);
 }
-
-/*void	delete_hidden_heredoc(void)
-{
-	char	*heredoc;
-
-	heredoc = "./includes/.hidden_heredoc";
-	if (unlink(heredoc) == -1)
-		ft_putstr_fd("Minishell: unlink heredoc failed\n", 2);
-}*/

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 19:37:56 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/24 19:06:19 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:14:49 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	make_echo(t_token *data)
 
 	new_line = 1;
 	parse_args(data);
-	if (data->args[1])
-		printf("data->args[1] = %s\n", data->args[1]);
 	if (data->args[1])
 	{
 		i = 1;

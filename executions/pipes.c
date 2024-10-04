@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:26 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 11:13:56 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:11:22 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,7 @@ static void	exec_commands(t_exec *ex, t_token **data, int *is_first_cmd)
 		current = current->next;
 	built_in = get_builtin(*data);
 	if (built_in == 0 && current == NULL)
-	{
-		printf("- NO PIPE\n");
 		exec_builtin(*data, ex);
-	}
 	else
 	{
 		if (current && current->type == PIPE)
@@ -74,8 +71,6 @@ static void	exec_commands(t_exec *ex, t_token **data, int *is_first_cmd)
 	if (*data && (*data)->type == PIPE)
 		*data = (*data)->next;
 }
-
-
 
 static int	only_redirections(t_token **current)
 {
@@ -97,18 +92,14 @@ int	execute_all_commands(t_token *data, t_exec *ex)
 	t_token	*current;
 	int		is_first_cmd;
 	int		last_status;
-	//t_token	*end;
 
 	current = data;
-	//end = get_end(current);
 	is_first_cmd = 1;
 	last_status = 0;
 	while (current)
 	{
 		if (only_redirections(&current) == -1)
 			return (1);
-		//end = get_end(current);
-		//make_all_redirections(data, end);
 		if (current && current->type == COMMAND)
 			exec_commands(ex, &current, &is_first_cmd);
 		else
