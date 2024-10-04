@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:23:16 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/27 00:20:26 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/03 20:26:24 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,22 @@ void	print_error(int error, char *cmd)
 void	print_node(t_token *data)
 {
 	t_token	*current;
+	int		i;
 
 	current = data;
+	i = 0;
 	printf("---print node---\n");
 	if (current->value)
 		printf("- cmd = %s\n", current->value);
 	if (current->type)
 		printf("- type = %d\n", current->type);
+	if (current->path)
+	printf("path = %s\n", data->path);
+	while (data->args[i])
+	{
+		printf("arg[%d] = %s\n", i, data->args[i]);
+		i++;
+	}
 }
 
 void	print_env(t_exec *ex)

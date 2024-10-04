@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:26 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/03 14:31:14 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/04 11:13:56 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,15 @@ static void	exec_commands(t_exec *ex, t_token **data, int *is_first_cmd)
 
 	current = *data;
 	built_in = 0;
+	printf("IN EXEC_COMMAND\n");
 	while (current && current->type != PIPE)
 		current = current->next;
 	built_in = get_builtin(*data);
 	if (built_in == 0 && current == NULL)
+	{
+		printf("- NO PIPE\n");
 		exec_builtin(*data, ex);
+	}
 	else
 	{
 		if (current && current->type == PIPE)
@@ -70,6 +74,8 @@ static void	exec_commands(t_exec *ex, t_token **data, int *is_first_cmd)
 	if (*data && (*data)->type == PIPE)
 		*data = (*data)->next;
 }
+
+
 
 static int	only_redirections(t_token **current)
 {

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/10/03 15:01:28 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/03 20:27:28 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,6 +281,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_free_input_data(&ms.input);
 			continue ;
 		}
+		//parse_args(ms.input.tokens);
 		execute_all_commands(ms.input.tokens, &ex);
 		ft_free_input_data(&ms.input);
 	}

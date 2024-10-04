@@ -118,7 +118,6 @@ int     open_output(t_token *cmd);
 
 char    *readline_heredoc(char *cmd);
 int	    make_heredoc(char *cmd);
-void	delete_hidden_heredoc(void);
 
 int     make_all_redirections(t_token *start, t_token *end);
 int     handle_redirection_only(t_token *data);
@@ -128,6 +127,7 @@ void	parent_process(t_exec *ex, int f_cmd, int has_pipe);
 void	child_process(t_exec *ex, t_token *data, int f_cmd, int has_pipe);
 int     check_if_cmd(t_token *data);
 int     wait_child_process(void);
+
 
 //PROTECTED functions to make other functions shorter
 //int		protected_open(char *file, int flags);

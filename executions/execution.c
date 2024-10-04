@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/03 14:32:01 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/04 11:16:22 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,23 @@ void	execute_command(t_token *data, t_exec *ex)
 
 	printf("execute_command data->value = %s\n", data->value);
 	end = get_end(data);
-	//parse_args(data);
 	make_all_redirections(data, end);
-	//if (get_builtin(data) == 0)
-	//	make_builtin(data, ex);
-	//else
-	//{
+	if (get_builtin(data) == 0)
+    {
+		make_builtin(data, ex);
+        exit(0);
+    }
+	else
+	{
 		parse_args(data);
 		make_path(ex, data);
-		printf("path = %s\n", data->path);
-		for (int i = 0; data->args[i] != NULL; i++)
-		{
-    		printf("arg[%d] = %s\n", i, data->args[i]);
-		}
+		print_node(data);
 		execve(data->path, data->args, ex->env);
 		ft_putstr_fd("Minishell: ", 2);
 		ft_putstr_fd(data->value, 2);
 		ft_putstr_fd(": command not found\n", 2);
 		exit(127);
-	//}
+	}
 }
 
 /*
