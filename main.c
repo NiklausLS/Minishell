@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/10/03 20:27:28 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/05 13:26:20 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,40 @@ void	handle_sig(int sig)
 	}
 }
 
+int	skip_quotes(char *s, int i)
+{
+	char type;
+	
+	type = s[i];
+	i++;
+	while (s[i] && s[i] != type)
+		i++;
+	if (!s[i])
+		return (0);
+	return (i);
+}
+
 char	*ft_strtrim_ws(char *s)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
 	while (s[i] && ft_ischarset(s[i], WHITESPACES))
 		i++;
 	while (s[i])
 	{
+		if (ft_ischarset(s[i], "\'\""))
+			i += skip_quotes(s, i);
 		if (ft_ischarset(s[i], WHITESPACES))
 		{
-			while (s[i] && ft_ischarset(s[i], WHITESPACES))
-				i++;
-			if (s[i])
-				s[j++] = ' ';
-			else
-				break ;
+			i++;
+			while (s[i] && s[i + 1] && ft_ischarset(s[i], WHITESPACES))
+				ft_memmove(&s[i], &s[i + 1], ft_strlen(s) - 1);
 		}
-		s[j++] = s[i++];
+		else
+			i++;
 	}
-	s[j] = 0;
+	s[i] = 0;
 	return (s);
 }
 
@@ -113,31 +124,6 @@ void	free_tokens(t_token *tokens)
 	}
 }
 
-char	*remove_char(char *str, char *to_remove)
-{
-	char	*result;
-	char	*dst;
-
-	result = (char *)malloc(ft_strlen(str) + 1);
-	if (result == NULL)
-	{
-		fprintf(stderr, "malloc error\n");
-		exit(1);
-	}
-	dst = result;
-	while (*str != '\0')
-	{
-		if (!ft_ischarset(*str, to_remove))
-		{
-			*dst = *str;
-			dst++;
-		}
-		str++;
-	}
-	*dst = '\0';
-	return (result);
-}
-
 void	ft_free_input_data(t_input *input)
 {
 	free_tokens(input->tokens);
@@ -146,12 +132,45 @@ void	ft_free_input_data(t_input *input)
 	input->tokens = NULL;
 }
 
+void remove_quotes(char *str)
+{
+	char type;
+	int	i;
+    int len = ft_strlen(str);
+	
+	i = 0;
+	while (str[i])
+	{
+		if (ft_ischarset(str[i], "\'\""))
+		{
+			type = str[i];
+			ft_memmove(&str[i], &str[i + 1], len - i);
+			while (str[i] && str[i] != type)
+			{
+				if (str[i] == 26)
+					str[i] = '$';
+				i++;
+			}
+			if (str[i])
+				ft_memmove(&str[i], &str[i + 1], len - i);
+    		str[len - 2] = '\0';
+		}
+		else
+			i++;
+	}
+    str[i] = '\0';
+}
+
 bool	ft_handle_quotes(t_input *input, char type)
 {
-	printf("' detected\n");
+	// printf("' detected\n");
 	input->i++;
 	while (input->left[input->i] && input->left[input->i] != type)
+	{
+		if(type == '\'' && input->left[input->i] == '$')
+			input->left[input->i] = 26;
 		input->i++;
+	}
 	if (!input->left[input->i])
 	{
 		ft_putendl_fd("Unclosed quotes.", 2);
@@ -184,49 +203,93 @@ bool	ft_handle_operators(t_input *input, t_token_type *type)
 	return (false);
 }
 
-void	ft_create_token(t_input *input, t_token_type type)
+int	find_env_len(char *to_find, char **env, int len)
 {
-	char *token_input;
+	int	i;
 
-	token_input = ft_strndup(input->left, 0, input->i);
-	add_token(input, new_token(remove_char(token_input, "\'\""), type));
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], to_find, len) == 0 && env[i][len] == '=')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+void	define_input(t_input *input, t_exec *ex, char *token_input)
+{
+	int		i;
+	int		start;
+	int		index;
+
+	i = -1;
+	while (++i < input->i)
+	{
+		start = i;
+		while (i < input->i && (input->left[i] != '$' || i == input->i - 1
+			|| (input->left[i + 1] && input->left[i + 1] == ' ')))
+			i++;
+		// if (i != start)
+		ft_strlcat(token_input, input->left + start, ft_strlen(token_input)
+				+ (i - start) + 1);
+		if (i < input->i && input->left[i] == '$' && input->left[i + 1] != ' ')
+		{
+			start = i + 1;
+			while (i < input->i - 1 && !ft_ischarset(input->left[i + 1], "\"\'<>| "))
+				i++;
+			index = find_env_len(input->left + start, ex->env, (i - start) + 1);
+			if (index != -1)
+				ft_strlcat(token_input, ex->env[index] + (i - start) + 2,
+					ft_strlen(token_input) + ft_strlen(ex->env[index]));
+		}
+	}
+}
+
+void	ft_create_token(t_input *input, t_token_type type, t_exec *ex)
+{
+	char	token_input[70000];
+
+	ft_bzero(token_input, 70000);
+	define_input(input, ex, token_input);
+	remove_quotes(token_input);
+	add_token(input, new_token(ft_strdup(token_input), type));
 	if (input->left[input->i] == ' ')
 		input->i++;
 	input->left += input->i;
 	input->i = 0;
+	// print_info(input);
 }
 
-void ft_tokenization(t_input *input)
+void	ft_tokenization(t_input *input, t_exec *ex)
 {
-    t_token_type type;
+	t_token_type	type;
 
-    while (input->left[input->i])
-    {
-        type = TEXT;
-        while (input->left[input->i] && (input->i == 0 || (input->i > 0
-                    && input->left[input->i - 1] == '\\')
-                || !ft_ischarset(input->left[input->i], OPERATORS))
-            && !ft_ischarset(input->left[input->i], WHITESPACES))
-        {
-            if ((input->left[input->i] == 39 || input->left[input->i] == 34)
-                && ft_handle_quotes(input, input->left[input->i]))
-                return;
-            else if (ft_ischarset(input->left[input->i], OPERATORS))
-            {
-                if (ft_handle_operators(input, &type))
-                    return;
-                break;
-            }
-            else
-                input->i++;
-        }
-        ft_create_token(input, type);
-        //printf("Created token: value='%s', type=%d\n", input->tokens->value, input->tokens->type);
-        //print_info(input);
-    }
+	while (input->left[input->i])
+	{
+		type = TEXT;
+		while (input->left[input->i] && (input->i == 0 || (input->i > 0
+					&& input->left[input->i - 1] == '\\')
+				|| !ft_ischarset(input->left[input->i], OPERATORS))
+			&& !ft_ischarset(input->left[input->i], WHITESPACES))
+		{
+			if ((input->left[input->i] == 39 || input->left[input->i] == 34)
+				&& ft_handle_quotes(input, input->left[input->i]))
+				return ;
+			else if (ft_ischarset(input->left[input->i], OPERATORS))
+			{
+				if (ft_handle_operators(input, &type))
+					return ;
+				break ;
+			}
+			else
+				input->i++;
+		}
+		ft_create_token(input, type, ex);
+	}
 }
 
-int	ft_treat_input(t_input *input)
+int	ft_treat_input(t_input *input, t_exec *ex)
 {
 	ft_bzero(input, sizeof(t_input));
 	input->total = readline(PROMPT);
@@ -246,7 +309,7 @@ int	ft_treat_input(t_input *input)
 	input->token_nb = 0;
 	input->tokens = NULL;
 	input->left = input->total;
-	ft_tokenization(input);
+	ft_tokenization(input, ex);
 	//printf("Commande exécutée : %s\n", input->total);
 	return (1);
 }
@@ -268,7 +331,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, handle_sig);
 	while (1)
 	{
-		if (!ft_treat_input(&ms.input))
+		if (!ft_treat_input(&ms.input, &ex))
 			break ;
 		if (check_last_node(ms.input.tokens) == 1)
 		{
@@ -286,6 +349,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_free_input_data(&ms.input);
 	}
 	free_exec_structure(&ex);
+	//rl_clear_history();
 	clear_history();
 	return (0);
 }

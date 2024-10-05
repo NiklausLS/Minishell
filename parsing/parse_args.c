@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 15:36:32 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:06:13 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	parse_args(t_token *data)
 	t_token	*current;
 	int		arg_count;
 
-	printf("IN PARSE_ARGS\n");
+	// printf("IN PARSE_ARGS\n");
 	arg_count = count_text_nodes(data->next);
 	data->args = malloc(sizeof(char *) * (arg_count + 2));
 	if (!data->args)

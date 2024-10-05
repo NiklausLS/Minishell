@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:26 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 15:11:22 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:04:59 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	exec_commands(t_exec *ex, t_token **data, int *is_first_cmd)
 
 	current = *data;
 	built_in = 0;
-	printf("IN EXEC_COMMAND\n");
+	// printf("IN EXEC_COMMAND\n");
 	while (current && current->type != PIPE)
 		current = current->next;
 	built_in = get_builtin(*data);

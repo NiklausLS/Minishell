@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 22:53:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 15:35:21 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:06:07 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int	check_last_node(t_token *data)
 	current = data;
 	while (current && current->next != NULL)
 	{
-		printf("current = %s\n", current->value);
+		// printf("current = %s\n", current->value);
 		current = current->next;
 	}
-	printf("current = %s\n", current->value);
+	// printf("current = %s\n", current->value);
 	if (!ft_strcmp(current->value, "<") || !ft_strcmp(current->value, "<<")
 		|| !ft_strcmp(current->value, ">") || !ft_strcmp(current->value, ">>"))
 	{

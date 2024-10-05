@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 15:13:30 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:03:41 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	get_builtin(t_token *data)
 {
-	printf("IN GET_BUILTIN\n");
+	// printf("IN GET_BUILTIN\n");
 	if (ft_strcmp(data->value, "env") == 0)
 		return (0);
 	else if (ft_strcmp(data->value, "echo") == 0)
