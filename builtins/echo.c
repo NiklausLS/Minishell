@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 19:37:56 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 19:14:58 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/07 00:27:53 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	make_echo(t_token *data)
+int	make_echo(t_token *data)
 {
 	int	new_line;
 	int	i;
@@ -37,4 +37,5 @@ void	make_echo(t_token *data)
 	}
 	if (new_line)
 		printf("\n");
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:25:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/27 00:13:46 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/07 00:24:34 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	without_args(t_exec *ex)
 		tab_ptr[i] = ex->env[i];
 		i++;
 	}
+	tab_ptr[i] = NULL;
 	sort_ex(tab_ptr, count);
 	print_export(tab_ptr, count);
 	free(tab_ptr);

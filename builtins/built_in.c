@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 19:03:41 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/07 00:30:13 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	make_builtin(t_token *data, t_exec *ex)
 	if (ft_strcmp(data->value, "env") == 0)
 		ret = make_env(ex->env);
 	else if (ft_strcmp(data->value, "echo") == 0)
-		make_echo(data);
+		ret = make_echo(data);
 	else if (ft_strcmp(data->value, "pwd") == 0)
 		ret = make_pwd();
 	else if (ft_strcmp(data->value, "export") == 0)
