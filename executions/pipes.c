@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:26 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 19:04:59 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:06:47 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,12 @@ static void	exec_commands(t_exec *ex, t_token **data, int *is_first_cmd)
 
 static int	only_redirections(t_token **current)
 {
+	printf("START only_redirection\n");
 	while (*current && ((*current)->type == INPUT || (*current)->type == OUTPUT
 			|| (*current)->type == HEREDOC || (*current)->type == APPEND))
 	{
 		if (handle_redirection_only(*current) == -1)
-		{
-			ft_putstr_fd("Minishell: redirection error\n", 2);
 			return (-1);
-		}
 		*current = (*current)->next;
 	}
 	return (0);
@@ -91,20 +89,24 @@ int	execute_all_commands(t_token *data, t_exec *ex)
 {
 	t_token	*current;
 	int		is_first_cmd;
-	int		last_status;
 
 	current = data;
 	is_first_cmd = 1;
-	last_status = 0;
 	while (current)
 	{
 		if (only_redirections(&current) == -1)
+		{
+			ex->last_status = 1;
+			printf("END only_redirectio status = %d\n", ex->last_status);
 			return (1);
+		}
 		if (current && current->type == COMMAND)
 			exec_commands(ex, &current, &is_first_cmd);
 		else
 			current = current->next;
 	}
-	last_status = wait_child_process();
-	return (last_status);
+	ex->last_status = wait_child_process();
+	printf("END execute _all_commands\n");
+	printf("- last_status = %d\n",ex->last_status);
+	return (0);
 }

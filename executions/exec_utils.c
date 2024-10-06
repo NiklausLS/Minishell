@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:46:11 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 15:16:16 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:11:54 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_if_cmd(t_token *data)
 int	fork_and_exec(t_exec *ex, t_token *current, int is_first_cmd, int has_pipe)
 {
 	pid_t	pid;
-	int		status;
+	//int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -45,7 +45,7 @@ int	fork_and_exec(t_exec *ex, t_token *current, int is_first_cmd, int has_pipe)
 	else
 	{
 		parent_process(ex, is_first_cmd, has_pipe);
-		waitpid(pid, &status, 0);
+		//waitpid(pid, &status, 0);
 	}
 	return (0);
 }

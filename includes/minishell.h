@@ -55,7 +55,6 @@ typedef struct s_token
     char    *input;
     char    *output;
     char    *heredoc_delim;
-    //int     exec_fail;
     int     error;
 } t_token;
 
@@ -78,6 +77,7 @@ typedef struct s_exec {
     int		pipefd[2];
     int		prev_pipe;
     char	**env;
+    int     last_status;
 } t_exec;
 
 //Initialise my structures

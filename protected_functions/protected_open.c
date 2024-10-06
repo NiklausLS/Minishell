@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:26:24 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/30 20:23:13 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:00:37 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	protected_close(int fd)
 {
 	if (close(fd) == -1)
 	{
-		perror("Minishell");
+		ft_putstr_fd("Minishell: close failed\n", 2);
 		return (1);
 	}
 	return (0);

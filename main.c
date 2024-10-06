@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/10/05 13:26:20 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:03:48 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,6 +346,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		//parse_args(ms.input.tokens);
 		execute_all_commands(ms.input.tokens, &ex);
+		printf("- last_status = %d\n",ex.last_status);
 		ft_free_input_data(&ms.input);
 	}
 	free_exec_structure(&ex);

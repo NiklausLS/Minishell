@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 20:47:45 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 15:36:11 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/06 17:49:51 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	init_pipes(t_exec *ex)
 	ex->prev_pipe = -1;
 	ex->pipefd[0] = -1;
 	ex->pipefd[1] = -1;
+	ex->last_status = -1;
 }
 
 static int	malloc_env(t_exec *ex, int env_len)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   opens.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:15:59 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 19:07:15 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:07:56 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ int	handle_redirection_only(t_token *data)
 		}
 		data = data->next;
 	}
+	printf("fd = %d\n", fd);
 	return (fd);
 }

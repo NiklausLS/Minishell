@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 19:04:55 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:11:13 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	execute_command(t_token *data, t_exec *ex)
 		ft_putstr_fd("Minishell: ", 2);
 		ft_putstr_fd(data->value, 2);
 		ft_putstr_fd(": command not found\n", 2);
+		ex->last_status = 127;
 		exit(127);
 	}
 }
