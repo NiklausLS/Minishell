@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:26:09 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 15:14:20 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/07 19:41:46 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	get_index(t_exec *ex, char *var)
 	size = ft_strlen(var);
 	while (ex->env[i])
 	{
-		if (ft_strncmp(ex->env[i], var, size) == 0)
+		if (ft_strncmp(ex->env[i], var, size) == 0 && ex->env[i][size] == '=')
 			return (i);
 		i++;
 	}

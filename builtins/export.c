@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:25:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/07 00:24:34 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/07 19:27:23 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	without_args(t_exec *ex)
 	count = 0;
 	while (ex->env[count])
 		count++;
-	tab_ptr = (char **)malloc(sizeof(char *) * count);
+	tab_ptr = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!tab_ptr)
 		return ;
 	while (i < count)
@@ -63,6 +63,7 @@ static int	update_env(t_exec *ex, int index, char *var)
 	char	**up_env;
 	char	*quote_var;
 
+	printf("START update_env\n");
 	i = 0;
 	quote_var = make_quotes(var);
 	if (!quote_var)
@@ -82,6 +83,22 @@ static int	update_env(t_exec *ex, int index, char *var)
 		i = 0;
 		while (ex->env[i])
 			i++;
+		if (ft_strchr(var, '=') && ft_strlen(ft_strchr(var, '=')) == 1)
+		{
+			printf("- '='\n");
+			up_env = (char **)malloc(sizeof(char *) * (i + 2));
+			if (!up_env)
+			{
+				free(quote_var);
+				return (1);
+			}
+			up_env[i] = ft_strdup(var);
+			up_env[i + 1] = NULL;
+			free(ex->env);
+			ex->env = up_env;
+			return (0);
+		}
+		
 		up_env = (char **)malloc(sizeof(char *) * (i + 2));
 		if (!up_env)
 		{
