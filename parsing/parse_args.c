@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 19:06:13 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:22:38 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ int	parse_args(t_token *data)
 		return (1);
 	data->args[0] = ft_strdup(data->value);
 	if (!data->args[0])
+	{
+		free(data->args);
 		return (1);
+	}
 	current = data->next;
 	copy_free_nodes(current, data, arg_count);
 	return (0);
