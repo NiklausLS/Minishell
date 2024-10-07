@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/09/21 17:26:20 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:35:11 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static int	check_and_set_path(t_token *data)
 		if (data->path)
 			free(data->path);
 		data->path = command_path;
+		free_array(paths);
 		return (0);
 	}
 	else if (access(data->value, F_OK | X_OK) == 0)
@@ -71,11 +72,16 @@ static int	check_and_set_path(t_token *data)
 		if (data->path)
 			free(data->path);
 		data->path = ft_strdup(data->value);
+		free_array(paths);
 		return (0);
 	}
 	else
+	{
+		if (data->path)
+			free(data->path);
+		free_array(paths);
 		return (1);
-	return (0);
+	}
 }
 
 static int	get_path(t_exec *ex, t_token *data)
