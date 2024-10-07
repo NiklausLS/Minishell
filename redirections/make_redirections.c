@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:17:53 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 19:07:05 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:45:41 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ static int	redirections(t_token *current, int *last_input, int *last_output)
 			*last_input = open_input(current);
 		}
 		if (*last_input == -1)
-		{
-			ft_putstr_fd("Minishell: could not open\n", 2);
 			return (1);
-		}
 		// printf("last_input fd = %d\n", *last_input);
 		if (dup2(*last_input, STDIN_FILENO) == -1)
 		{

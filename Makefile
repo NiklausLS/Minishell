@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+         #
+#    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/10/04 19:16:01 by chuchard         ###   ########.fr        #
+#    Updated: 2024/10/07 12:39:55 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRCS = main.c \
 
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 INC_PATH = ./includes
 
 OBJS = $(SRCS:.c=.o)

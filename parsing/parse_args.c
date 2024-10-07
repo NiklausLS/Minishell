@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/07 12:37:20 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:50:38 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	parse_args(t_token *data)
 
 	// printf("IN PARSE_ARGS\n");
 	arg_count = count_text_nodes(data->next);
-	data->args = malloc(sizeof(char *) * (arg_count + 1));
+	data->args = malloc(sizeof(char *) * (arg_count + 2));
 	if (!data->args)
 		return (1);
 	data->args[0] = ft_strdup(data->value);
@@ -77,10 +77,7 @@ int	parse_args(t_token *data)
 		free(data->args);
 		return (1);
 	}
-	if (data->next)
-	{
-		current = data->next;
-		copy_free_nodes(current, data, arg_count);
-	}
+	current = data->next;
+	copy_free_nodes(current, data, arg_count);
 	return (0);
 }
