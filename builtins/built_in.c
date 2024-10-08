@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 21:00:22 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/07 00:30:13 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/08 21:27:32 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ int	make_builtin(t_token *data, t_exec *ex)
 	else if (ft_strcmp(data->value, "unset") == 0)
 		ret = make_unset(data, ex);
 	else if (ft_strcmp(data->value, "exit") == 0)
-		ret = make_exit();
+		make_exit(data, ex);
 	return (ret);
 }

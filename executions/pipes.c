@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:26 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/08 19:37:51 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/08 21:53:58 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ static int	only_redirections(t_token **current)
 	int	input;
 	int	output;
 
-	printf("IN only redirection\n");
+	// printf("IN only redirection\n");
+	input = -1;
+	output = -1;
 	while (*current && ((*current)->type == INPUT || (*current)->type == OUTPUT
 			|| (*current)->type == HEREDOC || (*current)->type == APPEND))
 	{
@@ -101,7 +103,7 @@ static int	only_redirections(t_token **current)
 		}
 		*current = (*current)->next;
 	}
-	printf("END of only redirection\n");
+	// printf("END of only redirection\n");
 	return (0);
 }
 

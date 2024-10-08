@@ -6,7 +6,7 @@
 /*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:46:11 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/08 17:46:26 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/08 19:47:23 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ int	wait_child_process(void)
 			last_status = WEXITSTATUS(new_status);
 		else if (WIFSIGNALED(new_status))
         {
-            last_status = 128 + WTERMSIG(new_status); // Terminé par signal
-			ft_putchar_fd('\n', 1);
+            last_status = 128 + WTERMSIG(new_status);
+			if (last_status == 130)
+				ft_putchar_fd('\n', 1);
         }
 
 	}

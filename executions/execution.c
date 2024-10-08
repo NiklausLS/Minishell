@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/08 19:34:48 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/08 21:41:52 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@ void	execute_command(t_token *data, t_exec *ex)
 
 	// printf("execute_command data->value = %s\n", data->value);
 	end = get_end(data);
-	make_all_redirections(data, end);
+	if (make_all_redirections(data, end) == 1)
+	{
+		printf("MAKE_ALL_REDIRECTION ERROR\n");
+		ex->last_status = 1;
+		return ;
+	}
 	if (get_builtin(data) == 0)
     {
 		make_builtin(data, ex);
@@ -31,7 +36,6 @@ void	execute_command(t_token *data, t_exec *ex)
 	{
 		parse_args(data);
 		make_path(ex, data);
-		// print_node(data);
 		execve(data->path, data->args, ex->env);
 		ft_putstr_fd("Minishell: ", 2);
 		ft_putstr_fd(data->value, 2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 22:53:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/08 13:57:09 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/08 20:05:34 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ static void	check_first_command(t_token *data)
 
 static int	check_if_file(t_token *current)
 {
-	printf("%s current type = %d\n", current->value, current->type);
+	// printf("%s current type = %d\n", current->value, current->type);
 	if (current->type == PIPE && current->next)
 	{
-		printf("current-> = pipe\n");
+		// printf("current-> = pipe\n");
 		if (current->next->type == PIPE)
 		{
 			ft_putstr_fd("Minishell: syntax error near ", 2);

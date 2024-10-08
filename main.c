@@ -6,7 +6,7 @@
 /*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/10/08 17:53:35 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/08 19:42:49 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@ void	handle_sig(int sig)
 		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
-	{
-		// rl_replace_line("", 0);
-		// rl_on_new_line();
-		// rl_redisplay();
-	}
+    {
+        write(1, "Quit (core dumped)\n", 20); // Affiche un message de sortie
+        rl_replace_line("", 0);   // Remplace la ligne actuelle
+    }
 }
 
 char	*ft_strtrim_ws(char *s)
@@ -379,9 +378,8 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGINT, handle_sig);
 		if (ft_treat_input(&ms.input, &ex))
 		{
-			// signal(SIGQUIT, A AJOUTER);
 			signal(SIGINT, SIG_IGN);
-			signal(SIGQUIT, SIG_DFL);
+			signal(SIGQUIT, handle_sig);
 			if (check_last_node(ms.input.tokens) == 1)
 			{
 				ft_free_input_data(&ms.input);
