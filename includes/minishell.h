@@ -157,5 +157,7 @@ void	print_info(t_input *input);
 void	execute_command(t_token *data, t_exec *ex);
 int		execute_all_commands(t_token *data, t_exec *ex);
 t_token	*get_end(t_token *start);
+int     handle_redirection_only(t_token *data);
+//int		redirections(t_token *current, int *last_input, int *last_output);
 
 #endif

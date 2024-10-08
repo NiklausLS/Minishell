@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:15:59 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/08 21:54:22 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/08 23:09:01 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ int	open_input(t_token *data)
 	current = data;
 	if (current->type == INPUT && current->next)
 	{
-		printf("input = %s et file = %s\n", current->value, current->next->value);
+		//printf("input = %s et file = %s\n", current->value, current->next->value);
 		fd = open(current->next->value, O_RDONLY);
 		if (fd == -1)
 		{
-			perror("Minishell");
+			perror("Minishell INPUT");
+			current->error = 1;
 			return (-1);
 		}
+		//printf("input = %s | file = %s | fd = %d\n", current->value, current->next->value, fd);
 	}
 	else if (current->type == HEREDOC && current->next)
 		fd = make_heredoc(current->next->value);
@@ -48,73 +50,52 @@ int	open_output(t_token *data)
 	{
 		fd = open(current->next->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
-			print_error(1, current->next->value);
+		{
+			perror("Minishell OUTPUT");
+			current->error = 1;
+			//print_error(1, current->next->value);
+		}
 	}
 	else if (current->type == APPEND && current->next)
 	{
 		fd = open(current->next->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
 		{
-			print_error(1, current->next->value);
+			perror("Minishell APPEND");
+			//print_error(1, current->next->value);
 			current->error = 1;
 		}
-		// printf("input = %s | file = %s | fd = %d\n", current->value, current->next->value, fd);
+		//printf("output = %s | file = %s | fd = %d\n", current->value, current->next->value, fd);
 	}
 	return (fd);
 }
 
-int	make_input(t_token *current)
-{
-	int	fd;
-	t_token	*data;
-
-	fd = -1;
-	data = current;
-	while (data)
-	{
-		if (data->type == INPUT || data->type == HEREDOC)
-		{
-			if (fd != -1)
-				protected_close(fd);
-			fd = open_input(data);
-			if (fd == -1)
-				return (-1);
-			printf("input fd = %d", fd);
-			if (dup2(fd, STDIN_FILENO) == -1)
-			{
-				protected_close(fd);
-				return (-1);
-			}
-			// printf("dup2 stdin to %d\n", fd);
-		}
-		data = data->next;
-	}
-	// printf("fd = %d\n", fd);
-	return (fd);
-}
-
-int	make_output(t_token *data)
+int	handle_redirection_only(t_token *data)
 {
 	int	fd;
 
 	fd = -1;
 	while (data)
 	{
-		if (data->type == OUTPUT || data->type == APPEND)
+		if (data->type == INPUT || data->type == OUTPUT
+			|| data->type == HEREDOC || data->type == APPEND)
 		{
-			if (fd != -1)
-				protected_close(fd);
-			fd = open_output(data);
-			if (fd == -1)
-				return (-1);
-			if (dup2(fd, STDOUT_FILENO) == -1)
+			if (data->type == INPUT || data->type == HEREDOC)
 			{
-				protected_close(fd);
+				if (fd != -1)
+					protected_close(fd);
+				fd = open_input(data);
+			}
+			else
+				fd = open_output(data);
+			if (fd == -1)
+			{
+				data->error = 1;
 				return (-1);
 			}
 		}
 		data = data->next;
 	}
-	// printf("fd = %d\n", fd);
+	//printf("fd = %d\n", fd);
 	return (fd);
 }
