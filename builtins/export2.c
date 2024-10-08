@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:30:35 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/07 19:16:34 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/08 00:27:28 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*make_quotes(char *var)
 	size_t	len;
 	char	*new_var;
 
-	printf("START make_quotes\n");
+	// printf("START make_quotes\n");
 	sign = ft_strchr(var, '=');
 	if (!sign)
 	{

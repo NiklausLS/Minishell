@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 19:37:56 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/07 00:27:53 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/07 20:14:57 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int	make_echo(t_token *data)
 	}
 	if (new_line)
 		printf("\n");
+	free_array(data->args);
 	return (0);
 }

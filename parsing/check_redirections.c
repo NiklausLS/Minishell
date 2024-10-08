@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 22:53:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/04 19:06:07 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:57:09 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,16 @@ int	check_last_node(t_token *data)
 {
 	t_token	*current;
 
+	if (data == NULL)
+		return (0);
 	current = data;
 	while (current && current->next != NULL)
-	{
-		// printf("current = %s\n", current->value);
 		current = current->next;
-	}
-	// printf("current = %s\n", current->value);
 	if (!ft_strcmp(current->value, "<") || !ft_strcmp(current->value, "<<")
 		|| !ft_strcmp(current->value, ">") || !ft_strcmp(current->value, ">>"))
 	{
-		ft_putstr_fd("Minishell: syntax error near unexpected token `newline'\n", 2);
+		ft_putstr_fd("Minishell: syntax error near ", 2);
+		ft_putstr_fd("unexpected token `newline'\n", 2);
 		return (1);
 	}
 	return (0);
@@ -39,16 +38,65 @@ int	check_last_node(t_token *data)
 static void	check_first_command(t_token *data)
 {
 	if (data->type != INPUT && data->type != HEREDOC
-		&& data->type != OUTPUT && data->type != APPEND)
+		&& data->type != OUTPUT && data->type != APPEND
+		&& data->type != PIPE)
 		data->type = COMMAND;
 }
 
-static void	check_if_file(t_token *current)
+static int	check_if_file(t_token *current)
 {
-	if ((current->type == INPUT || current->type == HEREDOC
-				|| current->type == OUTPUT || current->type == APPEND)
-			&& current->next)
-		current->next->type = FI;
+	printf("%s current type = %d\n", current->value, current->type);
+	if (current->type == PIPE && current->next)
+	{
+		printf("current-> = pipe\n");
+		if (current->next->type == PIPE)
+		{
+			ft_putstr_fd("Minishell: syntax error near ", 2);
+			ft_putstr_fd("unexpected token `|'\n", 2);
+			return (1);
+		}
+	}
+	else if ((current->type == INPUT || current->type == HEREDOC
+			|| current->type == OUTPUT || current->type == APPEND)
+		&& current->next)
+	{
+		if (current->next->type == PIPE)
+		{
+			ft_putstr_fd("Minishell: syntax error near ", 2);
+			ft_putstr_fd("unexpected token `|'\n", 2);
+			return (1);
+		}
+		else
+			current->next->type = FI;
+	}
+	return (0);
+}
+
+static int	check_attached_pipe(t_token *data)
+{
+	t_token	*current;
+	int		i;
+
+	if (data == NULL || data->value == NULL)
+		return (0);
+	current = data;
+	i = ft_strlen(current->value);
+	if (current->value[0] == '|')
+	{
+		if (i >= 1 && current->value[1] == '|')
+		{
+			ft_putstr_fd("Minishell: syntax error near ", 2);
+			ft_putstr_fd("unexpected token `||'\n", 2);
+			return (1);
+		}
+		/*if (i >= 2 && current->value[2] == '|')
+		{
+			ft_putstr_fd("Minishell: syntax error near ", 2);
+			ft_putstr_fd("unexpected token `||'\n", 2);
+			return (1);
+		}*/
+	}
+	return (0);
 }
 
 /*
@@ -71,7 +119,8 @@ int	check_lst(t_token *data)
 			check_first_command(current);
 			first_cmd = 0;
 		}
-		check_if_file(current);
+		if (check_if_file(current) == 1 || check_attached_pipe(current) == 1)
+			return (1);
 		if (current->type == PIPE && current->next)
 		{
 			if (current->next->type != INPUT && current->next->type != HEREDOC

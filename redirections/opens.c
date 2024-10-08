@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:15:59 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/06 18:07:56 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/08 19:14:17 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,26 +64,55 @@ int	open_output(t_token *data)
 	return (fd);
 }
 
-int	handle_redirection_only(t_token *data)
+int	make_input(t_token *current)
+{
+	int	fd;
+	t_token	*data;
+
+	fd = -1;
+	data = current;
+	while (data)
+	{
+		if (data->type == INPUT || data->type == HEREDOC)
+		{
+			if (fd != -1)
+				protected_close(fd);
+			fd = open_input(data);
+			if (fd == -1)
+				return (-1);
+			printf("input fd = %d", fd);
+			if (dup2(fd, STDIN_FILENO) == -1)
+			{
+				protected_close(fd);
+				return (-1);
+			}
+			printf("dup2 stdin to %d\n", fd);
+		}
+		data = data->next;
+	}
+	printf("fd = %d\n", fd);
+	return (fd);
+}
+
+int	make_output(t_token *data)
 {
 	int	fd;
 
 	fd = -1;
 	while (data)
 	{
-		if (data->type == INPUT || data->type == OUTPUT
-			|| data->type == HEREDOC || data->type == APPEND)
+		if (data->type == OUTPUT || data->type == APPEND)
 		{
-			if (data->type == INPUT || data->type == HEREDOC)
-			{
-				if (fd != -1)
-					protected_close(fd);
-				fd = open_input(data);
-			}
-			else
-				fd = open_output(data);
+			if (fd != -1)
+				protected_close(fd);
+			fd = open_output(data);
 			if (fd == -1)
 				return (-1);
+			if (dup2(fd, STDOUT_FILENO) == -1)
+			{
+				protected_close(fd);
+				return (-1);
+			}
 		}
 		data = data->next;
 	}

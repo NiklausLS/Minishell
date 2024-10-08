@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:25:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/07 19:27:23 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:28:18 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,63 +57,23 @@ static int	get_index(t_exec *ex, char *var)
 	return (-1);
 }
 
-static int	update_env(t_exec *ex, int index, char *var)
+static char	**custom_realloc(char **env, int old_size, int new_size)
 {
+	char	**new_env;
 	int		i;
-	char	**up_env;
-	char	*quote_var;
 
-	printf("START update_env\n");
+	new_env = malloc(sizeof(char *) * (new_size + 1));
+	if (!new_env)
+		return (NULL);
 	i = 0;
-	quote_var = make_quotes(var);
-	if (!quote_var)
-		return (1);
-	if (index != -1)
+	while (i < old_size)
 	{
-		free(ex->env[index]);
-		ex->env[index] = ft_strdup(var);
-		if (!ex->env[index])
-		{
-			free(quote_var);
-			return (1);
-		}
+		new_env[i] = env[i];
+		i++;
 	}
-	else
-	{
-		i = 0;
-		while (ex->env[i])
-			i++;
-		if (ft_strchr(var, '=') && ft_strlen(ft_strchr(var, '=')) == 1)
-		{
-			printf("- '='\n");
-			up_env = (char **)malloc(sizeof(char *) * (i + 2));
-			if (!up_env)
-			{
-				free(quote_var);
-				return (1);
-			}
-			up_env[i] = ft_strdup(var);
-			up_env[i + 1] = NULL;
-			free(ex->env);
-			ex->env = up_env;
-			return (0);
-		}
-		
-		up_env = (char **)malloc(sizeof(char *) * (i + 2));
-		if (!up_env)
-		{
-			free(quote_var);
-			return (1);
-		}
-		if (update_env_loop(ex, up_env, quote_var, i) != 0)
-		{
-			free(up_env);
-			free(quote_var);
-			return (1);
-		}
-	}
-	free(quote_var);
-	return (0);
+	new_env[old_size] = NULL;
+	free(env);
+	return (new_env);
 }
 
 static int	make_update_env(t_exec *ex, char *var)
@@ -132,11 +92,13 @@ static int	make_update_env(t_exec *ex, char *var)
 	}
 	else
 	{
-		if (update_env(ex, index, var) != 0)
-		{
-			free(new_var);
-			return (1);
-		}
+		index = 0;
+		while (ex->env[index])
+			index++;
+		index--;
+		ex->env = custom_realloc(ex->env, index + 1, index + 2);
+		ex->env[index + 1] = new_var;
+		ex->env[index + 2] = NULL;
 	}
 	return (0);
 }

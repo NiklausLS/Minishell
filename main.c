@@ -3,62 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/10/06 18:03:48 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:53:35 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "includes/minishell.h"
 
 void	handle_sig(int sig)
 {
 	if (sig == SIGINT)
 	{
+		// g_signal = 1;
 		ft_putchar_fd('\n', 1);
-		ft_putstr_fd(PROMPT, 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
 	{
-		exit(1);
+		// rl_replace_line("", 0);
+		// rl_on_new_line();
+		// rl_redisplay();
 	}
-}
-
-int	skip_quotes(char *s, int i)
-{
-	char type;
-	
-	type = s[i];
-	i++;
-	while (s[i] && s[i] != type)
-		i++;
-	if (!s[i])
-		return (0);
-	return (i);
 }
 
 char	*ft_strtrim_ws(char *s)
 {
-	int	i;
+	int		i;
+	int		j;
+	bool	in_quotes;
+	bool	in_double_quotes;
 
 	i = 0;
-	while (s[i] && ft_ischarset(s[i], WHITESPACES))
-		i++;
+	j = 0;
+	in_quotes = false;
+	in_double_quotes = false;
 	while (s[i])
 	{
-		if (ft_ischarset(s[i], "\'\""))
-			i += skip_quotes(s, i);
-		if (ft_ischarset(s[i], WHITESPACES))
-		{
-			i++;
-			while (s[i] && s[i + 1] && ft_ischarset(s[i], WHITESPACES))
-				ft_memmove(&s[i], &s[i + 1], ft_strlen(s) - 1);
-		}
-		else
-			i++;
+		if (s[i] == '\'' && !in_double_quotes) 
+            in_quotes = !in_quotes;
+		else if (s[i] == '"' && !in_quotes) 
+            in_double_quotes = !in_double_quotes;
+		if (!ft_ischarset(s[i], WHITESPACES) || in_quotes || in_double_quotes)
+			s[j++] = s[i];
+		else if (ft_ischarset(s[i], WHITESPACES) && j != 0 && s[j - 1] != ' ')
+				s[j++] = ' ';
+		i++;
 	}
-	s[i] = 0;
+	if (s[j] != ' ')
+		i++;
+	s[j] = '\0';
 	return (s);
 }
 
@@ -163,7 +160,6 @@ void remove_quotes(char *str)
 
 bool	ft_handle_quotes(t_input *input, char type)
 {
-	// printf("' detected\n");
 	input->i++;
 	while (input->left[input->i] && input->left[input->i] != type)
 	{
@@ -217,11 +213,36 @@ int	find_env_len(char *to_find, char **env, int len)
 	return (-1);
 }
 
-void	define_input(t_input *input, t_exec *ex, char *token_input)
+int	treat_dollar(t_input *input, t_exec *ex, char *tk_input, int i)
+{
+	char	*tmp;
+	int		index;
+	int		start;
+
+	i++;
+	if (input->left[i] == '?')
+	{
+		tmp = ft_itoa(ex->last_status);
+		ft_strlcat(tk_input, tmp, ft_strlen(tk_input) + ft_strlen(tmp) + 1);
+		free(tmp);
+	}
+	else			
+	{
+		start = i;
+		while (i < input->i - 1 && !ft_ischarset(input->left[i + 1], "\"'<>| "))
+			i++;
+		index = find_env_len(input->left + start, ex->env, (i - start) + 1);
+		if (index != -1)
+			ft_strlcat(tk_input, ex->env[index] + (i - start) + 2,
+				ft_strlen(tk_input) + ft_strlen(ex->env[index]));
+	}
+	return i;
+}
+
+void	define_input(t_input *input, t_exec *ex, char *tk_input)
 {
 	int		i;
 	int		start;
-	int		index;
 
 	i = -1;
 	while (++i < input->i)
@@ -230,30 +251,21 @@ void	define_input(t_input *input, t_exec *ex, char *token_input)
 		while (i < input->i && (input->left[i] != '$' || i == input->i - 1
 			|| (input->left[i + 1] && input->left[i + 1] == ' ')))
 			i++;
-		// if (i != start)
-		ft_strlcat(token_input, input->left + start, ft_strlen(token_input)
+		ft_strlcat(tk_input, input->left + start, ft_strlen(tk_input)
 				+ (i - start) + 1);
 		if (i < input->i && input->left[i] == '$' && input->left[i + 1] != ' ')
-		{
-			start = i + 1;
-			while (i < input->i - 1 && !ft_ischarset(input->left[i + 1], "\"\'<>| "))
-				i++;
-			index = find_env_len(input->left + start, ex->env, (i - start) + 1);
-			if (index != -1)
-				ft_strlcat(token_input, ex->env[index] + (i - start) + 2,
-					ft_strlen(token_input) + ft_strlen(ex->env[index]));
-		}
+			i = treat_dollar(input, ex, tk_input, i);
 	}
 }
 
 void	ft_create_token(t_input *input, t_token_type type, t_exec *ex)
 {
-	char	token_input[70000];
+	char	tk_input[70000];
 
-	ft_bzero(token_input, 70000);
-	define_input(input, ex, token_input);
-	remove_quotes(token_input);
-	add_token(input, new_token(ft_strdup(token_input), type));
+	ft_bzero(tk_input, 70000);
+	define_input(input, ex, tk_input);
+	remove_quotes(tk_input);
+	add_token(input, new_token(ft_strdup(tk_input), type));
 	if (input->left[input->i] == ' ')
 		input->i++;
 	input->left += input->i;
@@ -289,30 +301,64 @@ void	ft_tokenization(t_input *input, t_exec *ex)
 	}
 }
 
+// int	handle_signals(t_input *input, t_exec *ex)
+// {
+// 	if (g_signal != 0)
+// 	{
+// 		if (g_signal == 1)
+// 		{
+// 			ft_free_input_data(input);
+// 			g_signal = 0;
+// 			return 1;
+// 		}
+// 		else if (g_signal == 2)
+// 		{
+// 			free_exec_structure(ex);
+// 			ft_free_input_data(input);
+// 			g_signal = 0;
+// 			exit(0);
+// 		}
+// 	}
+// 	return 0;
+// }
+
+void	ft_exit(t_input *input, t_exec *ex)
+{
+	// (void) ex;
+	ft_free_input_data(input);
+	free_exec_structure(ex);
+	exit(1);
+}
+
 int	ft_treat_input(t_input *input, t_exec *ex)
 {
 	ft_bzero(input, sizeof(t_input));
 	input->total = readline(PROMPT);
 	if (input->total == NULL)
+		ft_exit(input, ex);
+	input->total = ft_strtrim_ws(input->total);
+	if (*input->total == '\0')
 		return (0);
-	if (ft_strcmp(input->total, "") != 0)
-		add_history(input->total);
-	ft_strtrim_ws(input->total);
 	if (!ft_strcmp(input->total, "exit") || !ft_strcmp(input->total, "quit"))
 	{
-		free(input->total);
+		free_exec_structure(ex);
+		ft_free_input_data(input);
 		printf("exit\n");
 		exit(0);
 	}
+	if (ft_strcmp(input->total, "") != 0)
+		add_history(input->total);
 	input->i = 0;
 	input->j = 0;
 	input->token_nb = 0;
 	input->tokens = NULL;
 	input->left = input->total;
 	ft_tokenization(input, ex);
-	//printf("Commande exécutée : %s\n", input->total);
+	// print_info(input);
 	return (1);
 }
+
+
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -323,34 +369,36 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (init_exec_structure(&ex, envp) != 0)
 	{
-		ft_putstr_fd("Failed to initialize exec structure\n", 2);
-		return (1);
+		ft_putstr_fd("Failed to initialize exec structure\n", 2);                     // REGLER LES LEAKS QUAND ON ECRIT BS
+		return (1);																	  // REGLER LE STOCKAGE DES RETOURS $?
 	}
 	ft_bzero(&ms, sizeof(t_minishell));
-	signal(SIGINT, handle_sig);
-	signal(SIGQUIT, handle_sig);
 	while (1)
 	{
-		if (!ft_treat_input(&ms.input, &ex))
-			break ;
-		if (check_last_node(ms.input.tokens) == 1)
+		signal(SIGQUIT, SIG_IGN); // CHANGER QUAND PROCESSUS LANCÉ
+		signal(SIGINT, handle_sig);
+		if (ft_treat_input(&ms.input, &ex))
 		{
+			// signal(SIGQUIT, A AJOUTER);
+			signal(SIGINT, SIG_IGN);
+			signal(SIGQUIT, SIG_DFL);
+			if (check_last_node(ms.input.tokens) == 1)
+			{
+				ft_free_input_data(&ms.input);
+				continue ;
+			}
+			if (check_lst(ms.input.tokens) != 0)
+			{
+				ft_putstr_fd("Syntax error\n", 2);
+				ft_free_input_data(&ms.input);
+				continue ;
+			}
+			//parse_args(ms.input.tokens);
+			execute_all_commands(ms.input.tokens, &ex);
 			ft_free_input_data(&ms.input);
-			continue ;
 		}
-		if (check_lst(ms.input.tokens) != 0)
-		{
-			ft_putstr_fd("Syntax error\n", 2);
-			ft_free_input_data(&ms.input);
-			continue ;
-		}
-		//parse_args(ms.input.tokens);
-		execute_all_commands(ms.input.tokens, &ex);
-		printf("- last_status = %d\n",ex.last_status);
-		ft_free_input_data(&ms.input);
 	}
 	free_exec_structure(&ex);
-	//rl_clear_history();
-	clear_history();
+	rl_clear_history();
 	return (0);
 }

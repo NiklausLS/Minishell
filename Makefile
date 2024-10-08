@@ -6,7 +6,7 @@
 #    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/10/07 12:39:55 by nileempo         ###   ########.fr        #
+#    Updated: 2024/10/08 18:22:04 by nileempo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,8 +40,9 @@ SRCS = main.c \
 
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g -std=gnu99 -I/opt/homebrew/opt/readline/include #-fsanitize=address
 INC_PATH = ./includes
+LDFLAGS = -L/opt/homebrew/opt/readline/lib -lreadline
 
 OBJS = $(SRCS:.c=.o)
 
@@ -50,7 +51,7 @@ OBJS = $(SRCS:.c=.o)
 
 $(NAME): $(OBJS)
 	make -C ./LIBFT
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) LIBFT/libft.a -lreadline
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) LIBFT/libft.a $(LDFLAGS)
 
 all: $(NAME)
 

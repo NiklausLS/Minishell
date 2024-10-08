@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:57:39 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/07 12:50:38 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/07 20:15:09 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	parse_args(t_token *data)
 	t_token	*current;
 	int		arg_count;
 
-	// printf("IN PARSE_ARGS\n");
 	arg_count = count_text_nodes(data->next);
 	data->args = malloc(sizeof(char *) * (arg_count + 2));
 	if (!data->args)

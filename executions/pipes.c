@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:26 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/06 18:06:47 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/08 19:37:51 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,34 @@ static void	exec_commands(t_exec *ex, t_token **data, int *is_first_cmd)
 
 static int	only_redirections(t_token **current)
 {
-	printf("START only_redirection\n");
+	int	input;
+	int	output;
+
+	printf("IN only redirection\n");
 	while (*current && ((*current)->type == INPUT || (*current)->type == OUTPUT
 			|| (*current)->type == HEREDOC || (*current)->type == APPEND))
 	{
-		if (handle_redirection_only(*current) == -1)
-			return (-1);
+		if ((*current)->type == INPUT || (*current)->type == HEREDOC)
+		{
+			if (input != -1)
+				protected_close(input);
+			input = make_input(*current);
+			if (input == -1)
+				return (-1);
+			printf("input fd = %d\n", input);
+		}
+		else if ((*current)->type == OUTPUT || (*current)->type == APPEND)
+		{
+			if (output != -1)
+				protected_close(output);
+			output = make_output(*current);
+			printf("output fd = %d\n", output);
+			if (output == -1)
+				return (-1);
+		}
 		*current = (*current)->next;
 	}
+	printf("END of only redirection\n");
 	return (0);
 }
 
@@ -97,7 +117,7 @@ int	execute_all_commands(t_token *data, t_exec *ex)
 		if (only_redirections(&current) == -1)
 		{
 			ex->last_status = 1;
-			printf("END only_redirectio status = %d\n", ex->last_status);
+			// printf("END only_redirectio status = %d\n", ex->last_status);
 			return (1);
 		}
 		if (current && current->type == COMMAND)
@@ -106,7 +126,7 @@ int	execute_all_commands(t_token *data, t_exec *ex)
 			current = current->next;
 	}
 	ex->last_status = wait_child_process();
-	printf("END execute _all_commands\n");
-	printf("- last_status = %d\n",ex->last_status);
+	// printf("END execute _all_commands\n");
+	// printf("- lasft_atoit_status = %d\n",ex->last_status);
 	return (0);
 }

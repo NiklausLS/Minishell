@@ -17,7 +17,7 @@
 # include <stdbool.h>
 # include "../LIBFT/includes/libft.h"
 
-# define PROMPT "\033[1;34mminishell\033[0m> "
+# define PROMPT "\1\033[1;34m\2minishell\1\033[0m\2> "
 # define WHITESPACES " \t\v\n\r"
 # define OPERATORS "><|"
 
@@ -76,9 +76,11 @@ typedef struct s_minishell
 typedef struct s_exec {
     int		pipefd[2];
     int		prev_pipe;
-    char	**env;
     int     last_status;
+    char	**env;
 } t_exec;
+
+// int g_signal;
 
 //Initialise my structures
 int    init_exec_structure(t_exec *ex, char **envp);
@@ -118,7 +120,9 @@ char    *readline_heredoc(char *cmd);
 int	    make_heredoc(char *cmd);
 
 int     make_all_redirections(t_token *start, t_token *end);
-int     handle_redirection_only(t_token *data);
+//int     handle_redirection_only(t_token *data);
+int     make_output(t_token *data);
+int     make_input(t_token *data);
 int     fork_and_exec(t_exec *ex, t_token *current, int is_first_cmd, int has_pipe);
 
 void	parent_process(t_exec *ex, int f_cmd, int has_pipe);
