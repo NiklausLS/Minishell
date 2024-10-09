@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/10/09 21:39:29 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:25:13 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,9 @@ int	main(int argc, char **argv, char **envp)
 		{
 			signal(SIGINT, SIG_IGN);
 			signal(SIGQUIT, handle_sig);
-			if (check_last_node(ms.input.tokens) == 1)
+			check_last_node(ms.input.tokens);
+			check_lst(ms.input.tokens);
+			/*if (check_last_node(ms.input.tokens) == 1)
 			{
 				ft_free_input_data(&ms.input);
 				continue ;
@@ -88,7 +90,7 @@ int	main(int argc, char **argv, char **envp)
 				ft_putstr_fd("Syntax error\n", 2);
 				ft_free_input_data(&ms.input);
 				continue ;
-			}
+			}*/
 			execute_all_commands(ms.input.tokens, &ex, &ms);
 			ft_free_input_data(&ms.input);
 		}
