@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:17:53 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/08 18:11:02 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/09 09:38:11 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	redirections(t_token *current, int *last_input, int *last_output)
 					| O_CREAT | O_APPEND, 0644);
 		if (*last_output == -1)
 		{
-			ft_putstr_fd("Minishell: open output failed\n", 2);
+			perror("Minishell");
 			return (1);
 		}
 		if (dup2(*last_output, STDOUT_FILENO) == -1)
@@ -102,27 +102,6 @@ int	make_all_redirections(t_token *start, t_token *end)
 		close (last_output);
 	return (0);
 }
-
-/*int	make_all_redirections(t_token *start, t_token *end)
-{
-	t_token	*current;
-	int		last_input;
-	int		last_output;
-
-	current = start;
-	last_input = -1;
-	last_output = -1;
-	while (current && current != end)
-	{
-		if (current->type == INPUT)
-			get_last_input(current, &last_input);
-		else if (current->type == OUTPUT || current->type == APPEND)
-			get_output(current, &last_output);
-		current = current->next;
-	}
-	make_redirections(last_input, last_input);
-	return (0);
-}*/
 
 static int	dup_input(int fd)
 {

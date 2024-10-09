@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 11:44:23 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/08 21:34:19 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/09 04:28:24 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,30 @@ static void	print_exit_error(char *arg, char *print, int exit_code, t_exec *ex)
 void	make_exit(t_token *data, t_exec *ex)
 {
 	parse_args(data);
-	printf("in make_exit\n");
+	// printf("in make_exit\n");
 	if (data->args[1] && !nbr_ok(data->args[1]))
 	{
-		printf("data->args[1] = %s\n", data->args[1]);
+		// printf("data->args[1] = %s\n", data->args[1]);
 		print_exit_error(data->args[1], "exit", 255, ex);
 	}
 	else if (data->args[1] && data->args[2])
 	{
-		printf("data->args[1] = %s\n", data->args[1]);
-		printf("data->args[2] = %s\n", data->args[1]);
+		// printf("data->args[1] = %s\n", data->args[1]);
+		// printf("data->args[2] = %s\n", data->args[1]);
 		ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
 		ex->last_status = 1;
 	}
-	else if (data->args[1])
-	{
-		printf("data->args[1] = %s\n", data->args[1]);
-		ex->last_status = ft_atoi(data->args[1]) % 255;
-	}
 	else
+	{
 		ex->last_status = 0;
-	printf("ex->last_status = %d\n", ex->last_status);
+		// printf("data->args[1] = %s\n", data->args[1]);
+		if (data->args[1])
+			ex->last_status = ft_atoi(data->args[1]) % 255;
+		free_exec_structure(ex);
+		free_array(data->args);
+		printf("exit\n");
+		exit(ex->last_status);
+	}
+	free_array(data->args);
+	// printf("ex->last_status = %d\n", ex->last_status);
 }

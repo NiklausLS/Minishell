@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/07 12:53:28 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/09 05:11:04 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,38 +50,34 @@ static char	**split_path(char *path)
 	return (paths);
 }
 
-static int	check_and_set_path(t_token *data)
+static int check_and_set_path(t_token *data)
 {
-	char	**paths;
-	char	*command_path;
+    char **paths;
+    char *command_path;
 
-	paths = split_path(data->path);
-	if (!paths)
-		return (1);
-	command_path = get_command(paths, data->value);
-	if (command_path)
-	{
-		if (data->path)
-			free(data->path);
-		data->path = command_path;
-		free_array(paths);
-		return (0);
-	}
-	else if (access(data->value, F_OK | X_OK) == 0)
-	{
-		if (data->path)
-			free(data->path);
-		data->path = ft_strdup(data->value);
-		free_array(paths);
-		return (0);
-	}
-	else
-	{
-		if (data->path)
-			free(data->path);
-		free_array(paths);
-		return (1);
-	}
+    paths = split_path(data->path);
+    if (!paths)
+        return (1);
+    command_path = get_command(paths, data->value);
+    if (command_path)
+    {
+        free(data->path);
+        data->path = command_path;
+        free_array(paths);
+        return (0);
+    }
+    else if (access(data->value, F_OK | X_OK) == 0)
+    {
+        free(data->path);
+        data->path = ft_strdup(data->value);
+        free_array(paths);
+        return (0);
+    }
+    else
+    {
+        free_array(paths);
+        return (1);
+    }
 }
 
 static int	get_path(t_exec *ex, t_token *data)
@@ -103,23 +99,33 @@ static int	get_path(t_exec *ex, t_token *data)
 	return (0);
 }
 
-int	make_path(t_exec *ex, t_token *data)
+int make_path(t_exec *ex, t_token *data)
 {
-	t_token	*current;
+    t_token *current;
 
-	current = data;
-	if (data->path)
-		free(data->path);
-	if (get_path(ex, data) == 1)
-		return (1);
-	while (current)
-	{
-		if (current->type == COMMAND)
-		{
-			if (check_and_set_path(current) == 1)
-				return (1);
-		}
-		current = current->next;
-	}
-	return (0);
+    current = data;
+    if (data->path)
+    {
+        free(data->path);
+        data->path = NULL;
+    }
+    if (get_path(ex, data) == 1)
+        return (1);
+    while (current)
+    {
+        if (current->type == COMMAND)
+        {
+            if (check_and_set_path(current) == 1)
+            {
+                if (current->path)
+                {
+                    free(current->path);
+                    current->path = NULL;
+                }
+                return (1);
+            }
+        }
+        current = current->next;
+    }
+    return (0);
 }

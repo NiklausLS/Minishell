@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/08 21:41:52 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/09 09:34:54 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,23 @@ void	execute_command(t_token *data, t_exec *ex)
 {
 	t_token	*end;
 
-	// printf("execute_command data->value = %s\n", data->value);
 	end = get_end(data);
 	if (make_all_redirections(data, end) == 1)
 	{
-		printf("MAKE_ALL_REDIRECTION ERROR\n");
 		ex->last_status = 1;
 		return ;
 	}
 	if (get_builtin(data) == 0)
-    {
+	{
 		make_builtin(data, ex);
-        exit(0);
-    }
+		exit(0);
+	}
 	else
 	{
 		parse_args(data);
 		make_path(ex, data);
-		execve(data->path, data->args, ex->env);
+		if (data->path != NULL)
+			execve(data->path, data->args, ex->env);
 		ft_putstr_fd("Minishell: ", 2);
 		ft_putstr_fd(data->value, 2);
 		ft_putstr_fd(": command not found\n", 2);
@@ -53,7 +52,6 @@ int	exec_builtin(t_token *data, t_exec *ex)
 	int	old_in;
 	int	old_out;
 
-	// printf("IN EXEC_BUILTIN\n");
 	old_in = dup(STDIN_FILENO);
 	old_out = dup(STDOUT_FILENO);
 	if (make_all_redirections(data, get_end(data)) == 1)
@@ -66,6 +64,5 @@ int	exec_builtin(t_token *data, t_exec *ex)
 		return (1);
 	if (protected_close(old_out) == 1)
 		return (1);
-	// printf("END OF EXEC_BUILTIN\n");
-	return (0);	
+	return (0);
 }

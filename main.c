@@ -6,7 +6,7 @@
 /*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/10/08 19:42:49 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/09 03:51:53 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,13 +338,6 @@ int	ft_treat_input(t_input *input, t_exec *ex)
 	input->total = ft_strtrim_ws(input->total);
 	if (*input->total == '\0')
 		return (0);
-	if (!ft_strcmp(input->total, "exit") || !ft_strcmp(input->total, "quit"))
-	{
-		free_exec_structure(ex);
-		ft_free_input_data(input);
-		printf("exit\n");
-		exit(0);
-	}
 	if (ft_strcmp(input->total, "") != 0)
 		add_history(input->total);
 	input->i = 0;

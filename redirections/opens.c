@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:15:59 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/08 23:09:01 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/09 09:36:52 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,13 @@ int	open_input(t_token *data)
 	current = data;
 	if (current->type == INPUT && current->next)
 	{
-		//printf("input = %s et file = %s\n", current->value, current->next->value);
 		fd = open(current->next->value, O_RDONLY);
 		if (fd == -1)
 		{
-			perror("Minishell INPUT");
+			perror("Minishell");
 			current->error = 1;
 			return (-1);
 		}
-		//printf("input = %s | file = %s | fd = %d\n", current->value, current->next->value, fd);
 	}
 	else if (current->type == HEREDOC && current->next)
 		fd = make_heredoc(current->next->value);
@@ -51,9 +49,8 @@ int	open_output(t_token *data)
 		fd = open(current->next->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
 		{
-			perror("Minishell OUTPUT");
+			perror("Minishell");
 			current->error = 1;
-			//print_error(1, current->next->value);
 		}
 	}
 	else if (current->type == APPEND && current->next)
@@ -62,10 +59,8 @@ int	open_output(t_token *data)
 		if (fd == -1)
 		{
 			perror("Minishell APPEND");
-			//print_error(1, current->next->value);
 			current->error = 1;
 		}
-		//printf("output = %s | file = %s | fd = %d\n", current->value, current->next->value, fd);
 	}
 	return (fd);
 }
@@ -96,6 +91,5 @@ int	handle_redirection_only(t_token *data)
 		}
 		data = data->next;
 	}
-	//printf("fd = %d\n", fd);
 	return (fd);
 }

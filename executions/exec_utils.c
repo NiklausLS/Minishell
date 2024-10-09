@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:46:11 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/08 19:47:23 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/09 09:33:22 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ int	fork_and_exec(t_exec *ex, t_token *current, int is_first_cmd, int has_pipe)
 		child_process(ex, current, is_first_cmd, has_pipe);
 	}
 	else
-	{
 		parent_process(ex, is_first_cmd, has_pipe);
-		//waitpid(pid, &status, 0);
-	}
 	return (0);
 }
 
@@ -61,12 +58,11 @@ int	wait_child_process(void)
 		if (WIFEXITED(new_status))
 			last_status = WEXITSTATUS(new_status);
 		else if (WIFSIGNALED(new_status))
-        {
-            last_status = 128 + WTERMSIG(new_status);
+		{
+			last_status = 128 + WTERMSIG(new_status);
 			if (last_status == 130)
 				ft_putchar_fd('\n', 1);
-        }
-
+		}
 	}
 	return (last_status);
 }

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:26 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/08 23:09:08 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/09 09:32:38 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,5 @@ int	execute_all_commands(t_token *data, t_exec *ex)
 			current = current->next;
 	}
 	ex->last_status = wait_child_process();
-	//printf("- last_status = %d\n",ex->last_status);
 	return (0);
 }
