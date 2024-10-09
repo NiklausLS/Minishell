@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/09 22:32:34 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:20:26 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,14 @@ int	exec_builtin(t_token *data, t_exec *ex)
 	if (protected_close(old_out) == 1)
 		return (1);
 	return (0);
+}
+
+t_token	*get_end(t_token *start)
+{
+	t_token	*current;
+
+	current = start;
+	while (current != NULL && current->type != PIPE && current->next)
+		current = current->next;
+	return (current);
 }

@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:52:12 by chuchard          #+#    #+#             */
-/*   Updated: 2024/10/09 22:57:40 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:32:50 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int		check_path(t_token *data, char **paths);
 void	free_path(t_token *data);
 int		check_if_cmd(t_token *data);
 int		exec_builtin(t_token *data, t_exec *ex);
+char	*get_command(char **paths, char *cmd);
 
 //OPERATOR checkers and managers
 int		check_last_node(t_token *data);
@@ -136,8 +137,8 @@ char	*readline_heredoc(char *cmd);
 int		make_heredoc(char *cmd);
 
 int		make_all_redirections(t_token *start, t_token *end);
-int		make_output(t_token *data);
-int		make_input(t_token *data);
+//int		make_output(t_token *data);
+//int		make_input(t_token *data);
 int		fork_and_exec(t_exec *ex, t_token *current, int is_first_cmd, \
 	int has_pipe, t_minishell *ms);
 
@@ -187,5 +188,7 @@ void	add_token(t_input *input, t_token *new);
 t_token	*new_token(char *value, t_token_type type);
 int		find_env_len(char *to_find, char **env, int len);
 void	ft_exit(t_input *input, t_exec *ex);
+
+void	ft_free_input_data(t_input *input);
 
 #endif

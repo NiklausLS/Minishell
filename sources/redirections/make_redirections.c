@@ -6,7 +6,7 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:17:53 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/09 23:11:44 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:27:15 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	make_input(t_token *current, int *last_input)
 	return (0);
 }
 
-static int	make_open_ouput(t_token *current, int *last_output)
+static int	make_open_output(t_token *current, int *last_output)
 {
 	if (current->type == OUTPUT)
 		*last_output = open(current->next->value, O_WRONLY
@@ -76,12 +76,20 @@ static int	make_output(t_token *current, int *last_output)
 	return (0);
 }
 
+static int	redirections(t_token *current, int *last_input, int *last_output)
+{
+	if (make_input(current, last_input) == 1)
+		return (1);
+	if (make_output(current, last_output) == 1)
+		return (1);
+	return (0);
+}
+
 int	make_all_redirections(t_token *start, t_token *end)
 {
 	t_token	*current;
 	int		last_input;
 	int		last_output;
-	int		ret;
 
 	current = start;
 	last_input = -1;
@@ -95,16 +103,7 @@ int	make_all_redirections(t_token *start, t_token *end)
 		}
 		current = current->next;
 	}
-	ret = make_dup_and_close(last_input, last_output);
+	if (make_dup_and_close(last_input, last_output) == 1)
+		return (1);
 	return (0);
-}
-
-t_token	*get_end(t_token *start)
-{
-	t_token	*current;
-
-	current = start;
-	while (current != NULL && current->type != PIPE && current->next)
-		current = current->next;
-	return (current);
 }

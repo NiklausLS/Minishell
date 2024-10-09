@@ -6,13 +6,13 @@
 /*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:51 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/09 22:51:05 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:32:00 by nileempo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*get_command(char **paths, char *cmd)
+char	*get_command(char **paths, char *cmd)
 {
 	char	*new_path;
 	int		i;
