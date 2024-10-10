@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 11:12:46 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/09 22:53:29 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/10 07:45:10 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	make_heredoc(char *cmd)
 		close(pipefd[1]);
 		return (1);
 	}
-	write(pipefd[1], here, strlen(here));
+	write(pipefd[1], here, ft_strlen(here));
 	free(here);
 	if (protected_close(pipefd[1]) == 1)
 		return (1);
@@ -39,16 +39,31 @@ int	make_heredoc(char *cmd)
 static char	*join_and_free(char *s1, char *s2)
 {
 	char	*res;
+	char	*res2;
 
 	res = ft_strjoin(s1, s2);
+	free(s1);
 	if (s2 == NULL)
 	{
 		free(s1);
 		return (res);
 	}
 	else
-		res = ft_strjoin(res, "\n");
+	{
+		res2 = ft_strjoin(res, "\n");
+		free(res);
+		return (res2);
+	}
 	return (res);
+}
+
+char	*treat_signal(char *here, char *line)
+{
+	free(here);
+	g_signal = 0;
+	if (line)
+		free(line);
+	return (NULL);
 }
 
 /*
@@ -66,6 +81,8 @@ char	*readline_heredoc(char *delim)
 	while (1)
 	{
 		line = readline("> ");
+		if (g_signal == 1)
+			return (treat_signal(here, line));
 		if (!line || ft_strcmp(line, delim) == 0)
 		{
 			free(line);

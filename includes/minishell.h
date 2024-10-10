@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:52:12 by chuchard          #+#    #+#             */
-/*   Updated: 2024/10/10 00:32:50 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/10 08:27:53 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@
 # include <errno.h>
 # include <string.h>
 # include <stdbool.h>
-# include "../libft/includes/libft.h"
+# include "../LIBFT/includes/libft.h"
+
+extern int	g_signal;
 
 # define PROMPT "\1\033[1;34m\2minishell\1\033[0m\2> "
 # define WHITESPACES " \t\v\n\r"
@@ -88,13 +90,12 @@ typedef struct s_minishell
 
 typedef struct s_exec
 {
+	t_input	*input;
 	int		pipefd[2];
 	int		prev_pipe;
 	int		last_status;
 	char	**env;
 }	t_exec;
-
-// int g_signal;
 
 //Initialise my structures
 int		init_exec_structure(t_exec *ex, char **envp);
@@ -140,11 +141,10 @@ int		make_all_redirections(t_token *start, t_token *end);
 //int		make_output(t_token *data);
 //int		make_input(t_token *data);
 int		fork_and_exec(t_exec *ex, t_token *current, int is_first_cmd, \
-	int has_pipe, t_minishell *ms);
+	int has_pipe);
 
 void	parent_process(t_exec *ex, int f_cmd, int has_pipe);
-void	child_process(t_exec *ex, t_token *data, int f_cmd, int has_pipe, \
-	t_minishell *ms);
+void	child_process(t_exec *ex, t_token *data, int f_cmd, int has_pipe);
 int		check_if_cmd(t_token *data);
 int		wait_child_process(void);
 
@@ -160,7 +160,7 @@ int		parse_args(t_token *data);
 int		check_lst(t_token *data);
 
 //errors functions
-void	print_error(int error, char *cmd);
+int		print_error(int error, char *cmd);
 
 //signals functions
 void	handle_sig(int sig);
@@ -171,8 +171,8 @@ void	print_node(t_token *cmd);
 void	print_env(t_exec *ex);
 void	print_info(t_input *input);
 
-void	execute_command(t_token *data, t_exec *ex, t_minishell *ms);
-int		execute_all_commands(t_token *data, t_exec *ex, t_minishell *ms);
+void	execute_command(t_token *data, t_exec *ex);
+int		execute_all_commands(t_token *data, t_exec *ex);
 t_token	*get_end(t_token *start);
 int		handle_redirection_only(t_token *data);
 //int		redirections(t_token *current, int *last_input, int *last_output);
@@ -188,7 +188,6 @@ void	add_token(t_input *input, t_token *new);
 t_token	*new_token(char *value, t_token_type type);
 int		find_env_len(char *to_find, char **env, int len);
 void	ft_exit(t_input *input, t_exec *ex);
-
-void	ft_free_input_data(t_input *input);
+char	**custom_realloc(char **env, int old_size, int new_size);
 
 #endif

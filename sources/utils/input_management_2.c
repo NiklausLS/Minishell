@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_management_2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:38:35 by chuchard          #+#    #+#             */
-/*   Updated: 2024/10/09 23:12:48 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/10 08:10:55 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ int	ft_treat_input(t_input *input, t_exec *ex)
 {
 	ft_bzero(input, sizeof(t_input));
 	input->total = readline(PROMPT);
+	if (g_signal == 1)
+	{
+		ex->last_status = 130;
+		g_signal = 0;
+	}
 	if (input->total == NULL)
 		ft_exit(input, ex);
 	input->total = ft_strtrim_ws(input->total);
@@ -115,6 +120,7 @@ int	ft_treat_input(t_input *input, t_exec *ex)
 	input->token_nb = 0;
 	input->tokens = NULL;
 	input->left = input->total;
+	ex->input = input;
 	ft_tokenization(input, ex);
 	return (1);
 }

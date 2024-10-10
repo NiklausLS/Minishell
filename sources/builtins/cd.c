@@ -6,7 +6,7 @@
 /*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 10:41:08 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/09 21:42:46 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/10 05:23:40 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,6 @@ static int	find_in_env(char *to_find, char **env)
 		i++;
 	}
 	return (-1);
-}
-
-static char	**custom_realloc(char **env, int old_size, int new_size)
-{
-	char	**new_env;
-	int		i;
-
-	new_env = malloc(sizeof(char *) * (new_size + 1));
-	if (!new_env)
-		return (NULL);
-	i = 0;
-	while (i < old_size)
-	{
-		new_env[i] = env[i];
-		i++;
-	}
-	new_env[old_size] = NULL;
-	free(env);
-	return (new_env);
 }
 
 static void	update_env_value(t_exec *ex, char *name, char *value)
@@ -67,25 +48,29 @@ static void	update_env_value(t_exec *ex, char *name, char *value)
 	ex->env[i + 2] = NULL;
 }
 
+static int	cd_prev(t_exec *ex, t_token *data)
+{
+	if (find_in_env("OLDPWD=", ex->env) < 0)
+	{
+		ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
+		free_array(data->args);
+		return (1);
+	}
+	ft_putendl_fd(ex->env[find_in_env("OLDPWD=", ex->env)] + 7, 2);
+	chdir(ex->env[find_in_env("OLDPWD=", ex->env)] + 7);
+	free_array(data->args);
+	return (0);
+}
+
 static int	cd_with_arg(t_exec *ex, t_token *data, char *oldpwd)
 {
 	char	*tmp;
 
 	if (ft_strcmp(data->args[1], "-") == 0)
-	{
-		if (find_in_env("OLDPWD=", ex->env) < 0)
-		{
-			ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
-			free_array(data->args);
-			return (1);
-		}
-		ft_putstr_fd(ex->env[find_in_env("OLDPWD=", ex->env)] + 7, 2);
-		ft_putchar_fd('\n', 2);
-		chdir(ex->env[find_in_env("OLDPWD=", ex->env)]);
-	}
+		return (cd_prev(ex, data));
 	else if (chdir(data->args[1]))
 	{
-		print_error(0, ft_strjoin("cd: ", data->args[1]));
+		print_error(5, data->args[1]);
 		free_array(data->args);
 		return (1);
 	}

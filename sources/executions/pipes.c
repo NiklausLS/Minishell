@@ -6,7 +6,7 @@
 /*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:43:26 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/09 20:58:17 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/10 08:27:01 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	only_redirections(t_token **current);
 
-void	child_process(t_exec *ex, t_token *data, int f_cmd, int has_pipe, t_minishell *ms)
+void	child_process(t_exec *ex, t_token *data, int f_cmd, int has_pipe)
 {
 	if (!f_cmd)
 	{
@@ -27,7 +27,7 @@ void	child_process(t_exec *ex, t_token *data, int f_cmd, int has_pipe, t_minishe
 		dup2(ex->pipefd[WRITE_END], STDOUT_FILENO);
 		close(ex->pipefd[WRITE_END]);
 	}
-	execute_command(data, ex, ms);
+	execute_command(data, ex);
 }
 
 void	parent_process(t_exec *ex, int f_cmd, int has_pipe)
@@ -43,7 +43,7 @@ void	parent_process(t_exec *ex, int f_cmd, int has_pipe)
 		ex->prev_pipe = -1;
 }
 
-static void	exec_commands(t_exec *ex, t_token **data, int *is_first_cmd, t_minishell *ms)
+static void	exec_commands(t_exec *ex, t_token **data, int *is_first_cmd)
 {
 	t_token	*current;
 	int		built_in;
@@ -62,7 +62,7 @@ static void	exec_commands(t_exec *ex, t_token **data, int *is_first_cmd, t_minis
 			if (protected_pipe(ex->pipefd) == -1)
 				return ;
 		}
-		fork_and_exec(ex, *data, *is_first_cmd, current != NULL, ms);
+		fork_and_exec(ex, *data, *is_first_cmd, current != NULL);
 	}
 	*is_first_cmd = 0;
 	while (*data && (*data)->type != PIPE)
@@ -83,7 +83,7 @@ static int	only_redirections(t_token **current)
 	return (0);
 }
 
-int	execute_all_commands(t_token *data, t_exec *ex, t_minishell *ms)
+int	execute_all_commands(t_token *data, t_exec *ex)
 {
 	t_token	*current;
 	int		is_first_cmd;
@@ -98,10 +98,11 @@ int	execute_all_commands(t_token *data, t_exec *ex, t_minishell *ms)
 			return (1);
 		}
 		if (current && current->type == COMMAND)
-			exec_commands(ex, &current, &is_first_cmd, ms);
+			exec_commands(ex, &current, &is_first_cmd);
 		else
 			current = current->next;
 	}
-	ex->last_status = wait_child_process();
+	if (ex->last_status == 0)
+		ex->last_status = wait_child_process();
 	return (0);
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:41:36 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/10 00:20:26 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/10 08:22:55 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	execute_real_command(t_token *data, t_exec *ex, t_minishell *ms)
+static void	execute_real_command(t_token *data, t_exec *ex)
 {
 	parse_args(data);
 	make_path(ex, data);
@@ -24,7 +24,7 @@ static void	execute_real_command(t_token *data, t_exec *ex, t_minishell *ms)
 	ex->last_status = 127;
 	free_array(data->args);
 	free_exec_structure(ex);
-	ft_free_input_data(&ms->input);
+	ft_free_input_data(ex->input);
 	rl_clear_history();
 	exit(127);
 }
@@ -32,7 +32,7 @@ static void	execute_real_command(t_token *data, t_exec *ex, t_minishell *ms)
 /*
  * Will execute the command after finding it's path
  */
-void	execute_command(t_token *data, t_exec *ex, t_minishell *ms)
+void	execute_command(t_token *data, t_exec *ex)
 {
 	t_token	*end;
 
@@ -44,11 +44,11 @@ void	execute_command(t_token *data, t_exec *ex, t_minishell *ms)
 	}
 	if (get_builtin(data) == 0)
 	{
-		make_builtin(data, ex);
-		exit(0);
+		ex->last_status = make_builtin(data, ex);
+		exit(ex->last_status);
 	}
 	else
-		execute_real_command(data, ex, ms);
+		execute_real_command(data, ex);
 }
 
 /*
@@ -63,8 +63,9 @@ int	exec_builtin(t_token *data, t_exec *ex)
 	old_out = dup(STDOUT_FILENO);
 	if (make_all_redirections(data, get_end(data)) == 1)
 		return (1);
-	if (make_builtin(data, ex) == 1)
-		return (1);
+	ex->last_status = make_builtin(data, ex);
+	if (ex->last_status != 0)
+		return (ex->last_status);
 	dup2(old_in, STDIN_FILENO);
 	dup2(old_out, STDOUT_FILENO);
 	if (protected_close(old_in) == 1)

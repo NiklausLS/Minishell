@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+         #
+#    By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/19 20:50:01 by nileempo          #+#    #+#              #
-#    Updated: 2024/10/10 00:35:31 by nileempo         ###   ########.fr        #
+#    Updated: 2024/10/10 05:21:01 by chuchard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS = ./sources/main.c \
 		./sources/utils/input_management.c \
 		./sources/utils/input_management_2.c \
 		./sources/utils/token_utils.c \
+		./sources/utils/utils.c \
 
 NAME = minishell
 CC = gcc

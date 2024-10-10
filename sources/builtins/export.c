@@ -6,7 +6,7 @@
 /*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 13:25:47 by nileempo          #+#    #+#             */
-/*   Updated: 2024/10/09 20:56:41 by chuchard         ###   ########.fr       */
+/*   Updated: 2024/10/10 05:17:00 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,6 @@ static int	get_index(t_exec *ex, char *var)
 		i++;
 	}
 	return (-1);
-}
-
-static char	**custom_realloc(char **env, int old_size, int new_size)
-{
-	char	**new_env;
-	int		i;
-
-	new_env = malloc(sizeof(char *) * (new_size + 1));
-	if (!new_env)
-		return (NULL);
-	i = 0;
-	while (i < old_size)
-	{
-		new_env[i] = env[i];
-		i++;
-	}
-	new_env[old_size] = NULL;
-	free(env);
-	return (new_env);
 }
 
 static int	make_update_env(t_exec *ex, char *var)

@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nileempo <nileempo@42.fr>                  +#+  +:+       +#+        */
+/*   By: chuchard <chuchard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:52:21 by chuchard          #+#    #+#             */
-/*   Updated: 2024/10/09 23:25:13 by nileempo         ###   ########.fr       */
+/*   Updated: 2024/10/10 08:27:08 by chuchard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int	g_signal = 0;
+
 void	handle_sig(int sig)
 {
 	if (sig == SIGINT)
 	{
+		g_signal = 1;
 		ft_putchar_fd('\n', 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
@@ -65,10 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	if (init_exec_structure(&ex, envp) != 0)
-	{
-		ft_putstr_fd("Failed to initialize exec structure\n", 2);
-		return (1);
-	}
+		return (print_error(6, NULL));
 	ft_bzero(&ms, sizeof(t_minishell));
 	while (1)
 	{
@@ -80,18 +80,7 @@ int	main(int argc, char **argv, char **envp)
 			signal(SIGQUIT, handle_sig);
 			check_last_node(ms.input.tokens);
 			check_lst(ms.input.tokens);
-			/*if (check_last_node(ms.input.tokens) == 1)
-			{
-				ft_free_input_data(&ms.input);
-				continue ;
-			}
-			if (check_lst(ms.input.tokens) != 0)
-			{
-				ft_putstr_fd("Syntax error\n", 2);
-				ft_free_input_data(&ms.input);
-				continue ;
-			}*/
-			execute_all_commands(ms.input.tokens, &ex, &ms);
+			execute_all_commands(ms.input.tokens, &ex);
 			ft_free_input_data(&ms.input);
 		}
 	}
